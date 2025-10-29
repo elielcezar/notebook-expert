@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Laptop, Menu, X } from "lucide-react";
+import logo from "../assets/logo-normal.png";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -12,7 +13,7 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center gap-2">
             <Laptop className="w-8 h-8 text-accent" />
-            <span className="text-xl font-bold text-foreground">TechRepair Pro</span>
+            <img src={logo} alt="Logo" className="w-48" />
           </div>
 
           {/* Desktop Navigation */}
@@ -31,12 +32,12 @@ const Header = () => {
             </a>
           </div>
 
-          {/* CTA Button */}
-          <div className="hidden md:block">
-            <Button className="bg-accent hover:bg-accent/90 text-primary-foreground">
-              Orçamento Grátis
-            </Button>
-          </div>
+          <p className="text-xl tracking-tight text-[var(--blue)]"><strong>Suporte 24h</strong> (41) 3029-8746</p>
+
+          <a href="#contact" className="btn-primary text-[17px] px-4">
+              <i className="fa-regular fa-circle-user"></i>
+              <span className="ml-2">Área do Cliente</span>
+          </a>
 
           {/* Mobile Menu Button */}
           <button

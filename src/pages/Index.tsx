@@ -6,7 +6,6 @@ import Business from "@/components/Business";
 import ExpertTip from "@/components/ExpertTip";
 import Testimonials from "@/components/Testimonials";
 import Prevention from "@/components/Prevention";
-import MapSection from "@/components/MapSection";
 import Footer from "@/components/Footer";
 
 const Index = () => {
@@ -20,8 +19,7 @@ const Index = () => {
         <Business />
         <ExpertTip />
         <Testimonials />
-        <Prevention />
-        <MapSection />
+        <Prevention />        
       </main>
       <Footer />
     </div>

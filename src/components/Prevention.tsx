@@ -69,10 +69,11 @@ const Prevention = () => {
             ))}
           </div>
 
-          <div className="text-center">
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-primary-foreground shadow-lg">
-              Agendar Manutenção Preventiva
-            </Button>
+          <div className="text-center mt-12">
+            <button className="btn-primary flex items-center justify-center m-auto">
+                <i className="fab fa-whatsapp mr-2 text-3xl"></i>
+                Agendar manutenção preventiva (41) 3029-8746
+            </button>     
           </div>
         </div>
 
@@ -88,9 +89,9 @@ const Prevention = () => {
           <div className="space-y-4">
             {dailyCare.map((tip, index) => (
               <div 
-                key={index}
-                className="flex items-start gap-3 bg-card/50 rounded-lg p-4 border border-border/50"
-              >
+              key={index}
+              className="bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all"
+            >
                 <span className="text-accent font-bold text-lg flex-shrink-0 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center">
                   {index + 1}
                 </span>

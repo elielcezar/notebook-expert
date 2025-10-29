@@ -1,72 +1,52 @@
-import { Laptop, Facebook, Instagram, Linkedin } from "lucide-react";
+import logo from "../assets/logo-w.svg";
 
 const Footer = () => {
   return (
-    <footer className="bg-primary text-primary-foreground py-12">
-      <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
-          {/* Brand */}
-          <div className="col-span-1 md:col-span-2">
-            <div className="flex items-center gap-2 mb-4">
-              <Laptop className="w-8 h-8 text-accent" />
-              <span className="text-2xl font-bold">TechRepair Pro</span>
+    <footer className="bg-[var(--darkblue)] text-white">      
+        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3602.952673487012!2d-49.27563722359901!3d-25.439845727555564!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce46fc56256a1%3A0xe0af021b7a876101!2sNotebook%20Expert%20-%20Assist%C3%AAncia%20de%20Notebook!5e0!3m2!1spt-BR!2sbr!4v1756656752760!5m2!1spt-BR!2sbr" width="100%" height="450" style={{border:0}} allowFullScreen loading="lazy" referrerPolicy="no-referrer-when-downgrade"></iframe>
+            
+        <div className="max-w-7xl mx-auto mt-12 px-4 sm:px-6 lg:px-8">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <img src={logo} alt="NotebookExpert Logo" className="w-40 mb-4"/>                    
+                </div>
+                <div>
+                    <h4 className="font-semibold mb-4 text-xl">Serviços</h4>
+                    <ul className="space-y-2 text-sm text-white">
+                        <li>Conserto de Notebooks</li>
+                        <li>Manutenção Preventiva</li>
+                        <li>Recuperação de Dados</li>
+                        <li>Upgrade de Hardware</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="font-semibold mb-4 text-xl">Contato</h4>
+                    <ul className="space-y-2 text-sm text-white">
+                        <li>(41) 3029-8746</li>
+                        <li>atendimento@notebookexpert.com.br</li>
+                        <li>Rua 24 de Maio, 280 - Centro</li>
+                        <li>Curitiba - PR, 80230-080</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 className="font-semibold mb-4 text-xl">Redes Sociais</h4>
+                    <div className="flex space-x-4">
+                        <a href="#" className="text-white hover:text-white transition-colors text-2xl mr-9">
+                            <i className="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" className="text-white hover:text-white transition-colors text-2xl mr-9">
+                            <i className="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" className="text-white hover:text-white transition-colors text-2xl">
+                            <i className="fab fa-whatsapp"></i>
+                        </a>
+                    </div>
+                </div>
             </div>
-            <p className="text-primary-foreground/80 mb-4">
-              16 anos de experiência em manutenção e reparo de notebooks e MacBooks. 
-              Qualidade, agilidade e transparência em cada atendimento.
-            </p>
-            <div className="flex gap-4">
-              <a href="#" className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-accent transition-colors">
-                <Facebook className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-accent transition-colors">
-                <Instagram className="w-5 h-5" />
-              </a>
-              <a href="#" className="w-10 h-10 bg-primary-foreground/10 rounded-full flex items-center justify-center hover:bg-accent transition-colors">
-                <Linkedin className="w-5 h-5" />
-              </a>
+            <div className="border-t border-gray-400 mt-12 py-4 text-center text-sm text-gray-400">
+                <p>&copy; 2024 NotebookExpert. Todos os direitos reservados.</p>
             </div>
-          </div>
-
-          {/* Links */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Links Rápidos</h3>
-            <ul className="space-y-2">
-              <li><a href="#sobre" className="text-primary-foreground/80 hover:text-accent transition-colors">Quem Somos</a></li>
-              <li><a href="#servicos" className="text-primary-foreground/80 hover:text-accent transition-colors">Serviços</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors">Empresas</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors">Contato</a></li>
-            </ul>
-          </div>
-
-          {/* Services */}
-          <div>
-            <h3 className="font-semibold text-lg mb-4">Serviços</h3>
-            <ul className="space-y-2">
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors">Troca de Tela</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors">Upgrade SSD</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors">Limpeza</a></li>
-              <li><a href="#" className="text-primary-foreground/80 hover:text-accent transition-colors">Reparo Placa-Mãe</a></li>
-            </ul>
-          </div>
         </div>
-
-        <div className="border-t border-primary-foreground/20 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-primary-foreground/60 text-sm">
-              © 2025 TechRepair Pro. Todos os direitos reservados.
-            </p>
-            <div className="flex gap-6 text-sm">
-              <a href="#" className="text-primary-foreground/60 hover:text-accent transition-colors">
-                Política de Privacidade
-              </a>
-              <a href="#" className="text-primary-foreground/60 hover:text-accent transition-colors">
-                Termos de Uso
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
     </footer>
   );
 };

@@ -8,7 +8,7 @@ const Business = () => {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold mb-4">
-              🏢 Atendimento para Empresas
+              Atendimento para Empresas
             </h2>
             <div className="h-1 w-24 bg-accent mx-auto mb-6 rounded" />
             <p className="text-xl text-primary-foreground/90 max-w-3xl mx-auto">
@@ -53,13 +53,7 @@ const Business = () => {
             <p className="text-primary-foreground/90 mb-4">
               Entre nossos clientes estão instituições de ensino, coworkings, escritórios e 
               empresas de tecnologia que confiam na qualidade dos nossos serviços.
-            </p>
-            <Button 
-              size="lg" 
-              className="bg-accent hover:bg-accent/90 text-primary-foreground shadow-lg"
-            >
-              Solicitar Proposta Corporativa
-            </Button>
+            </p>           
           </div>
         </div>
       </div>

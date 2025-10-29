@@ -17,12 +17,17 @@ const Services = () => {
     { icon: Monitor, title: "Sistema Operacional", description: "Formatação e otimização do sistema" },
   ];
 
+  const advancedServices = [
+    { icon: Cpu, title: "Reparo de BIOS", description: "Reparo de BIOS e chips de memória" },
+    { icon: Cpu, title: "Troca de conectores", description: "Troca de conectores de energia e portas USB" },
+  ];
+
   return (
-    <section id="servicos" className="py-20 bg-background">
+    <section id="servicos" className="py-20 bg-muted/50">
       <div className="container mx-auto px-4">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            💻 Serviços Oferecidos
+            Serviços Oferecidos
           </h2>
           <div className="h-1 w-24 bg-accent mx-auto mb-6 rounded" />
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
@@ -73,27 +78,32 @@ const Services = () => {
         </div>
 
         {/* Advanced Services */}
-        <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl p-8 border border-primary/10">
-          <h3 className="text-2xl font-bold text-primary mb-4 flex items-center gap-2">
-            🧠 Serviços Avançados
+        <div className="mb-16">
+          <h3 className="text-2xl font-bold text-primary mb-8 flex items-center gap-2">
+            Serviços Avançados
           </h3>
-          <ul className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-            <li className="flex items-start gap-2">
-              <span className="text-accent mt-1">✓</span>
-              <span className="text-foreground">Reparo de BIOS e chips de memória</span>
-            </li>
-            <li className="flex items-start gap-2">
-              <span className="text-accent mt-1">✓</span>
-              <span className="text-foreground">Troca de conectores de energia e portas USB</span>
-            </li>
-          </ul>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {advancedServices.map((service, index) => (
+              <div 
+                key={index}
+                className="group bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all duration-300"
+              >
+                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
+                  <service.icon className="w-6 h-6 text-accent" />
+                </div>
+                <h4 className="text-lg font-semibold text-foreground mb-2">{service.title}</h4>
+                <p className="text-muted-foreground text-sm">{service.description}</p>
+              </div>
+            ))}
+          </div>
         </div>
 
         {/* CTA */}
         <div className="text-center mt-12">
-          <Button size="lg" className="bg-accent hover:bg-accent/90 text-primary-foreground shadow-lg">
-            Solicitar Diagnóstico Gratuito
-          </Button>
+          <button className="btn-primary flex items-center justify-center m-auto">
+              <i className="fab fa-whatsapp mr-2 text-3xl"></i>
+              Solicite um orçamento (41) 3029-8746
+          </button>     
         </div>
       </div>
     </section>

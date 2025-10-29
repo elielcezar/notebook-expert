@@ -8,6 +8,11 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
+    --darkblue: #001d4c;
+    --deepblue: #193061;  
+    --blue: #0053b1;
+    --lightblue: #4f9ad2;    
+    
     --background: 0 0% 100%;
     --foreground: 215 25% 15%;
 
@@ -115,5 +120,11 @@ All colors MUST be HSL.
 
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@layer components {
+  .btn-primary {    
+    @apply text-xl tracking-tight font-bold rounded-md bg-[var(--blue)] hover:bg-[var(--darkblue)] text-white px-6 py-2 transition-all duration-300 cursor-pointer;
   }
 }

@@ -1,6 +1,10 @@
-import { Button } from "@/components/ui/button";
 import { Laptop, Shield, Zap } from "lucide-react";
 import heroImage from "@/assets/hero-tech.jpg";
+import { openWhatsApp } from '../utils/helpers'
+
+const handleWhatsAppClick = () => {
+  openWhatsApp('Olá! Vi o site e gostaria de solicitar um orçamento para assistência técnica do meu notebook.');
+};
 
 const Hero = () => {
   return (
@@ -17,7 +21,7 @@ const Hero = () => {
 
       {/* Content */}
       <div className="container mx-auto px-4 relative z-10">
-        <div className="max-w-3xl">
+        <div className="max-w-4xl">
           <div className="flex items-center gap-2 mb-6 animate-fade-in">
             <div className="h-1 w-12 bg-accent rounded" />
             <span className="text-accent font-semibold text-sm uppercase tracking-wider">
@@ -26,13 +30,12 @@ const Hero = () => {
           </div>
           
           <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold text-primary-foreground mb-6 leading-tight animate-fade-in-up">
-            Especialistas em
-            <span className="block text-accent">Notebooks e MacBooks</span>
+            Assistência técnica para          
+            <span className="block text-accent">notebooks em Curitiba</span>
           </h1>
           
           <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl animate-fade-in-up animation-delay-200">
-            Manutenção preventiva, reparos e upgrades com qualidade garantida. 
-            Atendimento ágil para pessoas físicas e empresas.
+            A melhor de Curitiba em conserto de notebooks e computadores, com atendimento personalizado e garantia total.
           </p>
 
           {/* Features */}
@@ -53,12 +56,13 @@ const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-wrap gap-4 animate-fade-in-up animation-delay-400">
-            <Button size="lg" className="bg-accent hover:bg-accent/90 text-primary-foreground shadow-lg hover:shadow-xl transition-all">
-              Solicitar Orçamento
-            </Button>
-            <Button size="lg" variant="outline" className="border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary">
-              Nossos Serviços
-            </Button>
+            <button 
+                onClick={handleWhatsAppClick}
+                className="btn-primary flex items-center justify-center bg-green-500 hover:bg-darkblue transition-colors hover:cursor-pointer border-2 border-green-500 hover:border-darkblue"
+            >
+                <i className="fab fa-whatsapp mr-2 text-3xl"></i>
+                Ligue agora! (41) 3029-8746
+            </button>
           </div>
         </div>
       </div>
