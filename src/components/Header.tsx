@@ -14,23 +14,7 @@ const Header = () => {
           <div className="flex items-center gap-2">
             <Laptop className="w-8 h-8 text-accent" />
             <img src={logo} alt="Logo" className="w-48" />
-          </div>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-8">
-            <a href="#sobre" className="text-foreground hover:text-accent transition-colors font-medium">
-              Quem Somos
-            </a>
-            <a href="#servicos" className="text-foreground hover:text-accent transition-colors font-medium">
-              Serviços
-            </a>
-            <a href="#" className="text-foreground hover:text-accent transition-colors font-medium">
-              Empresas
-            </a>
-            <a href="#" className="text-foreground hover:text-accent transition-colors font-medium">
-              Contato
-            </a>
-          </div>
+          </div>         
 
           <p className="text-xl tracking-tight text-[var(--blue)]"><strong>Suporte 24h</strong> (41) 3029-8746</p>
 
