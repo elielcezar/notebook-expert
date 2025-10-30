@@ -55,10 +55,10 @@ const Hero = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="flex flex-wrap gap-4 animate-fade-in-up animation-delay-400">
+          <div className="animate-fade-in-up animation-delay-400">
             <button 
                 onClick={handleWhatsAppClick}
-                className="btn-primary flex items-center justify-center bg-green-500 hover:bg-darkblue transition-colors hover:cursor-pointer border-2 border-green-500 hover:border-darkblue"
+                className="btn-wpp mx-0"
             >
                 <i className="fab fa-whatsapp mr-2 text-3xl"></i>
                 Ligue agora! (41) 3029-8746

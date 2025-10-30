@@ -100,7 +100,7 @@ const Services = () => {
 
         {/* CTA */}
         <div className="text-center mt-12">
-          <button className="btn-primary flex items-center justify-center m-auto">
+          <button className="btn-wpp">
               <i className="fab fa-whatsapp mr-2 text-3xl"></i>
               Solicite um orçamento (41) 3029-8746
           </button>     

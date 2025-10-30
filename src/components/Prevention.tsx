@@ -70,7 +70,7 @@ const Prevention = () => {
           </div>
 
           <div className="text-center mt-12">
-            <button className="btn-primary flex items-center justify-center m-auto">
+            <button className="btn-wpp">
                 <i className="fab fa-whatsapp mr-2 text-3xl"></i>
                 Agendar manutenção preventiva (41) 3029-8746
             </button>     
