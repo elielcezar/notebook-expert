@@ -3,8 +3,8 @@ import aboutImage from "../assets/about2.png";
 
 const About = () => {
   return (
-    <section id="sobre" className="py-20">
-      <div className="container mx-auto px-4 flex">       
+    <section id="sobre" className="py-20 portrait:py-0">
+      <div className="container mx-auto px-4 flex animate-fade-in-up animation-delay-400 portrait:flex-col">       
 
         <div className="flex-1 max-w-4xl mx-auto text-left mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">

@@ -38,7 +38,7 @@ const Services = () => {
         {/* Maintenance Services */}
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-primary mb-8 flex items-center gap-2">
-            🛠️ Manutenção e Reparos
+          <i class="fa-solid fa-screwdriver-wrench"></i> Manutenção e Reparos
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {maintenanceServices.map((service, index) => (
@@ -59,7 +59,7 @@ const Services = () => {
         {/* Upgrade Services */}
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-primary mb-8 flex items-center gap-2">
-            ⚡ Upgrades e Desempenho
+          <i class="fa-solid fa-bolt"></i> Upgrades e Desempenho
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {upgradeServices.map((service, index) => (
@@ -80,7 +80,7 @@ const Services = () => {
         {/* Advanced Services */}
         <div className="mb-16">
           <h3 className="text-2xl font-bold text-primary mb-8 flex items-center gap-2">
-            Serviços Avançados
+          <i class="fa-solid fa-gears"></i> Serviços Avançados
           </h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             {advancedServices.map((service, index) => (
@@ -102,7 +102,7 @@ const Services = () => {
         <div className="text-center mt-12">
           <button className="btn-wpp">
               <i className="fab fa-whatsapp mr-2 text-3xl"></i>
-              Solicite um orçamento (41) 3029-8746
+              Solicite um orçamento (41) 99887.0606 
           </button>     
         </div>
       </div>

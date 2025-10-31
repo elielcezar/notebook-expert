@@ -6,7 +6,7 @@ const ExpertTip = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-5xl mx-auto">
           <div className="bg-gradient-to-br from-accent/10 to-primary/5 rounded-2xl p-8 md:p-12 border-2 border-accent/20 shadow-lg">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-4 portrait:flex-col">
               <div className="w-16 h-16 bg-accent/20 rounded-full flex items-center justify-center flex-shrink-0">
                 <Lightbulb className="w-8 h-8 text-accent" />
               </div>

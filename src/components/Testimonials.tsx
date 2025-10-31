@@ -94,7 +94,7 @@ const Testimonials = () => {
 
           <p id="reviews-count" className="text-gray-600">Baseado em mais de 850 avaliações no Google</p>
 
-          <div className="flex items-center justify-center mt-4 space-x-4">
+          <div className="flex items-center justify-center mt-4 space-x-4 portrait:flex-col">
               <div className="bg-white px-4 py-2 rounded-lg shadow-md border">
                   <div className="flex items-center">
                       <i className="fab fa-google text-blue-600 mr-2"></i>

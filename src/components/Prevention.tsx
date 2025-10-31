@@ -58,13 +58,15 @@ const Prevention = () => {
             {benefits.map((benefit, index) => (
               <div 
                 key={index}
-                className="bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all"
+                className="bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:flex portrait:gap-4"
               >
-                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4">
+                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4 portrait:flex-1">
                   <benefit.icon className="w-6 h-6 text-accent" />
                 </div>
-                <h3 className="text-lg font-semibold text-foreground mb-2">{benefit.title}</h3>
-                <p className="text-muted-foreground text-sm">{benefit.description}</p>
+                <div>
+                  <h3 className="text-lg font-semibold text-foreground mb-2">{benefit.title}</h3>
+                  <p className="text-muted-foreground text-sm">{benefit.description}</p>
+                </div>
               </div>
             ))}
           </div>
@@ -72,7 +74,7 @@ const Prevention = () => {
           <div className="text-center mt-12">
             <button className="btn-wpp">
                 <i className="fab fa-whatsapp mr-2 text-3xl"></i>
-                Agendar manutenção preventiva (41) 3029-8746
+                Agendar manutenção preventiva (41) 99887.0606 
             </button>     
           </div>
         </div>
@@ -90,9 +92,8 @@ const Prevention = () => {
             {dailyCare.map((tip, index) => (
               <div 
               key={index}
-              className="bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all"
-            >
-                <span className="text-accent font-bold text-lg flex-shrink-0 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center">
+              className="bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:text-center">
+                <span className="text-accent font-bold text-lg flex-shrink-0 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center portrait:mx-auto">
                   {index + 1}
                 </span>
                 <p className="text-foreground pt-1">{tip}</p>
