@@ -35,7 +35,7 @@ const Hero = () => {
           </h1>
           
           <p className="text-xl text-primary-foreground/90 mb-8 max-w-2xl animate-fade-in-up animation-delay-200 portrait:text-base">
-            A melhor de Curitiba em conserto de notebooks e computadores, com atendimento personalizado e garantia total.
+            A melhor de Curitiba em conserto de notebooks, com atendimento personalizado e garantia total.
           </p>
 
           {/* Features */}
