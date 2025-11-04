@@ -8,7 +8,7 @@ import Testimonials from "@/components/Testimonials";
 import Prevention from "@/components/Prevention";
 import Footer from "@/components/Footer";
 
-const Index = () => {
+export default function Home() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -24,6 +24,5 @@ const Index = () => {
       <Footer />
     </div>
   );
-};
+}
 
-export default Index;

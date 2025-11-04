@@ -1,5 +1,5 @@
 import { Building2, Star, Clock } from "lucide-react";
-import businessImage from "../assets/business.jpg";
+import Image from "next/image";
 
 const businessItems = [
   {
@@ -25,8 +25,8 @@ const Business = () => {
       <div className="container mx-auto px-4">
         <div className="mx-auto">
           <div className="flex items-center justify-center gap-12 portrait:flex-col-reverse">
-            <div>
-              <img src={businessImage} alt="Business" className="rounded-md" />
+            <div className="relative w-full max-w-md h-96">
+              <Image src="/business.jpg" alt="Business" fill className="rounded-md object-cover" />
             </div>
             <div>
               <div className="text-left mb-12 portrait:text-center">

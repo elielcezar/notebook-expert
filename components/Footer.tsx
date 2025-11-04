@@ -1,4 +1,4 @@
-import logo from "../assets/logo-footer.webp";
+import Image from "next/image";
 
 const Footer = () => {
   return (
@@ -8,7 +8,9 @@ const Footer = () => {
         <div className="max-w-7xl mx-auto mt-12 px-4 sm:px-6 lg:px-8 portrait:text-center">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
                 <div>
-                    <img src={logo} alt="NotebookExpert Logo" className="w-full mb-4 portrait:mx-auto max-w-[210px]"/>                    
+                    <div className="relative w-full max-w-[210px] h-20 mb-4 portrait:mx-auto">
+                      <Image src="/logo-footer.webp" alt="NotebookExpert Logo" fill className="object-contain" />
+                    </div>                    
                     <div className="flex space-x-4 portrait:justify-center">
                         <a href="#" className="text-white hover:text-white transition-colors text-2xl">
                             <i className="fab fa-facebook-f"></i>

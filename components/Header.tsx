@@ -1,6 +1,8 @@
+'use client';
+
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
-import logo from "../assets/logo.webp";
+import Image from "next/image";
 
 
 
@@ -13,7 +15,7 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">            
-            <img src={logo} alt="Logo" className="w-48" />
+            <Image src="/logo.webp" alt="Logo" width={192} height={60} className="w-48" priority />
           </div>         
 
           <p className="text-xl tracking-tight text-[var(--blue)] portrait:hidden"><strong>Suporte 24h</strong> (41) 3029-8746</p>

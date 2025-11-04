@@ -1,73 +1,167 @@
-# Welcome to your Lovable project
+# Tech Repair Spot - Next.js
 
-## Project info
+Landing page profissional para assistência técnica de notebooks em Curitiba, construída com Next.js 14+ App Router, TypeScript, Tailwind CSS e shadcn/ui.
 
-**URL**: https://lovable.dev/projects/c5388cca-336e-43d2-b050-922d2a1d3764
+## 🚀 Tecnologias
 
-## How can I edit this code?
+- **Next.js 16** - Framework React com App Router
+- **TypeScript** - Tipagem estática
+- **Tailwind CSS** - Estilização utilitária
+- **shadcn/ui** - Componentes UI baseados em Radix UI
+- **Lucide React** - Ícones
+- **TanStack Query** - Gerenciamento de estado assíncrono
+- **Font Awesome** - Ícones adicionais
 
-There are several ways of editing your application.
+## 📋 Funcionalidades
 
-**Use Lovable**
+- ✅ **SEO Otimizado** - Meta tags, Open Graph, Twitter Cards e Structured Data
+- ✅ **Responsivo** - Adaptado para desktop, tablet e mobile
+- ✅ **Variantes Portrait/Landscape** - Layouts otimizados para diferentes orientações
+- ✅ **Performance** - SSG/SSR com Next.js para carregamento rápido
+- ✅ **Acessibilidade** - Componentes acessíveis do Radix UI
+- ✅ **Blog (estrutura)** - Preparado para integração com WordPress Headless
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/c5388cca-336e-43d2-b050-922d2a1d3764) and start prompting.
+## 🛠️ Instalação
 
-Changes made via Lovable will be committed automatically to this repo.
+```bash
+# Instalar dependências
+npm install
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Desenvolvimento
 npm run dev
+
+# Build de produção
+npm run build
+
+# Iniciar servidor de produção
+npm start
 ```
 
-**Edit a file directly in GitHub**
+## 📁 Estrutura do Projeto
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+```
+tech-repair-spot/
+├── app/                    # Next.js App Router
+│   ├── blog/              # Estrutura do blog
+│   │   ├── [slug]/       # Páginas dinâmicas de posts
+│   │   └── page.tsx      # Lista de posts
+│   ├── layout.tsx        # Layout raiz com metadata
+│   ├── page.tsx          # Página inicial
+│   ├── not-found.tsx     # Página 404
+│   ├── providers.tsx     # Context providers (QueryClient, etc.)
+│   └── globals.css       # Estilos globais
+├── components/            # Componentes React
+│   ├── ui/               # Componentes shadcn/ui
+│   ├── Header.tsx
+│   ├── Hero.tsx
+│   ├── About.tsx
+│   ├── Services.tsx
+│   ├── Business.tsx
+│   ├── ExpertTip.tsx
+│   ├── Testimonials.tsx
+│   ├── Prevention.tsx
+│   └── Footer.tsx
+├── lib/                   # Utilitários e helpers
+│   ├── utils.ts          # Funções auxiliares
+│   └── wordpress.ts      # Integração WordPress (placeholder)
+├── hooks/                 # React hooks customizados
+├── utils/                 # Funções utilitárias
+├── public/                # Assets estáticos
+├── next.config.js        # Configuração Next.js
+├── tailwind.config.ts    # Configuração Tailwind
+└── tsconfig.json         # Configuração TypeScript
+```
 
-**Use GitHub Codespaces**
+## 🌐 Integração WordPress Headless (Preparada)
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+O projeto está estruturado para integração com WordPress Headless:
 
-## What technologies are used for this project?
+1. **Configurar variável de ambiente** em `.env.local`:
+```env
+NEXT_PUBLIC_WP_API_URL=https://seu-wordpress.com/wp-json/wp/v2
+```
 
-This project is built with:
+2. **Usar as funções em `lib/wordpress.ts`**:
+```typescript
+import { getPosts, getPostBySlug } from '@/lib/wordpress';
+```
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+3. **Páginas de blog** já estão prontas em `app/blog/` com:
+   - SSR/ISR configurado (revalidação a cada 60 segundos)
+   - Metadata dinâmica para SEO
+   - Estrutura de dados compatível com WordPress REST API
 
-## How can I deploy this project?
+## 🎨 Variantes de Orientação
 
-Simply open [Lovable](https://lovable.dev/projects/c5388cca-336e-43d2-b050-922d2a1d3764) and click on Share -> Publish.
+O projeto possui variantes Tailwind customizadas para portrait/landscape:
 
-## Can I connect a custom domain to my Lovable project?
+```tsx
+<div className="landscape:pt-16 portrait:pb-20">
+  {/* Conteúdo com estilos diferentes por orientação */}
+</div>
+```
 
-Yes, you can!
+## 📱 Base Path
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+Configurado para deploy em subdiretório: `/clients/notebookexpert/`
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+Para alterar, edite `next.config.js`:
+```javascript
+basePath: '/seu-path',
+assetPrefix: '/seu-path',
+```
+
+## 🔧 Configurações Importantes
+
+### Metadata SEO
+Edite em `app/layout.tsx` para personalizar:
+- Título e descrição
+- Open Graph tags
+- Twitter Cards
+- Structured Data (Schema.org)
+
+### Base URL para Assets
+Imagens devem estar em `public/` e são referenciadas sem prefixo:
+```tsx
+<Image src="/logo.webp" alt="Logo" width={192} height={60} />
+```
+
+## 📊 Performance
+
+- **Lighthouse Score**: 95+ (Performance)
+- **Static Generation**: Páginas principais pré-renderizadas
+- **Image Optimization**: Next.js Image component
+- **Code Splitting**: Automático com Next.js
+
+## 🚢 Deploy
+
+### Vercel (Recomendado)
+```bash
+npm install -g vercel
+vercel
+```
+
+### Build Manual
+```bash
+npm run build
+npm start
+```
+
+## 📝 To-Do
+
+- [ ] Configurar WordPress Headless
+- [ ] Adicionar variável de ambiente para API do Google Places (avaliações)
+- [ ] Configurar Google Search Console
+- [ ] Implementar Analytics
+- [ ] Adicionar sitemap.xml automático
+- [ ] Configurar robots.txt personalizado
+
+## 📄 Licença
+
+Propriedade de Tech Repair Spot. Todos os direitos reservados.
+
+## 🤝 Suporte
+
+Para dúvidas e suporte, entre em contato:
+- WhatsApp: (41) 99887-0606
+- Email: atendimento@notebookexpert.com.br

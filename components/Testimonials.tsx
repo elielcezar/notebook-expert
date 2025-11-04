@@ -54,22 +54,22 @@ const Testimonials = () => {
               <Quote className="absolute top-6 right-6 w-10 h-10 text-accent/20" />
 
               
-                <div class="flex items-center mb-4 gap-4">
+                <div className="flex items-center mb-4 gap-4">
                     <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
                       <span className="text-accent font-bold text-lg">
                         {testimonial.name.charAt(0)}
                       </span>
                     </div>
                     <div>
-                        <h4 class="font-semibold text-gray-800">{testimonial.name}</h4>
-                        <div class="flex text-yellow-500 text-sm">
+                        <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
+                        <div className="flex text-yellow-500 text-sm">
                         {[...Array(testimonial.rating)].map((_, i) => (
                           <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
                         ))}
                         </div>
                     </div>
                 </div>
-                <p class="text-gray-600 italic">"{testimonial.content}"</p>               
+                <p className="text-gray-600 italic">"{testimonial.content}"</p>               
             
               
 

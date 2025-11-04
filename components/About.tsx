@@ -1,5 +1,5 @@
 import { Award, Users, Target } from "lucide-react";
-import aboutImage from "../assets/about2.png";
+import Image from "next/image";
 
 const About = () => {
   return (
@@ -52,8 +52,8 @@ const About = () => {
           </div>
         </div>
 
-        <div className="flex flex-1 items-center justify-center">
-          <img src={aboutImage} alt="About" />
+        <div className="flex flex-1 items-center justify-center relative h-[400px]">
+          <Image src="/about2.png" alt="About" fill className="object-contain" />
         </div>
                 
       </div>

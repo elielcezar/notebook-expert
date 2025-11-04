@@ -1,6 +1,8 @@
+'use client';
+
 import { Laptop, Shield, Zap } from "lucide-react";
-import heroImage from "@/assets/hero-tech.jpg";
-import { openWhatsApp } from '../utils/helpers'
+import Image from "next/image";
+import { openWhatsApp } from '../utils/helpers';
 
 const handleWhatsAppClick = () => {
   openWhatsApp('Olá! Vi o site e gostaria de solicitar um orçamento para assistência técnica do meu notebook.');
@@ -11,10 +13,12 @@ const Hero = () => {
     <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden portrait:min-h-[65vh] portrait:pt-28 portrait:pb-36">
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src={heroImage} 
+        <Image 
+          src="/hero-tech.jpg" 
           alt="Assistência Técnica Profissional" 
-          className="w-full h-full object-cover"
+          fill
+          className="object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--tech-blue-dark))]/95 via-[hsl(var(--tech-blue-dark))]/85 to-[hsl(var(--tech-blue-dark))]/70" />
       </div>
