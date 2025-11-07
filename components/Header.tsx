@@ -18,7 +18,7 @@ const Header = () => {
             <Image src="/logo.webp" alt="Logo" width={192} height={60} className="w-48" priority />
           </div>         
 
-          <p className="text-xl tracking-tight text-[var(--blue)] portrait:hidden"><strong>Suporte 24h</strong> (41) 3029-8746</p>
+          {/*<p className="text-xl tracking-tight text-[var(--blue)] portrait:hidden"><strong>Suporte 24h</strong> (41) 3029-8746</p>*/}
 
           <a href="#contact" className="btn-primary text-[17px] px-4 portrait:hidden">
               <i className="fa-regular fa-circle-user"></i>

@@ -2,7 +2,7 @@
 
 import { Laptop, Shield, Zap } from "lucide-react";
 import Image from "next/image";
-import { openWhatsApp } from '../utils/helpers';
+import { openWhatsApp } from '@/utils/helpers';
 
 const handleWhatsAppClick = () => {
   openWhatsApp('Olá! Vi o site e gostaria de solicitar um orçamento para assistência técnica do meu notebook.');
@@ -59,7 +59,7 @@ const Hero = () => {
           </div>
 
           {/* CTA Buttons */}
-          <div className="animate-fade-in-up animation-delay-400">
+          {/*<div className="animate-fade-in-up animation-delay-400">
             <button 
                 onClick={handleWhatsAppClick}
                 className="btn-wpp mx-0"
@@ -67,7 +67,7 @@ const Hero = () => {
                 <i className="fab fa-whatsapp mr-2 text-3xl"></i>
                 Ligue agora! (41) 99887.0606 
             </button>
-          </div>
+          </div>*/}
         </div>
       </div>
 

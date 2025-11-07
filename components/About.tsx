@@ -52,8 +52,14 @@ const About = () => {
           </div>
         </div>
 
-        <div className="flex flex-1 items-center justify-center relative h-[400px]">
-          <Image src="/about2.png" alt="About" fill className="object-contain" />
+        <div className="flex flex-1 items-center justify-center relative min-h-[500px] md:min-h-[600px]">
+          <Image 
+            src="/about2.png" 
+            alt="About" 
+            fill 
+            className="object-contain"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
         </div>
                 
       </div>

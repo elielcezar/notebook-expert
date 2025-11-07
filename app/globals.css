@@ -131,3 +131,34 @@ All colors MUST be HSL.
     @apply flex items-center justify-center bg-green-500 hover:bg-[var(--darkblue)] transition-colors hover:cursor-pointer border-2 border-green-500 hover:border-[var(--darkblue)] px-6 py-2 text-white text-xl tracking-tight font-bold rounded-md mx-auto z-50;
   }
 }
+
+.btn-circle {
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  box-shadow: 0px 0px 1px 1px #0000001a;
+  background-color: #24cc24;
+  animation: pulse-animation 2s infinite;
+  position: fixed;
+  bottom: 30px;
+  right: 20px;
+  z-index: 1000;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  &:hover {
+    transform: scale(1.1);
+    background-color: #1eac1e;
+  }
+}
+
+@keyframes pulse-animation {
+  0% {
+    box-shadow: 0 0 0 0px rgba(0, 0, 0, 0.2);
+  }
+  100% {
+    box-shadow: 0 0 0 20px rgba(0, 0, 0, 0);
+  }
+}
