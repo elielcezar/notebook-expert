@@ -1,4 +1,5 @@
 import { Star, Quote } from "lucide-react";
+import Image from "next/image";
 
 const Testimonials = () => {
   const testimonials = [
@@ -52,7 +53,6 @@ const Testimonials = () => {
             className="bg-card rounded-xl p-8 border border-border shadow-sm hover:shadow-md transition-all duration-300 relative"
           >
               <Quote className="absolute top-6 right-6 w-10 h-10 text-accent/20" />
-
               
                 <div className="flex items-center mb-4 gap-4">
                     <div className="w-12 h-12 bg-accent/10 rounded-full flex items-center justify-center">
@@ -95,16 +95,17 @@ const Testimonials = () => {
           <p id="reviews-count" className="text-gray-600">Baseado em mais de 850 avaliações no Google</p>
 
           <div className="flex items-center justify-center mt-4 space-x-4 portrait:flex-col">
-              <div className="bg-white px-4 py-2 rounded-lg shadow-md border">
+              <div className="bg-white px-4 pt-2 pb-1 rounded-lg shadow-md border">
                   <div className="flex items-center">
-                      <i className="fab fa-google text-blue-600 mr-2"></i>
+                      <Image src="/google-logo.png" alt="Google" width={90} height={30} className="mr-2" />
                       <span className="text-sm font-medium text-gray-700">Empresa Verificada</span>
                   </div>
               </div>
-              <a href="https://www.google.com/search?q=notebook+expert+curitiba" 
+              <a href="https://www.google.com/search?q=notebook+expert+curitiba#lrd=0x94dce46fc56256a1:0xe0af021b7a876101,3,,,," 
               target="_blank" 
-              className="inline-flex items-center text-blue-600 hover:text-blue-800 text-sm">
-                  Ver todas as avaliações no Google →
+              className="btn-primary text-lg font-medium">
+                  <span>Deixe sua Avaliação</span>
+                  <i class="fa-solid fa-right-long ml-2"></i>
               </a>
           </div>
         </div>

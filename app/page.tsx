@@ -1,11 +1,14 @@
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import About from "@/components/About";
+import BrandsCarousel from "@/components/BrandsCarousel";
+/*import About from "@/components/About";*/
 import Services from "@/components/Services";
 import Business from "@/components/Business";
 import ExpertTip from "@/components/ExpertTip";
 import Testimonials from "@/components/Testimonials";
+import WhyChooseUs from "@/components/WhyChooseUs";
 import Prevention from "@/components/Prevention";
+import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 
 export default function Home() {
@@ -14,12 +17,14 @@ export default function Home() {
       <Header />
       <main className="landscape:pt-16">
         <Hero />
-        <About />
+        <BrandsCarousel />
+        <WhyChooseUs />        
         <Services />
         <Business />
         <ExpertTip />
-        <Testimonials />
-        <Prevention />        
+        <Testimonials />        
+        <Prevention />
+        <FAQ />        
       </main>
       <Footer />
     </div>

@@ -1,5 +1,6 @@
 import { ShieldCheck, TrendingUp, DollarSign, Database, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import Image from "next/image";
 
 const Prevention = () => {
   const benefits = [
@@ -54,22 +55,35 @@ const Prevention = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-6xl mx-auto mb-12">
-            {benefits.map((benefit, index) => (
-              <div 
-                key={index}
-                className="bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:flex portrait:gap-4"
-              >
-                <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4 portrait:flex-1">
-                  <benefit.icon className="w-6 h-6 text-accent" />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="flex-1 relative w-full max-w-md h-96">
+              <Image 
+              src="/business.jpg" 
+              alt="Business" 
+              fill 
+              className="object-contain"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+
+            <div className="flex-1 space-y-4 max-w-5xl mx-auto mb-12">
+              {benefits.map((benefit, index) => (
+                <div 
+                  key={index}
+                  className="flex items-center gap-4 bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:text-center"
+                >
+                  <span className="text-accent font-bold text-lg flex-shrink-0 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center portrait:mx-auto">
+                    {index + 1}
+                  </span>
+                  <div>
+                    <h3 className="text-lg font-semibold text-foreground mb-2 pt-1">{benefit.title}</h3>
+                    <p className="text-muted-foreground text-sm">{benefit.description}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-lg font-semibold text-foreground mb-2">{benefit.title}</h3>
-                  <p className="text-muted-foreground text-sm">{benefit.description}</p>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+
+          </div>          
 
           <div className="text-center mt-12">
             <button className="btn-wpp">
@@ -92,7 +106,7 @@ const Prevention = () => {
             {dailyCare.map((tip, index) => (
               <div 
               key={index}
-              className="bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:text-center">
+              className="flex items-center gap-4 bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:text-center">
                 <span className="text-accent font-bold text-lg flex-shrink-0 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center portrait:mx-auto">
                   {index + 1}
                 </span>
