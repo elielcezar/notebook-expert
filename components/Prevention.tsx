@@ -1,6 +1,8 @@
+'use client';
 import { ShieldCheck, TrendingUp, DollarSign, Database, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const Prevention = () => {
   const benefits = [
@@ -56,10 +58,16 @@ const Prevention = () => {
           </div>
 
           <div className="flex items-start justify-center gap-12 portrait:flex-col-reverse">
-
             
+          <motion.div 
+            className="flex-1"
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+          > 
 
-            <div className="space-y-4 flex-1">
+            <div className="space-y-4">
               {benefits.map((benefit, index) => (
                 <div 
                   key={index}
@@ -76,15 +84,24 @@ const Prevention = () => {
               ))}
             </div>
 
-            <div className="max-w-md flex flex-1 items-center justify-center relative min-h-[520px] md:min-h-[620px] rounded-2xl overflow-hidden">
+            </motion.div>
+
+            <motion.div 
+              className="flex-1 max-w-md flex items-center justify-center relative min-h-[520px] md:min-h-[620px] rounded-2xl overflow-hidden"
+              initial={{ opacity: 0, x: 60 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.3 }}
+            >            
               <Image 
               src="/maintenance2.jpg" 
               alt="Business" 
               fill 
               className="object-cover"
               sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
+              />           
+
+            </motion.div>
 
           </div>          
 
@@ -110,6 +127,12 @@ const Prevention = () => {
             Além da manutenção técnica, algumas práticas simples ajudam a conservar o notebook no dia a dia:
           </p>
           
+          <motion.div             
+            initial={{ opacity: 0, y: 120 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.6 }}            
+          >  
           <div className="space-y-4">
             {dailyCare.map((tip, index) => (
               <div 
@@ -122,6 +145,7 @@ const Prevention = () => {
               </div>
             ))}
           </div>
+          </motion.div>
         </div>
       </div>
     </section>

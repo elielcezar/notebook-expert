@@ -1,6 +1,9 @@
+'use client';
+
 import { Calendar, Settings, Shield, Zap, TrendingUp, Star } from "lucide-react";
 import Image from "next/image";
 import H2 from "./ui/H2";
+import { motion } from "framer-motion";
 
 const WhyChooseUs = () => {
   const features = [
@@ -34,7 +37,13 @@ const WhyChooseUs = () => {
     <section id="sobre" className="py-20 portrait:py-0">
       <div className="container mx-auto px-4 flex portrait:flex-col gap-12">       
 
-        <div className="flex-1 max-w-4xl mx-auto text-left">         
+        <motion.div 
+          className="flex-1 max-w-4xl mx-auto text-left"
+          initial={{ opacity: 0, x: -60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.6 }}
+        >         
 
             <H2 title="Por Que Escolher Nossa Assistência?" marginBorder="mx-left" color="text-foreground" />
             
@@ -63,9 +72,15 @@ const WhyChooseUs = () => {
                 );
               })}
             </div>
-        </div>
+        </motion.div>
 
-        <div className="flex-1 max-w-lg flex items-center justify-center relative min-h-[500px] md:min-h-[600px] rounded-2xl overflow-hidden">        
+        <motion.div 
+          className="flex-1 max-w-lg flex items-center justify-center relative min-h-[500px] md:min-h-[600px] rounded-2xl overflow-hidden"
+          initial={{ opacity: 0, x: 60 }}
+          whileInView={{ opacity: 1, x: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >        
           <Image 
             src="/about3.jpg" 
             alt="About" 
@@ -73,7 +88,7 @@ const WhyChooseUs = () => {
             className="object-cover"
             sizes="(max-width: 768px) 100vw, 50vw"
           />
-        </div>
+        </motion.div>
                 
       </div>
     </section>

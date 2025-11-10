@@ -1,5 +1,8 @@
+'use client';
+
 import { Building2, Star, Clock } from "lucide-react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 
 const businessItems = [
   {
@@ -25,7 +28,16 @@ const Business = () => {
       <div className="container mx-auto px-4">
         <div className="mx-auto">
           <div className="flex items-start justify-center gap-12 portrait:flex-col-reverse">
-            <div className="relative w-full max-w-md h-96 min-h-[620px] md:min-h-[620px]">
+
+          <motion.div 
+            className="relative w-full max-w-md h-96 min-h-[620px] md:min-h-[620px]"
+            initial={{ opacity: 0, x: -60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+          >      
+
+          
               <Image 
                 src="/business.jpg" 
                 alt="Business" 
@@ -33,8 +45,18 @@ const Business = () => {
                 className="rounded-md object-cover"
                 sizes="(max-width: 768px) 100vw, 50vw"
               />
-            </div>
-            <div>
+            
+
+          </motion.div>
+
+          <motion.div             
+            initial={{ opacity: 0, x: 60 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.6 }}
+          >      
+
+            
               <div className="text-left mb-12 portrait:text-center">
                 <h2 className="text-4xl md:text-5xl font-bold mb-4">
                   Atendimento para Empresas
@@ -56,9 +78,9 @@ const Business = () => {
                     <p className="text-primary-foreground/80">{item.description}</p>
                   </div>
                 </div>
-              ))}              
+              ))}                
 
-            </div>
+            </motion.div>
           </div>
 
           

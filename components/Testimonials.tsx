@@ -1,3 +1,6 @@
+'use client';
+
+import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import Image from "next/image";
 
@@ -48,10 +51,14 @@ const Testimonials = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
           {testimonials.map((testimonial, index) => (
-            <div 
-            key={index}
-            className="bg-card rounded-xl p-8 border border-border shadow-sm hover:shadow-md transition-all duration-300 relative"
-          >
+            <motion.div             
+              initial={{ opacity: 0, y: 120 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6 }}
+              key={index}
+              className="bg-card rounded-xl p-8 border border-border shadow-sm hover:shadow-md transition-all duration-300 relative"
+            >        
               <Quote className="absolute top-6 right-6 w-10 h-10 text-accent/20" />
               
                 <div className="flex items-center mb-4 gap-4">
@@ -69,11 +76,8 @@ const Testimonials = () => {
                         </div>
                     </div>
                 </div>
-                <p className="text-gray-600 italic">"{testimonial.content}"</p>               
-            
-              
-
-            </div>
+                <p className="text-gray-600 italic">"{testimonial.content}"</p>  
+            </motion.div>
           ))}
         </div>
 
@@ -105,7 +109,7 @@ const Testimonials = () => {
               target="_blank" 
               className="btn-primary text-lg font-medium">
                   <span>Deixe sua Avaliação</span>
-                  <i class="fa-solid fa-right-long ml-2"></i>
+                  <i className="fa-solid fa-right-long ml-2"></i>
               </a>
           </div>
         </div>

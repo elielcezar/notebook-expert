@@ -1,3 +1,7 @@
+'use client';
+
+import { motion } from "framer-motion";
+
 import {
   Accordion,
   AccordionContent,
@@ -62,6 +66,13 @@ const FAQ = () => {
           </p>
         </div>
 
+        <motion.div             
+            initial={{ opacity: 0, y: 120 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}            
+          > 
+
         <div className="max-w-4xl mx-auto">
           <Accordion type="single" collapsible className="space-y-4">
             {faqs.map((faq, index) => (
@@ -82,6 +93,7 @@ const FAQ = () => {
             ))}
           </Accordion>
         </div>
+        </motion.div>
 
         {/* CTA */}
         <div className="text-center mt-12">
