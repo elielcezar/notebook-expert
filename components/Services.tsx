@@ -123,9 +123,12 @@ const Services = () => {
 
         {/* CTA */}
         <div className="text-center mt-12">
-          <button className="btn-wpp">
-              <i className="fab fa-whatsapp mr-2 text-3xl"></i>
-              Solicite um orçamento (41) 99887.0606 
+          <button className="btn-wpp">              
+              <i className="fab fa-whatsapp mr-2 text-5xl"></i> 
+              <span className="flex flex-col items-start justify-start items-center">                
+                Orçamento Gratuito
+                <strong>(41) 99887-0606</strong>
+              </span>              
           </button>     
         </div>
 

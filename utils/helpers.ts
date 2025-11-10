@@ -30,13 +30,21 @@ export function openWhatsApp(message: string = 'Olá! Gostaria de solicitar um o
 }
 
 // Função para scroll suave (apenas no cliente)
-export function scrollToSection(sectionId: string) {
+export function scrollToSection(sectionId: string, offset: number) {
     if (typeof window !== 'undefined') {
+
         const target = document.querySelector(sectionId);
+
         if (target) {
-            target.scrollIntoView({
-                behavior: 'smooth'
+            window.scroll({
+                top: target.offsetTop - offset,
+                behavior: "smooth"
             });
-        }
+        }else{
+            console.error(`Section with ID ${sectionId} not found`);
+        }       
+        
     }
 }
+
+

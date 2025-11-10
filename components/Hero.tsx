@@ -3,6 +3,7 @@
 import { Laptop, Shield, Zap } from "lucide-react";
 import Image from "next/image";
 import { openWhatsApp } from '@/utils/helpers';
+import { scrollToSection } from '@/utils/helpers';
 
 const handleWhatsAppClick = () => {
   openWhatsApp('Olá! Vi o site e gostaria de solicitar um orçamento para assistência técnica do meu notebook.');
@@ -46,13 +47,13 @@ const Hero = () => {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8 animate-fade-in-up animation-delay-300 portrait:hidden">
             <div className="flex items-center gap-3 bg-primary-foreground/10 backdrop-blur-sm rounded-lg p-4 border border-primary-foreground/20">
               <Shield className="w-6 h-6 text-accent flex-shrink-0" />
-              <span className="text-primary-foreground font-medium">Garantia Assegurada</span>
+              <span className="text-primary-foreground font-medium">Orçamento Gratuito</span>
             </div>
             <div className="flex items-center gap-3 bg-primary-foreground/10 backdrop-blur-sm rounded-lg p-4 border border-primary-foreground/20">
               <Zap className="w-6 h-6 text-accent flex-shrink-0" />
               <span className="text-primary-foreground font-medium">Atendimento Rápido</span>
             </div>
-            <div className="flex items-center gap-3 bg-primary-foreground/10 backdrop-blur-sm rounded-lg p-4 border border-primary-foreground/20">
+            <div className="flex items-center gap-3 bg-primary-foreground/10 backdrop-blur-sm rounded-lg p-4 border border-primary-foreground/20 cursor-pointer" onClick={() => scrollToSection('#brands', 100)}>
               <Laptop className="w-6 h-6 text-accent flex-shrink-0" />
               <span className="text-primary-foreground font-medium">Todas as Marcas</span>
             </div>

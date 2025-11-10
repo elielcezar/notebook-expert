@@ -125,10 +125,10 @@ All colors MUST be HSL.
 
 @layer components {
   .btn-primary {    
-    @apply text-xl tracking-tight font-bold rounded-md bg-[var(--blue)] hover:bg-[var(--darkblue)] text-white px-6 py-2 transition-all duration-300 cursor-pointer;
+    @apply flex items-center justify-center text-xl tracking-tight font-bold rounded-md bg-[var(--blue)] hover:bg-[var(--darkblue)] text-white px-6 py-2 transition-all duration-300 cursor-pointer;
   }
   .btn-wpp{
-    @apply flex items-center justify-center bg-green-500 hover:bg-[var(--darkblue)] transition-colors hover:cursor-pointer border-2 border-green-500 hover:border-[var(--darkblue)] px-6 py-2 text-white text-xl tracking-tight font-bold rounded-md mx-auto z-50;
+    @apply flex items-center justify-center bg-green-500 hover:bg-[var(--darkblue)] transition-colors hover:cursor-pointer border-2 border-green-500 hover:border-[var(--darkblue)] px-6 py-2 text-white text-lg tracking-tight font-semibold rounded-md mx-auto z-50 gap-2;
   }
 }
 

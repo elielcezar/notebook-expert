@@ -24,9 +24,15 @@ const Business = () => {
     <section className="py-20 bg-primary text-primary-foreground">
       <div className="container mx-auto px-4">
         <div className="mx-auto">
-          <div className="flex items-center justify-center gap-12 portrait:flex-col-reverse">
-            <div className="relative w-full max-w-md h-96">
-              <Image src="/business.jpg" alt="Business" fill className="rounded-md object-cover" />
+          <div className="flex items-start justify-center gap-12 portrait:flex-col-reverse">
+            <div className="relative w-full max-w-md h-96 min-h-[620px] md:min-h-[620px]">
+              <Image 
+                src="/business.jpg" 
+                alt="Business" 
+                fill 
+                className="rounded-md object-cover"
+                sizes="(max-width: 768px) 100vw, 50vw"
+              />
             </div>
             <div>
               <div className="text-left mb-12 portrait:text-center">
@@ -34,7 +40,7 @@ const Business = () => {
                   Atendimento para Empresas
                 </h2>
                 <div className="h-1 w-24 bg-accent mx-left mb-6 rounded portrait:mx-auto" />
-                <p className="text-xl text-primary-foreground/90 max-w-3xl mx-auto">
+                <p className="text-xl text-primary-foreground/90 max-w-3xl mx-left">
                   Oferecemos planos corporativos e parcerias B2B, ideais para empresas 
                   que utilizam grande volume de notebooks.
                 </p>

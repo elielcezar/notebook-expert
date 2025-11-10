@@ -55,22 +55,15 @@ const Prevention = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div className="flex-1 relative w-full max-w-md h-96">
-              <Image 
-              src="/business.jpg" 
-              alt="Business" 
-              fill 
-              className="object-contain"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              />
-            </div>
+          <div className="flex items-start justify-center gap-12 portrait:flex-col-reverse">
 
-            <div className="flex-1 space-y-4 max-w-5xl mx-auto mb-12">
+            
+
+            <div className="space-y-4 flex-1">
               {benefits.map((benefit, index) => (
                 <div 
                   key={index}
-                  className="flex items-center gap-4 bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:text-center"
+                  className="w-full flex items-center gap-4 bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:text-center"
                 >
                   <span className="text-accent font-bold text-lg flex-shrink-0 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center portrait:mx-auto">
                     {index + 1}
@@ -83,14 +76,29 @@ const Prevention = () => {
               ))}
             </div>
 
+            <div className="max-w-md flex flex-1 items-center justify-center relative min-h-[520px] md:min-h-[620px] rounded-2xl overflow-hidden">
+              <Image 
+              src="/maintenance2.jpg" 
+              alt="Business" 
+              fill 
+              className="object-cover"
+              sizes="(max-width: 768px) 100vw, 50vw"
+              />
+            </div>
+
           </div>          
 
+          {/* CTA */}
           <div className="text-center mt-12">
-            <button className="btn-wpp">
-                <i className="fab fa-whatsapp mr-2 text-3xl"></i>
-                Agendar manutenção preventiva (41) 99887.0606 
+            <button className="btn-wpp">              
+                <i className="fab fa-whatsapp mr-2 text-5xl"></i> 
+                <span className="flex flex-col items-start justify-start items-center">                
+                  Orçamento Gratuito
+                  <strong>(41) 99887-0606</strong>
+                </span>              
             </button>     
           </div>
+
         </div>
 
         {/* Daily Care */}

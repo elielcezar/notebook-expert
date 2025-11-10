@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { Phone, Clock } from "lucide-react";
 
 const Footer = () => {
   return (
@@ -16,7 +17,10 @@ const Footer = () => {
                     </div>                                        
                 </div>
                 <div>
-                    <h4 className="font-semibold mb-4 text-xl pb-4 border-b border-white">Contato</h4>
+                    <h4 className="font-semibold mb-4 text-xl pb-4 border-b border-white flex items-center gap-2">
+                        <Phone className="w-5 h-5" />
+                        Contato
+                    </h4>
                     <ul className="space-y-2 text-sm text-white">
                         <li>(41) 3029.8746</li>
                         <li>(41) 99887.0606</li>
@@ -24,7 +28,10 @@ const Footer = () => {
                     </ul>
                 </div>   
                 <div>
-                    <h4 className="font-semibold mb-4 text-xl pb-4 border-b border-white">Atendimento</h4>
+                    <h4 className="font-semibold mb-4 text-xl pb-4 border-b border-white flex items-center gap-2">
+                        <Clock className="w-5 h-5" />
+                        Atendimento
+                    </h4>
                     <p><strong>Segunda a sexta feira</strong> das 9h às 18h </p>                    
                     <p><strong>Sábados</strong> das 9h às 13h</p>
                     <p>Rua 24 de Maio, 280 - Centro</p>

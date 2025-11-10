@@ -28,7 +28,7 @@ const BrandsCarousel = () => {
 
 
   return (
-    <section className="py-12 bg-background">
+    <section id="brands" className="py-12 bg-background">
       <div className="mx-auto px-4">
         <div className="text-center mb-8">
           <h3 className="text-2xl font-bold text-foreground mb-2">

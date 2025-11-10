@@ -54,7 +54,7 @@ const About = () => {
 
         <div className="flex flex-1 items-center justify-center relative min-h-[500px] md:min-h-[600px]">
           <Image 
-            src="/about2.png" 
+            src="/about3.jpg" 
             alt="About" 
             fill 
             className="object-contain"

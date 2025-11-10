@@ -50,14 +50,14 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="py-20 bg-muted/50">
+    <section className="py-20 bg-primary text-primary-foreground" style={{ backgroundImage: 'url(/bg-faq.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
             Perguntas Frequentes
           </h2>
           <div className="h-1 w-24 bg-accent mx-auto mb-6 rounded" />
-          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+          <p className="text-lg text-primary-foreground max-w-3xl mx-auto">
             Tire suas dúvidas sobre nossos serviços de assistência técnica
           </p>
         </div>
@@ -68,14 +68,14 @@ const FAQ = () => {
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
-                className="bg-card rounded-xl border border-border overflow-hidden hover:border-accent transition-colors"
+                className="bg-card rounded-xl overflow-hidden transition-colors"
               >
-                <AccordionTrigger className="px-6 py-4 text-left hover:no-underline hover:bg-accent/5">
-                  <span className="text-lg font-semibold text-foreground pr-4">
+                <AccordionTrigger className="group px-6 py-4 text-left hover:no-underline bg-accent hover:bg-[var(--darkblue)] text-white">
+                  <span className="text-lg font-semibold text-foreground pr-4 group-hover:text-white text-white">
                     {faq.question}
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="px-6 pb-4 text-muted-foreground">
+                <AccordionContent className="px-6 pb-4 text-primary">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -85,13 +85,16 @@ const FAQ = () => {
 
         {/* CTA */}
         <div className="text-center mt-12">
-          <p className="text-muted-foreground mb-4">
+          <p className="text-primary-foreground mb-4">
             Não encontrou a resposta que procurava?
           </p>
-          <button className="btn-wpp">
-            <i className="fab fa-whatsapp mr-2 text-3xl"></i>
-            Fale conosco agora (41) 99887.0606
-          </button>
+          <button className="btn-wpp">              
+              <i className="fab fa-whatsapp mr-2 text-5xl"></i> 
+              <span className="flex flex-col items-start justify-start items-center">                
+                Fale conosco agora
+                <strong>(41) 99887-0606</strong>
+              </span>              
+          </button>     
         </div>
       </div>
     </section>

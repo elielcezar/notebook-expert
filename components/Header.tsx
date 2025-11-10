@@ -1,7 +1,20 @@
 'use client';
 
 import { useState } from "react";
-import { Menu, X } from "lucide-react";
+import { 
+  Menu, 
+  X, 
+  Cpu, 
+  Monitor, 
+  Keyboard, 
+  Battery, 
+  Wrench, 
+  HardDrive, 
+  Thermometer, 
+  Droplet, 
+  Settings, 
+  Database 
+} from "lucide-react";
 import Image from "next/image";
 import {
   NavigationMenu,
@@ -16,6 +29,19 @@ import {
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const services = [
+    { icon: Cpu, text: "Reparo de placa-mãe" },
+    { icon: Monitor, text: "Troca de tela / display" },
+    { icon: Keyboard, text: "Troca de teclado" },
+    { icon: Battery, text: "Troca de bateria" },
+    { icon: Wrench, text: "Troca de carcaça / dobradiça" },
+    { icon: HardDrive, text: "Upgrade SSD e memória" },
+    { icon: Thermometer, text: "Limpeza e pasta térmica" },
+    { icon: Droplet, text: "Reparo após líquido derramado" },
+    { icon: Settings, text: "Formatação e otimização" },
+    { icon: Database, text: "Recuperação de dados" },
+  ];
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
@@ -34,86 +60,47 @@ const Header = () => {
                 <NavigationMenuTrigger>Serviços</NavigationMenuTrigger>
                   <NavigationMenuContent className="right-0 left-auto">
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
-                      <li>
-                        <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">Reparo de placa-mãe</div>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">Troca de tela / display</div>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">Troca de teclado</div>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">Troca de bateria</div>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">Troca de carcaça / dobradiça</div>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">Upgrade SSD e memória</div>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">Limpeza e pasta térmica</div>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">Reparo após líquido derramado</div>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">Formatação e otimização</div>
-                        </NavigationMenuLink>
-                      </li>
-                      <li>
-                        <NavigationMenuLink href="#" className="block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                          <div className="text-sm font-medium leading-none">Recuperação de dados</div>
-                        </NavigationMenuLink>
-                      </li>
+                      {services.map((service, index) => {
+                        const Icon = service.icon;
+                        return (
+                          <li key={index}>
+                            <NavigationMenuLink href="#" className="group flex items-center gap-2 select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                              <Icon className="w-8 h-8 flex-shrink-0 text-[var(--blue)] group-hover:text-white" />
+                              <div className="text-sm font-medium leading-none">{service.text}</div>
+                            </NavigationMenuLink>
+                          </li>
+                        );
+                      })}
                     </ul>
                   </NavigationMenuContent>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Para Empresas
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Antes & Depois
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Compra & Venda
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Dicas
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Sobre
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -122,8 +109,8 @@ const Header = () => {
           </NavigationMenu>
 
           {/* Client Area Button */}
-          <a href="#contact" className="btn-primary text-[17px] px-4 portrait:hidden hidden lg:flex">
-              <i className="fa-regular fa-circle-user"></i>
+          <a href="#contact" className="btn-primary text-sm px-4 portrait:hidden hidden lg:flex">
+              <i className="fa-regular fa-circle-user text-xl"></i>
               <span className="ml-2 ">Área do Cliente</span>
           </a>
 
@@ -165,36 +152,19 @@ const Header = () => {
                 {/* Serviços Submenu */}
                 <div className="border-t border-border pt-2 mt-2">
                   <p className="text-sm font-semibold text-muted-foreground px-4 mb-2">Serviços</p>
-                  <a href="#" className="text-sm text-foreground hover:text-accent py-2 px-6 block hover:bg-accent/10 rounded-md transition-colors">
-                    Reparo de placa-mãe
-                  </a>
-                  <a href="#" className="text-sm text-foreground hover:text-accent py-2 px-6 block hover:bg-accent/10 rounded-md transition-colors">
-                    Troca de tela / display
-                  </a>
-                  <a href="#" className="text-sm text-foreground hover:text-accent py-2 px-6 block hover:bg-accent/10 rounded-md transition-colors">
-                    Troca de teclado
-                  </a>
-                  <a href="#" className="text-sm text-foreground hover:text-accent py-2 px-6 block hover:bg-accent/10 rounded-md transition-colors">
-                    Troca de bateria
-                  </a>
-                  <a href="#" className="text-sm text-foreground hover:text-accent py-2 px-6 block hover:bg-accent/10 rounded-md transition-colors">
-                    Troca de carcaça / dobradiça
-                  </a>
-                  <a href="#" className="text-sm text-foreground hover:text-accent py-2 px-6 block hover:bg-accent/10 rounded-md transition-colors">
-                    Upgrade SSD e memória
-                  </a>
-                  <a href="#" className="text-sm text-foreground hover:text-accent py-2 px-6 block hover:bg-accent/10 rounded-md transition-colors">
-                    Limpeza e pasta térmica
-                  </a>
-                  <a href="#" className="text-sm text-foreground hover:text-accent py-2 px-6 block hover:bg-accent/10 rounded-md transition-colors">
-                    Reparo após líquido derramado
-                  </a>
-                  <a href="#" className="text-sm text-foreground hover:text-accent py-2 px-6 block hover:bg-accent/10 rounded-md transition-colors">
-                    Formatação e otimização
-                  </a>
-                  <a href="#" className="text-sm text-foreground hover:text-accent py-2 px-6 block hover:bg-accent/10 rounded-md transition-colors">
-                    Recuperação de dados
-                  </a>
+                  {services.map((service, index) => {
+                    const Icon = service.icon;
+                    return (
+                      <a 
+                        key={index}
+                        href="#" 
+                        className="text-sm text-foreground hover:text-accent py-2 px-6 flex items-center gap-2 hover:bg-accent/10 rounded-md transition-colors"
+                      >
+                        <Icon className="w-4 h-4 flex-shrink-0" />
+                        {service.text}
+                      </a>
+                    );
+                  })}
                 </div>
               </div>
 
