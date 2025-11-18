@@ -122,6 +122,32 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   return (
     <div className="min-h-screen bg-background">
       <Header />
+
+      {/* Hero Section */}
+      <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-28">
+          <div className="container mx-auto px-4">
+            <div className="max-w-4xl mx-auto text-center">
+              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
+                <div className="h-1 w-12 bg-accent rounded" />
+                <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+                  Conhecimento Especializado
+                </span>
+                <div className="h-1 w-12 bg-accent rounded" />
+              </div>
+              
+              <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
+                Dicas e Artigos
+              </h1>
+              
+              <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
+                Aprenda com quem tem 16 anos de experiência em manutenção e reparo de notebooks.
+              </p>
+            </div>
+          </div>
+          
+          {/* Decorative Bottom Gradient */}
+          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
+        </section>
       
       <main className="landscape:pt-16">
         {/* Breadcrumb / Back Link */}

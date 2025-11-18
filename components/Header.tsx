@@ -111,7 +111,7 @@ const Header = () => {
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/sobre`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Sobre
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -144,7 +144,7 @@ const Header = () => {
             <div className="flex flex-col gap-4">
               {/* Menu Links */}
               <div className="flex flex-col gap-2 mb-4">
-                <a href="#" className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
+                <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/sobre`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
                   Sobre
                 </a>
                 <a href="#" className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
