@@ -15,7 +15,6 @@ import {
   Settings, 
   Database 
 } from "lucide-react";
-import Image from "next/image";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -49,14 +48,20 @@ const Header = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center gap-2">            
-            <Image src="/logo.webp" alt="Logo" width={192} height={60} className="w-48" priority />
+            <img 
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/logo.webp`}
+              alt="Logo" 
+              width="192" 
+              height="60" 
+              className="w-48"
+            />
           </div>
 
           {/* Desktop Navigation Menu */}
           <NavigationMenu className="hidden lg:flex">
             <NavigationMenuList>
               
-              <NavigationMenuItem>
+              {/*<NavigationMenuItem>
                 <NavigationMenuTrigger>Serviços</NavigationMenuTrigger>
                   <NavigationMenuContent className="right-0 left-auto">
                     <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
@@ -64,7 +69,7 @@ const Header = () => {
                         const Icon = service.icon;
                         return (
                           <li key={index}>
-                            <NavigationMenuLink href="#" className="group flex items-center gap-2 select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
+                            <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`} className="group flex items-center gap-2 select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
                               <Icon className="w-8 h-8 flex-shrink-0 text-[var(--blue)] group-hover:text-white" />
                               <div className="text-sm font-medium leading-none">{service.text}</div>
                             </NavigationMenuLink>
@@ -73,6 +78,12 @@ const Header = () => {
                       })}
                     </ul>
                   </NavigationMenuContent>
+                </NavigationMenuItem>*/}
+
+                <NavigationMenuItem>
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                    Serviços
+                  </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
@@ -88,13 +99,13 @@ const Header = () => {
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/compra-venda`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Compra & Venda
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/dicas`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Dicas
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -142,22 +153,27 @@ const Header = () => {
                 <a href="#" className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
                   Antes & Depois
                 </a>
-                <a href="#" className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
+                <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/compra-venda`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
                   Compra & Venda
                 </a>
-                <a href="#" className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
+                <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/dicas`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
                   Dicas
                 </a>
                 
                 {/* Serviços Submenu */}
                 <div className="border-t border-border pt-2 mt-2">
-                  <p className="text-sm font-semibold text-muted-foreground px-4 mb-2">Serviços</p>
+                  <a 
+                    href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`}
+                    className="text-sm font-semibold text-[var(--blue)] px-4 mb-2 block hover:text-[var(--darkblue)]"
+                  >
+                    Ver Todos os Serviços →
+                  </a>
                   {services.map((service, index) => {
                     const Icon = service.icon;
                     return (
                       <a 
                         key={index}
-                        href="#" 
+                        href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`}
                         className="text-sm text-foreground hover:text-accent py-2 px-6 flex items-center gap-2 hover:bg-accent/10 rounded-md transition-colors"
                       >
                         <Icon className="w-4 h-4 flex-shrink-0" />

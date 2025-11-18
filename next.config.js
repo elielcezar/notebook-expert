@@ -1,27 +1,28 @@
 /** @type {import('next').NextConfig} */
+
+// Usa a variável de ambiente ou vazio para desenvolvimento
+const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
 const nextConfig = {
-  // Configurações de imagem
+  //output: 'standalone',
+  output: 'export',
+  basePath: basePath,
+  assetPrefix: basePath,
+  
   images: {
-    unoptimized: false,
-    domains: [],
-    formats: ['image/webp', 'image/avif'],
+    unoptimized: true,   
   },
 
-  // Configurações de output
-  output: 'standalone',
-
-  // Configurações do compilador
   compiler: {
     removeConsole: process.env.NODE_ENV === 'production',
   },
 
-  // Configurações experimentais
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
   },
 
   // Headers para segurança e performance
-  async headers() {
+  /*async headers() {
     return [
       {
         source: '/:path*',
@@ -37,7 +38,7 @@ const nextConfig = {
         ],
       },
     ];
-  },
+  },*/
 };
 
 module.exports = nextConfig;

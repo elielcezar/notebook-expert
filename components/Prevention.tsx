@@ -1,7 +1,6 @@
 'use client';
 import { ShieldCheck, TrendingUp, DollarSign, Database, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 const Prevention = () => {
@@ -93,14 +92,11 @@ const Prevention = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >            
-              <Image 
-              src="/maintenance2.jpg" 
-              alt="Business" 
-              fill 
-              className="object-cover"
-              sizes="(max-width: 768px) 100vw, 50vw"
-              />           
-
+              <img 
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/maintenance2.jpg`}
+                alt="Business" 
+                className="absolute inset-0 w-full h-full object-cover"
+              />
             </motion.div>
 
           </div>          

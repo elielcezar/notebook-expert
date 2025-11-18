@@ -1,7 +1,6 @@
 'use client';
 
 import { Building2, Star, Clock } from "lucide-react";
-import Image from "next/image";
 import { motion } from "framer-motion";
 
 const businessItems = [
@@ -36,17 +35,11 @@ const Business = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >      
-
-          
-              <Image 
-                src="/business.jpg" 
+              <img 
+                src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/business.jpg`}
                 alt="Business" 
-                fill 
-                className="rounded-md object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
+                className="absolute inset-0 w-full h-full rounded-md object-cover"
               />
-            
-
           </motion.div>
 
           <motion.div             

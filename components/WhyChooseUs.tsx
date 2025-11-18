@@ -1,7 +1,6 @@
 'use client';
 
 import { Calendar, Settings, Shield, Zap, TrendingUp, Star } from "lucide-react";
-import Image from "next/image";
 import H2 from "./ui/H2";
 import { motion } from "framer-motion";
 
@@ -81,12 +80,10 @@ const WhyChooseUs = () => {
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >        
-          <Image 
-            src="/about3.jpg" 
+          <img 
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/about3.jpg`}
             alt="About" 
-            fill 
-            className="object-cover"
-            sizes="(max-width: 768px) 100vw, 50vw"
+            className="absolute inset-0 w-full h-full object-cover"
           />
         </motion.div>
                 

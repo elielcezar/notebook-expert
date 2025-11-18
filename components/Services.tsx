@@ -123,13 +123,28 @@ const Services = () => {
 
         {/* CTA */}
         <div className="text-center mt-12">
-          <button className="btn-wpp">              
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <a 
+              href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`}
+              className="btn-primary text-base px-8 py-3"
+            >
+              Ver Todos os Serviços
+              <i className="fas fa-arrow-right ml-2"></i>
+            </a>
+            
+            <a 
+              href="https://wa.me/5541998870606?text=Olá! Gostaria de solicitar um orçamento para assistência técnica do meu notebook."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn-wpp"
+            >
               <i className="fab fa-whatsapp mr-2 text-5xl"></i> 
               <span className="flex flex-col items-start justify-start items-center">                
                 Orçamento Gratuito
                 <strong>(41) 99887-0606</strong>
               </span>              
-          </button>     
+            </a>
+          </div>
         </div>
 
       

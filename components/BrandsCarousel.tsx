@@ -50,10 +50,10 @@ const BrandsCarousel = () => {
                 className="flex-[0_0_auto] w-[150px] md:w-[180px] mr-8"
               >
                 <div className="bg-card hover:border-accent hover:shadow-md transition-all duration-300 flex items-center justify-center h-24">
-                  <div className="relative w-full h-full flex items-center justify-center">                    
-                    <Image
-                      src={brand.image}
-                      alt={`Logo ${brand.name}`}
+                  <div className="relative w-full h-full flex items-center justify-center">                                        
+                    <img 
+                      src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/${brand.image}`}
+                      alt={`Logo ${brand.name}`} 
                       width={150}
                       height={77}
                       className="object-contain filter hover:grayscale-0 transition-all duration-300"

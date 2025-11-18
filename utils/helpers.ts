@@ -37,7 +37,7 @@ export function scrollToSection(sectionId: string, offset: number) {
 
         if (target) {
             window.scroll({
-                top: target.offsetTop - offset,
+                top: (target as HTMLElement).offsetTop - offset,
                 behavior: "smooth"
             });
         }else{

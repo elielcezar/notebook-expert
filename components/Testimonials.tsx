@@ -2,7 +2,6 @@
 
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
-import Image from "next/image";
 
 const Testimonials = () => {
   const testimonials = [
@@ -101,7 +100,13 @@ const Testimonials = () => {
           <div className="flex items-center justify-center mt-4 space-x-4 portrait:flex-col">
               <div className="bg-white px-4 pt-2 pb-1 rounded-lg shadow-md border">
                   <div className="flex items-center">
-                      <Image src="/google-logo.png" alt="Google" width={90} height={30} className="mr-2" />
+                      <img 
+                        src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/google-logo.png`}
+                        alt="Google" 
+                        width="90" 
+                        height="30" 
+                        className="mr-2" 
+                      />
                       <span className="text-sm font-medium text-gray-700">Empresa Verificada</span>
                   </div>
               </div>

@@ -1,5 +1,4 @@
 import { Award, Users, Target } from "lucide-react";
-import Image from "next/image";
 
 const About = () => {
   return (
@@ -53,12 +52,10 @@ const About = () => {
         </div>
 
         <div className="flex flex-1 items-center justify-center relative min-h-[500px] md:min-h-[600px]">
-          <Image 
-            src="/about3.jpg" 
+          <img 
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/about3.jpg`}
             alt="About" 
-            fill 
-            className="object-contain"
-            sizes="(max-width: 768px) 100vw, 50vw"
+            className="absolute inset-0 w-full h-full object-contain"
           />
         </div>
                 

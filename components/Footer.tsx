@@ -1,4 +1,3 @@
-import Image from "next/image";
 import { Phone, Clock } from "lucide-react";
 
 const Footer = () => {
@@ -10,10 +9,13 @@ const Footer = () => {
             <div className="flex justify-between">
                 <div>
                     <div className="relative w-full max-w-[210px] mb-4 portrait:mx-auto">
-                      <Image src="/n.png" 
+                      <img 
+                        src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/n.png`}
                         alt="NotebookExpert" 
-                        width={120} height={120} 
-                        className="rounded-full object-contain" />
+                        width="120" 
+                        height="120" 
+                        className="rounded-full object-contain" 
+                      />
                     </div>                                        
                 </div>
                 <div>
