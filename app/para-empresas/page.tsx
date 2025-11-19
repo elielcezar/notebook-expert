@@ -96,13 +96,7 @@ export default function ServicosPage() {
             <div className="mx-auto">
               <div className="flex items-start justify-center gap-12 portrait:flex-col-reverse">
 
-              <div 
-                className="relative w-full max-w-md min-h-[420px] md:min-h-[420px]"
-                initial={{ opacity: 0, x: -60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6 }}
-              >      
+              <div className="relative w-full max-w-md min-h-[420px] md:min-h-[420px]">      
                   <img 
                     src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/business.jpg`}
                     alt="Business" 
@@ -110,12 +104,7 @@ export default function ServicosPage() {
                   />
               </div>
 
-              <div             
-                initial={{ opacity: 0, x: 60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.6 }}
-              >                   
+              <div>                   
 
                   {businessItems.map((item, index) => (
                     <div key={index} className="flex items-start gap-4 bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all duration-300 mb-8">
