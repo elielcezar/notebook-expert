@@ -323,7 +323,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           </div>
         </section>
         {/* CTA Section */}
-        <section className="py-16 portrait:py-12 border-t-4 border-accent bg-slate-50">
+        <section className="py-16 portrait:py-12 border-t-4 border-accent bg-slate-50" style={{ backgroundImage: 'url(/bg-faq2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-4xl font-bold text-foreground mb-6 portrait:text-3xl">
