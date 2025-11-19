@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Map from "@/components/Map";
 import { 
   Cpu, 
   Monitor, 
@@ -99,7 +100,18 @@ export default function ServicosPage() {
       <main className="landscape:pt-16">
         {/* Hero Section */}
         <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-28">
-          <div className="container mx-auto px-4">
+          
+
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/hero-tech.jpg`}
+            alt="Assistência Técnica Profissional" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--tech-blue-dark))]/95 via-[hsl(var(--tech-blue-dark))]/85 to-[hsl(var(--tech-blue-dark))]/70" />
+        </div>
+
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
                 <div className="h-1 w-12 bg-accent rounded" />
@@ -121,7 +133,7 @@ export default function ServicosPage() {
           </div>
           
           {/* Decorative Bottom Gradient */}
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 h-0 bg-gradient-to-t from-background to-transparent" />
         </section>
 
         {/* Services Grid */}
@@ -159,7 +171,7 @@ export default function ServicosPage() {
         </section>
 
         {/* CTA Section */}
-        <section className="py-16 bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white portrait:py-12">
+        <section className="py-16 bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white portrait:py-12" style={{ backgroundImage: 'url(/bg-faq.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="container mx-auto px-4">
             <div className="max-w-3xl mx-auto text-center">
               <h2 className="text-4xl font-bold mb-6 portrait:text-3xl">
@@ -186,7 +198,8 @@ export default function ServicosPage() {
         </section>
 
       </main>
-      
+
+      <Map />
       <Footer />
     </div>
   );

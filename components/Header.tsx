@@ -23,6 +23,7 @@ import {
   NavigationMenuList,
   NavigationMenuTrigger,
 } from "@/components/ui/navigation-menu";
+import Link from "next/link";
 
 
 
@@ -43,11 +44,12 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 bg-background/95 backdrop-blur-sm border-b border-border">
+    <header className="fixed top-0 left-0 right-0 z-[100] bg-background/95 backdrop-blur-sm border-b border-border">
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
-          <div className="flex items-center gap-2">            
+          {/* Logo */}          
+          <div className="flex items-center gap-2">      
+            <Link href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/`}>      
             <img 
               src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/logo.webp`}
               alt="Logo" 
@@ -55,6 +57,7 @@ const Header = () => {
               height="60" 
               className="w-48"
             />
+            </Link>
           </div>
 
           {/* Desktop Navigation Menu */}

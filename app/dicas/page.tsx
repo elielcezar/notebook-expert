@@ -29,7 +29,7 @@ const posts = [
     slug: "upgrade-ssd-velocidade-notebook",
     title: "Upgrade de SSD – Mais velocidade para o seu notebook",
     excerpt: "Seu notebook está lento, demorando para ligar ou abrindo programas devagar? O upgrade para SSD é a solução ideal para dar uma nova vida ao seu equipamento.",
-    image: "/maintenance2.jpg",
+    image: "/blog.jpg",
     date: "2024-11-18",
     author: "Equipe Notebook Expert",
     category: "Upgrades"
@@ -42,10 +42,20 @@ export default function DicasPage() {
     <div className="min-h-screen bg-background">
       <Header />
       
-      <main className="landscape:pt-16">
+      <main className="landscape:pt-16 min-h-screen">
         {/* Hero Section */}
         <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-28">
-          <div className="container mx-auto px-4">
+
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/hero-tech.jpg`}
+            alt="Assistência Técnica Profissional" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--tech-blue-dark))]/95 via-[hsl(var(--tech-blue-dark))]/85 to-[hsl(var(--tech-blue-dark))]/70" />
+        </div>
+
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
                 <div className="h-1 w-12 bg-accent rounded" />
@@ -66,7 +76,7 @@ export default function DicasPage() {
           </div>
           
           {/* Decorative Bottom Gradient */}
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
+          {/*<div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />*/}
         </section>
 
         {/* Posts List */}
@@ -81,7 +91,7 @@ export default function DicasPage() {
                   >
                     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-0 md:gap-6 portrait:gap-0">
                       {/* Image */}
-                      <div className="relative h-64 md:h-auto w-full portrait:h-48">
+                      <div className="relative h-32 md:h-auto w-full portrait:h-48">
                         <img
                           src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${post.image}`}
                           alt={post.title}

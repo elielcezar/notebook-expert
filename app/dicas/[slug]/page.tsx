@@ -48,9 +48,6 @@ const postsData: { [key: string]: any } = {
       
       <p>Após o upgrade, o notebook liga em segundos, responde mais rápido e ganha anos a mais de vida útil. É o melhor custo-benefício para quem quer desempenho de notebook novo sem precisar comprar um.</p>
 
-      <div class="cta-box">
-        <h3>Agende seu upgrade agora e sinta a diferença no primeiro uso!</h3>
-      </div>
     `
   }
 };
@@ -123,35 +120,50 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     <div className="min-h-screen bg-background">
       <Header />
 
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-28">
-          <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
-                <div className="h-1 w-12 bg-accent rounded" />
-                <span className="text-accent font-semibold text-sm uppercase tracking-wider">
-                  Conhecimento Especializado
-                </span>
-                <div className="h-1 w-12 bg-accent rounded" />
-              </div>
-              
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
-                Dicas e Artigos
-              </h1>
-              
-              <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
-                Aprenda com quem tem 16 anos de experiência em manutenção e reparo de notebooks.
-              </p>
-            </div>
-          </div>
-          
-          {/* Decorative Bottom Gradient */}
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
-        </section>
       
-      <main className="landscape:pt-16">
+      
+      <main className="landscape:pt-16 min-h-screen">
+
+        {/* Hero Section */}
+      <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-28">
+
+<div className="absolute inset-0 z-0">
+    <img 
+      src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/hero-tech.jpg`}
+      alt="Assistência Técnica Profissional" 
+      className="absolute inset-0 w-full h-full object-cover"
+    />
+    <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--tech-blue-dark))]/95 via-[hsl(var(--tech-blue-dark))]/85 to-[hsl(var(--tech-blue-dark))]/70" />
+  </div>
+
+    <div className="container mx-auto px-4 relative z-10">
+    <div className="container mx-auto px-4">
+      <div className="max-w-4xl mx-auto text-center">
+        <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
+          <div className="h-1 w-12 bg-accent rounded" />
+          <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+            Conhecimento Especializado
+          </span>
+          <div className="h-1 w-12 bg-accent rounded" />
+        </div>
+        
+        <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
+          Dicas e Artigos
+        </h1>
+        
+        <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
+          Aprenda com quem tem 16 anos de experiência em manutenção e reparo de notebooks.
+        </p>
+      </div>
+    </div>
+    </div>
+    
+    {/* Decorative Bottom Gradient */}
+    {/*<div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />*/}
+  </section>
+
         {/* Breadcrumb / Back Link */}
-        <section className="bg-muted/30 py-4 portrait:pt-20">
+        {/*<section className="bg-muted/30 py-4 portrait:pt-20">
           <div className="container mx-auto px-4">
             <Link 
               href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/dicas`}
@@ -161,15 +173,15 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               Voltar para Dicas
             </Link>
           </div>
-        </section>
+        </section>*/}
 
         {/* Post Content */}
-        <section className="py-12 portrait:py-8">
+        <section className="py-16 portrait:py-8">
           <div className="container mx-auto px-4">
             <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-8 portrait:gap-6">
+              <div className="grid grid-cols-1 lg:grid-cols-[1fr_300px] gap-24 portrait:gap-6">
                 {/* Main Content */}
-                <article className="bg-card border border-border rounded-lg p-8 portrait:p-4">
+                <article>
                   {/* Category Badge */}
                   <div className="mb-4">
                     <span className="inline-block bg-[var(--blue)] text-white px-3 py-1 rounded-full text-xs font-semibold">
@@ -213,24 +225,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />
 
-                  {/* CTA no final do post */}
-                  <div className="mt-12 p-6 bg-gradient-to-r from-[var(--blue)]/10 to-[var(--lightblue)]/10 border-l-4 border-[var(--blue)] rounded-lg portrait:mt-8 portrait:p-4">
-                    <h3 className="text-2xl font-bold text-foreground mb-3 portrait:text-xl">
-                      Precisa de um upgrade de SSD?
-                    </h3>
-                    <p className="text-muted-foreground mb-4 portrait:text-sm">
-                      Entre em contato conosco e receba um orçamento gratuito. Fazemos a instalação completa com migração de dados.
-                    </p>
-                    <a
-                      href="https://wa.me/5541998870606?text=Olá! Gostaria de fazer um upgrade de SSD no meu notebook."
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="btn-wpp inline-flex mx-0"
-                    >
-                      <i className="fab fa-whatsapp text-2xl"></i>
-                      <span className="ml-2">WhatsApp: (41) 99887-0606</span>
-                    </a>
-                  </div>
                 </article>
 
                 {/* Sidebar */}
@@ -277,7 +271,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                   </div>
 
                   {/* Services Card */}
-                  <div className="bg-card border border-border rounded-lg p-6 portrait:p-4">
+                  {/*<div className="bg-card border border-border rounded-lg p-6 portrait:p-4">
                     <h3 className="text-xl font-bold text-foreground mb-4 portrait:text-lg">
                       Outros Serviços
                     </h3>
@@ -315,7 +309,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                         </Link>
                       </li>
                     </ul>
-                  </div>
+                  </div>*/}
 
                   {/* Banner Placeholder */}
                   <div className="bg-gradient-to-br from-[var(--blue)]/10 to-[var(--lightblue)]/10 border-2 border-dashed border-[var(--blue)]/30 rounded-lg p-6 text-center portrait:p-4">
@@ -324,6 +318,32 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                     <p className="text-xs text-muted-foreground mt-2">300x250px</p>
                   </div>
                 </aside>
+              </div>
+            </div>
+          </div>
+        </section>
+        {/* CTA Section */}
+        <section className="py-16 portrait:py-12 border-t-4 border-accent bg-slate-50">
+          <div className="container mx-auto px-4">
+            <div className="max-w-3xl mx-auto text-center">
+              <h2 className="text-4xl font-bold text-foreground mb-6 portrait:text-3xl">
+                Precisando de Assistência Técnica?
+              </h2>
+              <p className="text-xl text-muted-foreground mb-8 portrait:text-base portrait:mb-6 max-w-xl mx-auto">
+                Entre em contato agora e receba um atendimento personalizado com orçamento gratuito.
+              </p>
+              
+              <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                <a
+                  href="https://wa.me/5541998870606?text=Olá! Vi a página Sobre e gostaria de conhecer mais sobre os serviços."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="btn-wpp mx-0"
+                >
+                  <i className="fab fa-whatsapp text-2xl"></i>
+                  <span className="ml-2">WhatsApp: (41) 99887-0606</span>
+                </a>                
+               
               </div>
             </div>
           </div>

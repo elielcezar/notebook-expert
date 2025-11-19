@@ -54,7 +54,7 @@ const FAQ = () => {
   ];
 
   return (
-    <section className="py-20 bg-primary text-primary-foreground" style={{ backgroundImage: 'url(/bg-faq.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
+    <section className="pt-20 pb-12 bg-primary text-primary-foreground" style={{ backgroundImage: 'url(/bg-faq.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
@@ -86,7 +86,7 @@ const FAQ = () => {
                     {faq.question}
                   </span>
                 </AccordionTrigger>
-                <AccordionContent className="px-6 pb-4 text-primary">
+                <AccordionContent className="px-6 py-8 text-primary">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -109,6 +109,14 @@ const FAQ = () => {
           </button>     
         </div>
       </div>
+
+      <div className="max-w-5xl mx-auto text-center mt-16">              
+          <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
+            Localização
+          </h2>
+          <div className="h-1 w-24 bg-accent mx-auto mb-0 rounded" />
+      </div>
+      
     </section>
   );
 };

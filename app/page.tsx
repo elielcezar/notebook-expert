@@ -10,6 +10,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import Prevention from "@/components/Prevention";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
+import Map from "@/components/Map";
 
 export default function Home() {
   return (
@@ -26,6 +27,7 @@ export default function Home() {
         <Prevention />
         <FAQ />        
       </main>
+      <Map />
       <Footer />
     </div>
   );

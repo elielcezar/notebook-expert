@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Award, Users, Target, Shield, Heart, Zap } from "lucide-react";
+import Map from "@/components/Map";
 
 export const metadata: Metadata = {
   title: "Sobre Nós | Notebook Expert - 16 Anos de Experiência",
@@ -50,6 +51,17 @@ export default function SobrePage() {
         {/* Hero Section */}
         <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-28">
           <div className="container mx-auto px-4">
+
+          <div className="absolute inset-0 z-0">
+          <img 
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/hero-tech.jpg`}
+            alt="Assistência Técnica Profissional" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--tech-blue-dark))]/95 via-[hsl(var(--tech-blue-dark))]/85 to-[hsl(var(--tech-blue-dark))]/70" />
+        </div>
+
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
                 <div className="h-1 w-12 bg-accent rounded" />
@@ -68,84 +80,74 @@ export default function SobrePage() {
               </p>
             </div>
           </div>
-          
+          </div>
           {/* Decorative Bottom Gradient */}
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
+          {/*<div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />*/}
         </section>
 
         {/* Main Content Section */}
         <section className="py-16 portrait:py-12">
-          <div className="container mx-auto px-4">
-            <div className="max-w-7xl mx-auto">
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center portrait:gap-8">
-                {/* Text Content */}
-                <div className="animate-fade-in-up animation-delay-400">
-                  <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6 portrait:text-3xl">
-                    Quem Somos?
-                  </h2>
-                  <div className="h-1 w-24 bg-accent mb-8 rounded" />
-                  
-                  <p className="text-lg text-muted-foreground leading-relaxed mb-6 portrait:text-base">
-                    Somos uma assistência técnica especializada em notebooks e MacBooks, com mais de 
-                    <span className="text-accent font-semibold"> 16 anos de experiência </span>
-                    no mercado. Atendemos pessoas físicas e empresas com agilidade, transparência e qualidade garantida, 
-                    oferecendo soluções completas para todos os tipos de problemas em seu equipamento.
-                  </p>
-                  
-                  <p className="text-xl font-semibold text-primary leading-relaxed portrait:text-lg">
-                    Nossa missão é cuidar do seu notebook como se fosse nosso, zelando pela qualidade e 
-                    garantindo desempenho, segurança e principalmente durabilidade.
-                  </p>
-                </div>
+        <div className="container mx-auto px-4 flex portrait:flex-col gap-12">       
 
-                {/* Image */}
-                <div className="relative min-h-[400px] md:min-h-[500px] rounded-lg overflow-hidden shadow-[var(--shadow-elegant)] portrait:min-h-[300px]">
-                  <img 
-                    src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/about3.jpg`}
-                    alt="Assistência Técnica Notebook Expert" 
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
+          <div className="flex-1 max-w-4xl mx-auto text-left">
+            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+              Quem Somos?
+            </h2>
+            <div className="h-1 w-24 bg-accent mx-left mb-8 rounded" />
+            
+            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
+              Somos uma assistência técnica especializada em notebooks e MacBooks, com mais de 
+              <span className="text-accent font-semibold"> 16 anos de experiência </span>
+              no mercado. Atendemos pessoas físicas e empresas com agilidade, transparência e qualidade garantida, 
+              oferecendo soluções completas para todos os tipos de problemas em seu equipamento.
+            </p>
+            
+            <p className="text-xl font-semibold text-primary">
+              Nossa missão é cuidar do seu notebook como se fosse nosso, zelando pela qualidade e 
+              garantindo desempenho, segurança e principalmente durabilidade.
+            </p>
+
+            {/* Stats Cards */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-12">
+              <div className="bg-card rounded-xl p-8 text-center border border-border shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Award className="w-7 h-7 text-accent" />
                 </div>
+                <h3 className="text-5xl font-bold text-primary mb-2">16+</h3>
+                <p className="text-muted-foreground">Anos de<br/>Experiência</p>
+              </div>
+
+              <div className="bg-card rounded-xl p-8 text-center border border-border shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Users className="w-7 h-7 text-accent" />
+                </div>
+                <h3 className="text-5xl font-bold text-primary mb-2">1000+</h3>
+                <p className="text-muted-foreground">Clientes<br/>Satisfeitos</p>
+              </div>
+
+              <div className="bg-card rounded-xl p-8 text-center border border-border shadow-sm hover:shadow-md transition-shadow">
+                <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Target className="w-7 h-7 text-accent" />
+                </div>
+                <h3 className="text-5xl font-bold text-primary mb-2">100%</h3>
+                <p className="text-muted-foreground">Garantia de<br/>Qualidade</p>
               </div>
             </div>
           </div>
-        </section>
 
-        {/* Stats Section */}
-        <section className="py-16 bg-muted/30 portrait:py-12">
-          <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 portrait:gap-6">
-                <div className="bg-card rounded-xl p-8 text-center border border-border shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 portrait:p-6">
-                  <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 portrait:w-14 portrait:h-14">
-                    <Award className="w-8 h-8 text-accent portrait:w-7 portrait:h-7" />
-                  </div>
-                  <h3 className="text-5xl font-bold text-primary mb-2 portrait:text-4xl">16+</h3>
-                  <p className="text-muted-foreground font-medium">Anos de Experiência</p>
-                </div>
-
-                <div className="bg-card rounded-xl p-8 text-center border border-border shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 portrait:p-6">
-                  <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 portrait:w-14 portrait:h-14">
-                    <Users className="w-8 h-8 text-accent portrait:w-7 portrait:h-7" />
-                  </div>
-                  <h3 className="text-5xl font-bold text-primary mb-2 portrait:text-4xl">1000+</h3>
-                  <p className="text-muted-foreground font-medium">Clientes Satisfeitos</p>
-                </div>
-
-                <div className="bg-card rounded-xl p-8 text-center border border-border shadow-sm hover:shadow-lg transition-all duration-300 hover:-translate-y-1 portrait:p-6">
-                  <div className="w-16 h-16 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4 portrait:w-14 portrait:h-14">
-                    <Target className="w-8 h-8 text-accent portrait:w-7 portrait:h-7" />
-                  </div>
-                  <h3 className="text-5xl font-bold text-primary mb-2 portrait:text-4xl">100%</h3>
-                  <p className="text-muted-foreground font-medium">Garantia de Qualidade</p>
-                </div>
-              </div>
-            </div>
+          <div className="flex-1 max-w-lg flex items-center justify-center relative min-h-[500px] md:min-h-[600px] rounded-2xl overflow-hidden">
+            <img 
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/about3.jpg`}
+              alt="About" 
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
+                  
           </div>
         </section>
-
+        
         {/* Values Section */}
-        <section className="py-16 portrait:py-12">
+        <section className="py-16 portrait:py-12 border-t-4 border-accent">
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-12 portrait:mb-8">
@@ -164,7 +166,7 @@ export default function SobrePage() {
                       className="bg-card border border-border rounded-lg p-8 text-center hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1 portrait:p-6"
                     >
                       <div className="w-16 h-16 bg-[var(--blue)]/10 rounded-full flex items-center justify-center mx-auto mb-4 portrait:w-14 portrait:h-14">
-                        <Icon className="w-8 h-8 text-[var(--blue)] portrait:w-7 portrait:h-7" />
+                        <Icon className="w-12 h-12 text-[var(--blue)] portrait:w-7 portrait:h-7" />
                       </div>
                       <h3 className="text-xl font-bold text-foreground mb-3 portrait:text-lg">
                         {value.title}
@@ -246,20 +248,15 @@ export default function SobrePage() {
                 >
                   <i className="fab fa-whatsapp text-2xl"></i>
                   <span className="ml-2">WhatsApp: (41) 99887-0606</span>
-                </a>
-                
-                <a
-                  href="tel:+554130298746"
-                  className="flex items-center justify-center bg-[var(--blue)] hover:bg-[var(--darkblue)] text-white px-8 py-3 rounded-md font-semibold transition-colors duration-300 gap-2 portrait:w-full"
-                >
-                  <i className="fas fa-phone"></i>
-                  <span>(41) 3029-8746</span>
-                </a>
+                </a>                
+               
               </div>
             </div>
           </div>
         </section>
       </main>
+
+      <Map />
       
       <Footer />
     </div>

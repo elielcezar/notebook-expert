@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import Map from "@/components/Map";
 import { 
   ShoppingCart, 
   RefreshCw, 
@@ -88,7 +89,17 @@ export default function CompraVendaPage() {
       <main className="landscape:pt-16">
         {/* Hero Section */}
         <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-28">
-          <div className="container mx-auto px-4">
+        
+        <div className="absolute inset-0 z-0">
+          <img 
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/hero-tech.jpg`}
+            alt="Assistência Técnica Profissional" 
+            className="absolute inset-0 w-full h-full object-cover"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--tech-blue-dark))]/95 via-[hsl(var(--tech-blue-dark))]/85 to-[hsl(var(--tech-blue-dark))]/70" />
+        </div>
+
+          <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
                 <div className="h-1 w-12 bg-accent rounded" />
@@ -110,11 +121,11 @@ export default function CompraVendaPage() {
           </div>
           
           {/* Decorative Bottom Gradient */}
-          <div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />
+          {/*<div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />*/}
         </section>
 
         {/* Main Content Section */}
-        <section className="py-16 portrait:py-12">
+        <section className="pt-16 portrait:py-12">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto">
               {/* Intro Text */}
@@ -134,10 +145,11 @@ export default function CompraVendaPage() {
                     <ShoppingCart className="w-8 h-8 text-white portrait:w-6 portrait:h-6" />
                   </div>
                   <h2 className="text-3xl font-bold text-foreground mb-4 portrait:text-2xl">
-                    Compre um Seminovo
+                    Compre um<br/>Seminovo
                   </h2>
                   <p className="text-muted-foreground mb-6 leading-relaxed portrait:text-sm">
-                    Equipamentos revisados por técnicos especializados, com garantia real de 12 meses. 
+                    <strong>Equipamentos revisados, com garantia real de 12 meses.</strong> 
+                    <br/>
                     Notebooks prontos para uso, formatados e otimizados, com opções de SSD e upgrades disponíveis.
                   </p>
                   <a 
@@ -160,8 +172,9 @@ export default function CompraVendaPage() {
                     Quer trocar de notebook?
                   </h2>
                   <p className="text-muted-foreground mb-6 leading-relaxed portrait:text-sm">
-                    <span className="font-semibold text-foreground">Nós aceitamos o seu usado como parte do pagamento!</span> Fazemos 
-                    uma avaliação justa e transparente, para que você possa sair com um modelo mais novo e potente sem pesar no bolso.
+                    <strong>Nós aceitamos o seu usado como parte do pagamento!</strong> 
+                    <br/>
+                    Fazemos uma avaliação justa e transparente, para que você possa sair com um modelo mais novo e potente sem pesar no bolso.
                   </p>
                   <a 
                     href="https://wa.me/5541998870606?text=Olá! Gostaria de vender ou trocar meu notebook usado."
@@ -179,11 +192,11 @@ export default function CompraVendaPage() {
         </section>
 
         {/* Why Buy Section */}
-        <section className="py-16 bg-muted/30 portrait:py-12">
+        <section className="py-16 bg-muted/30 portrait:py-12" style={{ backgroundImage: 'url(/bg-faq.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="text-center mb-12 portrait:mb-8">
-                <h2 className="text-4xl font-bold text-foreground mb-4 portrait:text-3xl">
+                <h2 className="text-4xl font-bold text-white mb-4 portrait:text-3xl">
                   Por que comprar conosco?
                 </h2>
                 <div className="h-1 w-24 bg-accent mx-auto rounded" />
@@ -198,7 +211,7 @@ export default function CompraVendaPage() {
                       className="bg-card border border-border rounded-lg p-6 text-center hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1 portrait:p-4"
                     >
                       <div className="w-16 h-16 bg-[var(--blue)]/10 rounded-full flex items-center justify-center mx-auto mb-4 portrait:w-12 portrait:h-12 portrait:mb-3">
-                        <Icon className="w-8 h-8 text-[var(--blue)] portrait:w-6 portrait:h-6" />
+                        <Icon className="w-12 h-12 text-[var(--blue)] portrait:w-6 portrait:h-6" />
                       </div>
                       <h3 className="font-bold text-lg mb-2 text-foreground portrait:text-base">
                         {benefit.title}
@@ -254,16 +267,51 @@ export default function CompraVendaPage() {
         </section>
 
         {/* Trust Badge Section */}
-        <section className="py-16 bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white portrait:py-12">
+        <section className="pt-16 pb-8 bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white portrait:py-12">
           <div className="container mx-auto px-4">
-            <div className="max-w-4xl mx-auto text-center">
-              <Award className="w-20 h-20 mx-auto mb-6 text-accent portrait:w-16 portrait:h-16 portrait:mb-4" />
-              <h2 className="text-4xl font-bold mb-6 portrait:text-3xl">
+            <div className="max-w-4xl mx-auto text-center">              
+              <h2 className="text-4xl font-bold text-primary-foreground mb-4">
                 Qualidade, confiança e garantia
               </h2>
+              <div className="h-1 w-24 bg-accent mx-auto mb-8 rounded" />
+          
               <p className="text-xl mb-8 text-white/90 portrait:text-base portrait:mb-6">
                 Tudo o que você procura em um notebook, com o atendimento de quem entende do assunto.
               </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 portrait:gap-6 mb-10">
+
+                <div className="text-center bg-primary-foreground/10 backdrop-blur-sm rounded-xl p-6 border border-primary-foreground/20">
+                  <div className="w-16 h-16 bg-[var(--blue)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Shield className="w-12 h-12 text-[var(--lightblue)]" />
+                  </div>
+                  <h3 className="font-bold text-xl mb-2">Garantia de 1 Ano</h3>
+                  <p className="text-primary-foreground/80 text-sm">
+                    Todos os seminovos com cobertura completa
+                  </p>
+                </div>
+
+                <div className="text-center bg-primary-foreground/10 backdrop-blur-sm rounded-xl p-6 border border-primary-foreground/20">
+                  <div className="w-16 h-16 bg-[var(--blue)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CheckCircle className="w-12 h-12 text-[var(--lightblue)]" />
+                  </div>
+                  <h3 className="font-bold text-xl mb-2">Testados e Revisados</h3>
+                  <p className="text-primary-foreground/80 text-sm">
+                    Inspeção rigorosa em todos os equipamentos
+                  </p>
+                </div>
+
+                <div className="text-center bg-primary-foreground/10 backdrop-blur-sm rounded-xl p-6 border border-primary-foreground/20">
+                  <div className="w-16 h-16 bg-[var(--blue)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <Award className="w-12 h-12 text-[var(--lightblue)]" />
+                  </div>
+                  <h3 className="font-bold text-xl mb-2">16 Anos de Experiência</h3>
+                  <p className="text-primary-foreground/80 text-sm">
+                    Referência em notebooks em Curitiba
+                  </p>
+                </div>
+              </div>
+
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a
                   href="https://wa.me/5541998870606?text=Olá! Gostaria de saber mais sobre compra e venda de notebooks."
@@ -272,61 +320,25 @@ export default function CompraVendaPage() {
                   className="btn-wpp mx-0"
                 >
                   <i className="fab fa-whatsapp text-2xl"></i>
-                  <span className="ml-2">WhatsApp: (41) 99887-0606</span>
+                  <span className="ml-2">(41) 99887-0606</span>
                 </a>
-                
-                <a
-                  href="tel:+554130298746"
-                  className="flex items-center justify-center bg-white hover:bg-gray-100 text-[var(--darkblue)] px-8 py-3 rounded-md font-semibold transition-colors duration-300 gap-2 portrait:w-full"
-                >
-                  <i className="fas fa-phone"></i>
-                  <span>(41) 3029-8746</span>
-                </a>
+              
               </div>
             </div>
           </div>
-        </section>
 
-        {/* Info Cards */}
-        <section className="py-16 portrait:py-12">
-          <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto">
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8 portrait:gap-6">
-                <div className="text-center p-6 bg-card border border-border rounded-lg">
-                  <div className="w-16 h-16 bg-[var(--blue)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Shield className="w-8 h-8 text-[var(--blue)]" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Garantia de 1 Ano</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Todos os seminovos com cobertura completa
-                  </p>
-                </div>
-
-                <div className="text-center p-6 bg-card border border-border rounded-lg">
-                  <div className="w-16 h-16 bg-[var(--blue)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <CheckCircle className="w-8 h-8 text-[var(--blue)]" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">Testados e Revisados</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Inspeção rigorosa em todos os equipamentos
-                  </p>
-                </div>
-
-                <div className="text-center p-6 bg-card border border-border rounded-lg">
-                  <div className="w-16 h-16 bg-[var(--blue)]/10 rounded-full flex items-center justify-center mx-auto mb-4">
-                    <Award className="w-8 h-8 text-[var(--blue)]" />
-                  </div>
-                  <h3 className="font-bold text-lg mb-2">16 Anos de Experiência</h3>
-                  <p className="text-muted-foreground text-sm">
-                    Referência em notebooks em Curitiba
-                  </p>
-                </div>
-              </div>
-            </div>
+          <div className="max-w-4xl mx-auto text-center mt-16">              
+              <h2 className="text-4xl font-bold text-primary-foreground mb-4">
+                Localização
+              </h2>
+              <div className="h-1 w-24 bg-accent mx-auto mb-0 rounded" />
           </div>
+         
+
         </section>
+       
       </main>
-      
+      <Map />
       <Footer />
     </div>
   );
