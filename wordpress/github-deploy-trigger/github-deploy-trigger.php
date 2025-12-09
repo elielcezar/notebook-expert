@@ -29,6 +29,17 @@ class GitHub_Deploy_Trigger {
         add_action('publish_post', [$this, 'trigger_deploy'], 10, 2);
         add_action('publish_page', [$this, 'trigger_deploy'], 10, 2);
         
+        // Hooks para edição (quando post já publicado é atualizado)
+        add_action('post_updated', [$this, 'trigger_deploy_on_update'], 10, 3);
+        
+        // Hooks para exclusão/movimento para lixeira
+        // before_delete_post captura status antes da exclusão permanente
+        add_action('before_delete_post', [$this, 'trigger_deploy_on_delete'], 10, 1);
+        // trashed_post captura quando move para lixeira (não exclusão permanente)
+        add_action('trashed_post', [$this, 'trigger_deploy_on_trash'], 10, 1);
+        add_action('untrashed_post', [$this, 'trigger_deploy_on_restore'], 10, 1);
+        add_action('untrashed_page', [$this, 'trigger_deploy_on_restore'], 10, 1);
+        
         // AJAX para teste manual
         add_action('wp_ajax_github_deploy_test', [$this, 'ajax_test_deploy']);
         add_action('wp_ajax_github_deploy_clear_log', [$this, 'ajax_clear_log']);
@@ -412,6 +423,144 @@ class GitHub_Deploy_Trigger {
         set_transient('github_deploy_triggered_' . $post_id, true, 60);
         
         $this->send_deploy_request($post->post_title, $post_id);
+    }
+    
+    /**
+     * Disparar deploy quando post publicado é editado
+     */
+    public function trigger_deploy_on_update($post_id, $post_after, $post_before) {
+        // Ignorar se não for post ou página
+        if (!in_array($post_after->post_type, ['post', 'page'])) {
+            return;
+        }
+        
+        // Ignorar revisões e autosaves
+        if (wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) {
+            return;
+        }
+        
+        // Só disparar se o post estava publicado antes E continua publicado
+        if ($post_before->post_status === 'publish' && $post_after->post_status === 'publish') {
+            // Verificar se houve mudança real (não apenas metadata)
+            if ($post_before->post_title !== $post_after->post_title || 
+                $post_before->post_content !== $post_after->post_content) {
+                
+                // Verificar configuração
+                $post_type = get_post_type($post_id);
+                if ($post_type === 'post' && !$this->get_option('trigger_posts', 1)) {
+                    return;
+                }
+                if ($post_type === 'page' && !$this->get_option('trigger_pages', 0)) {
+                    return;
+                }
+                
+                // Evitar múltiplos disparos
+                $transient_key = 'github_deploy_updated_' . $post_id;
+                if (get_transient($transient_key)) {
+                    return;
+                }
+                set_transient($transient_key, true, 60);
+                
+                $this->send_deploy_request("Edição: {$post_after->post_title}", $post_id);
+            }
+        }
+    }
+    
+    /**
+     * Disparar deploy quando post é excluído permanentemente
+     * Hook: before_delete_post (antes da exclusão permanente)
+     */
+    public function trigger_deploy_on_delete($post_id) {
+        $post = get_post($post_id);
+        
+        if (!$post) {
+            return;
+        }
+        
+        // Só disparar se era um post publicado (antes de ser deletado)
+        if ($post->post_status !== 'publish' && $post->post_status !== 'trash') {
+            return;
+        }
+        
+        // Verificar tipo e configuração
+        $post_type = get_post_type($post_id);
+        if ($post_type === 'post' && !$this->get_option('trigger_posts', 1)) {
+            return;
+        }
+        if ($post_type === 'page' && !$this->get_option('trigger_pages', 0)) {
+            return;
+        }
+        
+        // Evitar múltiplos disparos
+        $transient_key = 'github_deploy_deleted_' . $post_id;
+        if (get_transient($transient_key)) {
+            return;
+        }
+        set_transient($transient_key, true, 60);
+        
+        $this->send_deploy_request("Exclusão permanente: {$post->post_title}", $post_id);
+    }
+    
+    /**
+     * Disparar deploy quando post é movido para lixeira (não deletado permanentemente)
+     * Hook: trashed_post
+     */
+    public function trigger_deploy_on_trash($post_id) {
+        $post = get_post($post_id);
+        
+        if (!$post) {
+            return;
+        }
+        
+        // Verificar tipo e configuração
+        $post_type = get_post_type($post_id);
+        if ($post_type === 'post' && !$this->get_option('trigger_posts', 1)) {
+            return;
+        }
+        if ($post_type === 'page' && !$this->get_option('trigger_pages', 0)) {
+            return;
+        }
+        
+        // Evitar múltiplos disparos
+        $transient_key = 'github_deploy_trashed_' . $post_id;
+        if (get_transient($transient_key)) {
+            return;
+        }
+        set_transient($transient_key, true, 60);
+        
+        $this->send_deploy_request("Movido para lixeira: {$post->post_title}", $post_id);
+    }
+    
+    /**
+     * Disparar deploy quando post é restaurado da lixeira
+     */
+    public function trigger_deploy_on_restore($post_id) {
+        $post = get_post($post_id);
+        
+        if (!$post) {
+            return;
+        }
+        
+        // Verificar tipo e configuração
+        $post_type = get_post_type($post_id);
+        if ($post_type === 'post' && !$this->get_option('trigger_posts', 1)) {
+            return;
+        }
+        if ($post_type === 'page' && !$this->get_option('trigger_pages', 0)) {
+            return;
+        }
+        
+        // Só disparar se foi restaurado como publicado
+        if ($post->post_status === 'publish') {
+            // Evitar múltiplos disparos
+            $transient_key = 'github_deploy_restored_' . $post_id;
+            if (get_transient($transient_key)) {
+                return;
+            }
+            set_transient($transient_key, true, 60);
+            
+            $this->send_deploy_request("Restauração: {$post->post_title}", $post_id);
+        }
     }
     
     /**

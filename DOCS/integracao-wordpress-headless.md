@@ -61,7 +61,11 @@ Hostinger (novo.notebookexpert.com.br)
 **Localização:** `wordpress/github-deploy-trigger/`
 
 **Funcionalidades:**
-- Dispara webhook para GitHub Actions ao publicar posts
+- Dispara webhook para GitHub Actions em:
+  - ✅ Publicação de posts/páginas
+  - ✅ Edição de posts já publicados
+  - ✅ Exclusão/movimento para lixeira
+  - ✅ Restauração da lixeira
 - Página de configurações no admin (`Configurações > GitHub Deploy`)
 - Botão de teste manual
 - Log de atividades
@@ -233,13 +237,15 @@ npm run build
 
 ## 🚀 Fluxo Completo
 
+### Cenário 1: Publicação de Novo Post
+
 1. **Cliente publica post no WordPress**
    - Acessa `admin.notebookexpert.com.br`
-   - Cria/edita post
+   - Cria novo post
    - Clica em "Publicar"
 
 2. **Plugin dispara webhook**
-   - Plugin detecta publicação
+   - Hook `publish_post` detecta publicação
    - Envia requisição para GitHub API
    - Dispara `repository_dispatch` com tipo `wordpress_publish`
 
@@ -259,6 +265,47 @@ npm run build
 5. **Site atualizado**
    - Em ~3-5 minutos, post aparece no site
    - Acessível em `novo.notebookexpert.com.br/dicas/[slug]`
+
+### Cenário 2: Edição de Post Publicado
+
+1. **Cliente edita post existente**
+   - Abre post já publicado
+   - Faz alterações no título ou conteúdo
+   - Salva alterações
+
+2. **Plugin detecta mudanças**
+   - Hook `post_updated` compara versões
+   - Se houve mudança em título ou conteúdo, dispara webhook
+   - Mesmo fluxo de deploy (passos 3-5 acima)
+
+3. **Site atualizado**
+   - Post atualizado aparece no site em ~3-5 minutos
+
+### Cenário 3: Exclusão de Post
+
+1. **Cliente exclui post**
+   - Move post para lixeira OU exclui permanentemente
+   - Plugin detecta via hooks `trashed_post` ou `before_delete_post`
+
+2. **Deploy automático**
+   - Webhook disparado
+   - Build regenera site sem o post excluído
+   - Arquivo HTML do post é removido do servidor
+
+3. **Site atualizado**
+   - Post removido do site em ~3-5 minutos
+   - Acesso ao slug retorna 404
+
+### Cenário 4: Restauração da Lixeira
+
+1. **Cliente restaura post**
+   - Restaura post da lixeira
+   - Post volta ao status "Publicado"
+
+2. **Deploy automático**
+   - Hook `untrashed_post` detecta restauração
+   - Webhook disparado
+   - Post volta a aparecer no site
 
 ---
 
