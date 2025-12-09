@@ -46,60 +46,56 @@ export interface WordPressCategory {
 
 // Buscar todos os posts
 export async function getPosts(perPage: number = 100): Promise<WordPressPost[]> {
+  const url = `${WP_API_URL}/posts?per_page=${perPage}&_embed&status=publish`;
+  
   try {
-    const res = await fetch(`${WP_API_URL}/posts?per_page=${perPage}&_embed&status=publish`, {
-      cache: 'no-store' // Sempre buscar dados frescos durante o build
-    });
+    const res = await fetch(url);
 
     if (!res.ok) {
-      console.error(`WordPress API error: ${res.status} ${res.statusText}`);
-      return [];
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
     }
 
     return res.json();
   } catch (error) {
-    console.error('Error fetching posts:', error);
+    console.error('[WordPress] getPosts error:', error);
     return [];
   }
 }
 
 // Buscar todos os slugs dos posts (para generateStaticParams)
 export async function getAllPostSlugs(): Promise<string[]> {
+  const url = `${WP_API_URL}/posts?per_page=100&_fields=slug&status=publish`;
+  
   try {
-    // Buscar apenas os campos necessários para performance
-    const res = await fetch(`${WP_API_URL}/posts?per_page=100&_fields=slug&status=publish`, {
-      cache: 'no-store'
-    });
+    const res = await fetch(url);
 
     if (!res.ok) {
-      console.error(`WordPress API error: ${res.status} ${res.statusText}`);
-      return [];
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
     }
 
     const posts: { slug: string }[] = await res.json();
     return posts.map(post => post.slug);
   } catch (error) {
-    console.error('Error fetching post slugs:', error);
+    console.error('[WordPress] getAllPostSlugs error:', error);
     return [];
   }
 }
 
 // Buscar post individual por slug
 export async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
+  const url = `${WP_API_URL}/posts?slug=${encodeURIComponent(slug)}&_embed&status=publish`;
+  
   try {
-    const res = await fetch(`${WP_API_URL}/posts?slug=${encodeURIComponent(slug)}&_embed&status=publish`, {
-      cache: 'no-store'
-    });
+    const res = await fetch(url);
 
     if (!res.ok) {
-      console.error(`WordPress API error: ${res.status} ${res.statusText}`);
-      return null;
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
     }
 
     const posts = await res.json();
     return posts[0] || null;
   } catch (error) {
-    console.error('Error fetching post:', error);
+    console.error(`[WordPress] getPostBySlug(${slug}) error:`, error);
     return null;
   }
 }
@@ -107,18 +103,15 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
 // Buscar post individual por ID
 export async function getPostById(id: number): Promise<WordPressPost | null> {
   try {
-    const res = await fetch(`${WP_API_URL}/posts/${id}?_embed`, {
-      cache: 'no-store'
-    });
+    const res = await fetch(`${WP_API_URL}/posts/${id}?_embed`);
 
     if (!res.ok) {
-      console.error(`WordPress API error: ${res.status} ${res.statusText}`);
-      return null;
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
     }
 
     return res.json();
   } catch (error) {
-    console.error('Error fetching post:', error);
+    console.error(`[WordPress] getPostById(${id}) error:`, error);
     return null;
   }
 }
@@ -126,18 +119,15 @@ export async function getPostById(id: number): Promise<WordPressPost | null> {
 // Buscar todas as categorias
 export async function getCategories(): Promise<WordPressCategory[]> {
   try {
-    const res = await fetch(`${WP_API_URL}/categories?per_page=100&hide_empty=true`, {
-      cache: 'no-store'
-    });
+    const res = await fetch(`${WP_API_URL}/categories?per_page=100&hide_empty=true`);
 
     if (!res.ok) {
-      console.error(`WordPress API error: ${res.status} ${res.statusText}`);
-      return [];
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
     }
 
     return res.json();
   } catch (error) {
-    console.error('Error fetching categories:', error);
+    console.error('[WordPress] getCategories error:', error);
     return [];
   }
 }
