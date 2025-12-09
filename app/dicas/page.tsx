@@ -2,6 +2,8 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Calendar, User, ArrowRight } from "lucide-react";
+import { getPosts, extractPostData } from "@/lib/wordpress";
+import Link from "next/link";
 
 export const metadata: Metadata = {
   title: "Dicas e Artigos sobre Notebooks | Notebook Expert",
@@ -10,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Dicas e Artigos sobre Notebooks | Notebook Expert",
     description: "Dicas especializadas sobre manutenção, upgrade e cuidados com notebooks.",
-    url: "https://eliel.dev/clients/notebookexpert/dicas",
+    url: "https://novo.notebookexpert.com.br/dicas",
     type: "website",
     images: [
       {
@@ -23,21 +25,11 @@ export const metadata: Metadata = {
   },
 };
 
-// Posts estáticos (depois virá do WordPress)
-const posts = [
-  {
-    slug: "upgrade-ssd-velocidade-notebook",
-    title: "Upgrade de SSD – Mais velocidade para o seu notebook",
-    excerpt: "Seu notebook está lento, demorando para ligar ou abrindo programas devagar? O upgrade para SSD é a solução ideal para dar uma nova vida ao seu equipamento.",
-    image: "/blog.jpg",
-    date: "2024-11-18",
-    author: "Equipe Notebook Expert",
-    category: "Upgrades"
-  },
-  // Adicionar mais posts aqui futuramente
-];
+export default async function DicasPage() {
+  // Buscar posts do WordPress
+  const wpPosts = await getPosts();
+  const posts = wpPosts.map(extractPostData);
 
-export default function DicasPage() {
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -84,17 +76,17 @@ export default function DicasPage() {
           <div className="container mx-auto px-4">
             <div className="max-w-5xl mx-auto">
               <div className="space-y-8 portrait:space-y-6">
-                {posts.map((post, index) => (
+                {posts.map((post) => (
                   <article
-                    key={index}
+                    key={post.id}
                     className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1"
                   >
                     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-0 md:gap-6 portrait:gap-0">
                       {/* Image */}
                       <div className="relative h-32 md:h-auto w-full portrait:h-48">
                         <img
-                          src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${post.image}`}
-                          alt={post.title}
+                          src={post.featuredImage}
+                          alt={post.featuredImageAlt}
                           className="w-full h-full object-cover"
                         />
                         <div className="absolute top-4 left-4 bg-[var(--blue)] text-white px-3 py-1 rounded-full text-xs font-semibold">
@@ -122,9 +114,9 @@ export default function DicasPage() {
 
                         {/* Title */}
                         <h2 className="text-2xl font-bold text-foreground mb-3 hover:text-[var(--blue)] transition-colors portrait:text-xl portrait:mb-2">
-                          <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/dicas/${post.slug}`}>
+                          <Link href={`/dicas/${post.slug}`}>
                             {post.title}
-                          </a>
+                          </Link>
                         </h2>
 
                         {/* Excerpt */}
@@ -133,20 +125,20 @@ export default function DicasPage() {
                         </p>
 
                         {/* Read More Button */}
-                        <a
-                          href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/dicas/${post.slug}`}
+                        <Link
+                          href={`/dicas/${post.slug}`}
                           className="inline-flex items-center gap-2 text-[var(--blue)] hover:text-[var(--darkblue)] font-semibold transition-colors group"
                         >
                           Leia mais
                           <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </a>
+                        </Link>
                       </div>
                     </div>
                   </article>
                 ))}
               </div>
 
-              {/* Empty State para quando adicionar mais posts */}
+              {/* Empty State para quando não houver posts */}
               {posts.length === 0 && (
                 <div className="text-center py-16">
                   <p className="text-muted-foreground text-lg">
@@ -163,4 +155,3 @@ export default function DicasPage() {
     </div>
   );
 }
-

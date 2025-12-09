@@ -2,94 +2,48 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { Calendar, User, ArrowLeft, Phone, Clock } from "lucide-react";
-
-// Dados dos posts (depois virá do WordPress)
-const postsData: { [key: string]: any } = {
-  'upgrade-ssd-velocidade-notebook': {
-    title: "Upgrade de SSD – Mais velocidade para o seu notebook",
-    excerpt: "Seu notebook está lento, demorando para ligar ou abrindo programas devagar? O upgrade para SSD é a solução ideal.",
-    image: "/maintenance2.jpg",
-    date: "2024-11-18",
-    author: "Equipe Notebook Expert",
-    category: "Upgrades",
-    content: `
-      <p class="lead">Seu notebook está lento, demorando para ligar ou abrindo programas devagar?</p>
-      
-      <p>O upgrade para SSD é a solução ideal para dar uma nova vida ao seu equipamento, aumentando a velocidade e o desempenho de forma impressionante.</p>
-
-      <h2>O que é um SSD?</h2>
-      
-      <p>O SSD (Solid State Drive) é um tipo de armazenamento moderno que substitui o HD tradicional. Ele não possui partes móveis, o que o torna muito mais rápido, silencioso e resistente.</p>
-
-      <h2>Benefícios do Upgrade de SSD:</h2>
-      
-      <ul>
-        <li><strong>Inicialização do sistema até 10x mais rápida</strong></li>
-        <li>Programas e arquivos abrem em segundos</li>
-        <li>Mais durabilidade e resistência a impactos</li>
-        <li>Maior segurança para seus dados</li>
-        <li>Menor consumo de energia</li>
-      </ul>
-
-      <h2>Instalação profissional e segura</h2>
-      
-      <p>Na <strong>Notebook Expert</strong>, realizamos o upgrade de SSD com todo o cuidado técnico necessário. Fazemos a migração completa dos seus dados e sistema, para que você receba o notebook pronto para uso — rápido, otimizado e sem perder nada.</p>
-
-      <h3>Indicado para:</h3>
-      
-      <ul>
-        <li>Notebooks lentos ou travando</li>
-        <li>Equipamentos com HD antigo</li>
-        <li>Usuários que querem mais agilidade e desempenho</li>
-      </ul>
-
-      <h2>Resultados imediatos</h2>
-      
-      <p>Após o upgrade, o notebook liga em segundos, responde mais rápido e ganha anos a mais de vida útil. É o melhor custo-benefício para quem quer desempenho de notebook novo sem precisar comprar um.</p>
-
-    `
-  }
-};
+import { Calendar, User, Phone, Clock } from "lucide-react";
+import { getPostBySlug, getAllPostSlugs, extractPostData } from "@/lib/wordpress";
+import { notFound } from "next/navigation";
 
 // Esta função define quais slugs devem ser gerados estaticamente
 export async function generateStaticParams() {
-  // Retorna todos os slugs disponíveis
-  const slugs = Object.keys(postsData);
+  const slugs = await getAllPostSlugs();
   return slugs.map((slug) => ({
     slug: slug,
   }));
 }
 
-// Força geração estática
+// Força geração estática - posts novos só aparecem após rebuild
 export const dynamicParams = false;
 
 // Metadata dinâmica para cada post
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
-  const post = postsData[slug];
+  const wpPost = await getPostBySlug(slug);
   
-  if (!post) {
+  if (!wpPost) {
     return {
       title: "Post não encontrado | Notebook Expert"
     };
   }
 
+  const post = extractPostData(wpPost);
+
   return {
     title: `${post.title} | Dicas Notebook Expert`,
     description: post.excerpt,
-    keywords: "upgrade SSD, notebook lento, melhorar desempenho notebook, trocar HD por SSD",
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      url: `https://eliel.dev/clients/notebookexpert/dicas/${slug}`,
+      url: `https://novo.notebookexpert.com.br/dicas/${slug}`,
       type: "article",
       images: [
         {
-          url: post.image,
+          url: post.featuredImage,
           width: 1200,
           height: 630,
-          alt: post.title,
+          alt: post.featuredImageAlt,
         },
       ],
     },
@@ -98,82 +52,54 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 
 export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
-  const post = postsData[slug];
+  const wpPost = await getPostBySlug(slug);
 
   // Se o post não existir, mostrar 404
-  if (!post) {
-    return (
-      <div className="min-h-screen bg-background">
-        <Header />
-        <main className="container mx-auto px-4 py-20 text-center">
-          <h1 className="text-4xl font-bold mb-4">Post não encontrado</h1>
-          <Link href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/dicas`} className="text-[var(--blue)] hover:underline">
-            Voltar para Dicas
-          </Link>
-        </main>
-        <Footer />
-      </div>
-    );
+  if (!wpPost) {
+    notFound();
   }
+
+  const post = extractPostData(wpPost);
 
   return (
     <div className="min-h-screen bg-background">
       <Header />
-
-      
       
       <main className="landscape:pt-16 min-h-screen">
 
         {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-28">
-
-<div className="absolute inset-0 z-0">
-    <img 
-      src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/hero-tech.jpg`}
-      alt="Assistência Técnica Profissional" 
-      className="absolute inset-0 w-full h-full object-cover"
-    />
-    <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--tech-blue-dark))]/95 via-[hsl(var(--tech-blue-dark))]/85 to-[hsl(var(--tech-blue-dark))]/70" />
-  </div>
-
-    <div className="container mx-auto px-4 relative z-10">
-    <div className="container mx-auto px-4">
-      <div className="max-w-4xl mx-auto text-center">
-        <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
-          <div className="h-1 w-12 bg-accent rounded" />
-          <span className="text-accent font-semibold text-sm uppercase tracking-wider">
-            Conhecimento Especializado
-          </span>
-          <div className="h-1 w-12 bg-accent rounded" />
-        </div>
-        
-        <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
-          Dicas e Artigos
-        </h1>
-        
-        <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
-          Aprenda com quem tem 16 anos de experiência em manutenção e reparo de notebooks.
-        </p>
-      </div>
-    </div>
-    </div>
-    
-    {/* Decorative Bottom Gradient */}
-    {/*<div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />*/}
-  </section>
-
-        {/* Breadcrumb / Back Link */}
-        {/*<section className="bg-muted/30 py-4 portrait:pt-20">
-          <div className="container mx-auto px-4">
-            <Link 
-              href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/dicas`}
-              className="inline-flex items-center gap-2 text-[var(--blue)] hover:text-[var(--darkblue)] font-medium transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Voltar para Dicas
-            </Link>
+        <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-28">
+          <div className="absolute inset-0 z-0">
+            <img 
+              src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/hero-tech.jpg`}
+              alt="Assistência Técnica Profissional" 
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+            <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--tech-blue-dark))]/95 via-[hsl(var(--tech-blue-dark))]/85 to-[hsl(var(--tech-blue-dark))]/70" />
           </div>
-        </section>*/}
+
+          <div className="container mx-auto px-4 relative z-10">
+            <div className="container mx-auto px-4">
+              <div className="max-w-4xl mx-auto text-center">
+                <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
+                  <div className="h-1 w-12 bg-accent rounded" />
+                  <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+                    Conhecimento Especializado
+                  </span>
+                  <div className="h-1 w-12 bg-accent rounded" />
+                </div>
+                
+                <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
+                  Dicas e Artigos
+                </h1>
+                
+                <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
+                  Aprenda com quem tem 16 anos de experiência em manutenção e reparo de notebooks.
+                </p>
+              </div>
+            </div>
+          </div>
+        </section>
 
         {/* Post Content */}
         <section className="py-16 portrait:py-8">
@@ -213,15 +139,15 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                   {/* Featured Image */}
                   <div className="relative w-full h-[400px] mb-8 rounded-lg overflow-hidden portrait:h-[250px]">
                     <img
-                      src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}${post.image}`}
-                      alt={post.title}
+                      src={post.featuredImage}
+                      alt={post.featuredImageAlt}
                       className="w-full h-full object-cover"
                     />
                   </div>
 
                   {/* Content */}
                   <div 
-                    className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground prose-h2:text-3xl prose-h2:font-bold prose-h2:mb-4 prose-h2:mt-8 prose-h3:text-2xl prose-h3:font-bold prose-h3:mb-3 prose-h3:mt-6 prose-ul:my-4 prose-li:my-2 portrait:prose-base"
+                    className="prose prose-lg max-w-none prose-headings:text-foreground prose-p:text-muted-foreground prose-strong:text-foreground prose-li:text-muted-foreground prose-h2:text-3xl prose-h2:font-bold prose-h2:mb-4 prose-h2:mt-8 prose-h3:text-2xl prose-h3:font-bold prose-h3:mb-3 prose-h3:mt-6 prose-ul:my-4 prose-li:my-2 portrait:prose-base prose-a:text-[var(--blue)] prose-a:no-underline hover:prose-a:underline prose-img:rounded-lg"
                     dangerouslySetInnerHTML={{ __html: post.content }}
                   />
 
@@ -270,47 +196,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                     </a>
                   </div>
 
-                  {/* Services Card */}
-                  {/*<div className="bg-card border border-border rounded-lg p-6 portrait:p-4">
-                    <h3 className="text-xl font-bold text-foreground mb-4 portrait:text-lg">
-                      Outros Serviços
-                    </h3>
-                    <ul className="space-y-2 text-sm">
-                      <li>
-                        <Link 
-                          href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`}
-                          className="text-[var(--blue)] hover:text-[var(--darkblue)] transition-colors"
-                        >
-                          → Reparo de Placa-Mãe
-                        </Link>
-                      </li>
-                      <li>
-                        <Link 
-                          href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`}
-                          className="text-[var(--blue)] hover:text-[var(--darkblue)] transition-colors"
-                        >
-                          → Troca de Tela
-                        </Link>
-                      </li>
-                      <li>
-                        <Link 
-                          href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`}
-                          className="text-[var(--blue)] hover:text-[var(--darkblue)] transition-colors"
-                        >
-                          → Limpeza e Manutenção
-                        </Link>
-                      </li>
-                      <li>
-                        <Link 
-                          href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`}
-                          className="text-[var(--blue)] hover:text-[var(--darkblue)] transition-colors font-semibold"
-                        >
-                          → Ver Todos os Serviços
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>*/}
-
                   {/* Banner Placeholder */}
                   <div className="bg-gradient-to-br from-[var(--blue)]/10 to-[var(--lightblue)]/10 border-2 border-dashed border-[var(--blue)]/30 rounded-lg p-6 text-center portrait:p-4">
                     <p className="text-sm text-muted-foreground mb-2">Espaço para</p>
@@ -322,6 +207,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             </div>
           </div>
         </section>
+
         {/* CTA Section */}
         <section className="py-16 portrait:py-12 border-t-4 border-accent bg-slate-50" style={{ backgroundImage: 'url(/bg-faq2.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="container mx-auto px-4">
@@ -335,7 +221,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               
               <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
                 <a
-                  href="https://wa.me/5541998870606?text=Olá! Vi a página Sobre e gostaria de conhecer mais sobre os serviços."
+                  href="https://wa.me/5541998870606?text=Olá! Vi o artigo no site e gostaria de conhecer mais sobre os serviços."
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-wpp mx-0"
@@ -343,7 +229,6 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                   <i className="fab fa-whatsapp text-2xl"></i>
                   <span className="ml-2">WhatsApp: (41) 99887-0606</span>
                 </a>                
-               
               </div>
             </div>
           </div>
@@ -354,4 +239,3 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
     </div>
   );
 }
-

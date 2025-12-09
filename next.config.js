@@ -10,7 +10,14 @@ const nextConfig = {
   assetPrefix: basePath,
   
   images: {
-    unoptimized: true,   
+    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'admin.notebookexpert.com.br',
+        pathname: '/wp-content/uploads/**',
+      },
+    ],
   },
 
   compiler: {
