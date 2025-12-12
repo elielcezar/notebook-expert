@@ -176,6 +176,10 @@ All colors MUST be HSL.
   }
 }
 
+.page-content-dicas p img.aligncenter{
+  margin: 30px auto;
+}
+
 .btn-circle {
   width: 55px;
   height: 55px;
@@ -219,3 +223,4 @@ All colors MUST be HSL.
 .animate-infinite-scroll {
   animation: infinite-scroll 60s linear infinite;
 }
+

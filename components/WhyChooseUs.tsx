@@ -51,7 +51,7 @@ const WhyChooseUs = () => {
             </p>
             
             <p className="text-xl font-semibold text-primary">
-              Com equipe técnica qualificada, laboratório equipado e um padrão elevado de atendimento, somos hoje a assistência mais bem avaliada da Google em Curitiba, conquistando a confiança de clientes individuais e empresas que buscam um serviço seguro, rápido e profissional.
+              Com equipe técnica qualificada, laboratório equipado e um padrão elevado de atendimento, somos hoje a assistência mais bem avaliada da Google em Curitiba, conquistando a confiança de clientes individuais e empresas que buscam um serviço seguro, rápido e profissional. Mais de 90% dos defeitos tem reparo.
             </p>
 
             {/* Stats Cards */}

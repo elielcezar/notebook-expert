@@ -89,9 +89,9 @@ export default async function DicasPage() {
                           alt={post.featuredImageAlt}
                           className="w-full h-full object-cover"
                         />
-                        <div className="absolute top-4 left-4 bg-[var(--blue)] text-white px-3 py-1 rounded-full text-xs font-semibold">
+                        {/*<div className="absolute top-4 left-4 bg-[var(--blue)] text-white px-3 py-1 rounded-full text-xs font-semibold">
                           {post.category}
-                        </div>
+                        </div>*/}
                       </div>
 
                       {/* Content */}
@@ -121,7 +121,7 @@ export default async function DicasPage() {
 
                         {/* Excerpt */}
                         <p className="text-muted-foreground mb-4 leading-relaxed portrait:text-sm portrait:mb-3">
-                          {post.excerpt}
+                          {post.chamada}
                         </p>
 
                         {/* Read More Button */}

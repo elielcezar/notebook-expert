@@ -62,7 +62,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   const post = extractPostData(wpPost);
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-background page-content-dicas">
       <Header />
       
       <main className="landscape:pt-16 min-h-screen">
@@ -109,11 +109,11 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                 {/* Main Content */}
                 <article>
                   {/* Category Badge */}
-                  <div className="mb-4">
+                  {/*<div className="mb-4">
                     <span className="inline-block bg-[var(--blue)] text-white px-3 py-1 rounded-full text-xs font-semibold">
                       {post.category}
                     </span>
-                  </div>
+                  </div>*/}
 
                   {/* Title */}
                   <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4 portrait:text-3xl">
@@ -121,8 +121,13 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                   </h1>
 
                   {/* Meta */}
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-6 pb-6 border-b border-border portrait:flex-wrap">
-                    <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-9 pb-3 border-b border-border portrait:flex-wrap">
+                    {post.chamada && (
+                      <div className="text-muted-foreground mb-4 leading-relaxed text-xl italic leading-6 portrait:text-sm portrait:mb-3">
+                        <span>{post.chamada}</span>
+                      </div>
+                    )}
+                    {/*<div className="flex items-center gap-1">
                       <Calendar className="w-4 h-4" />
                       <span>{new Date(post.date).toLocaleDateString('pt-BR', { 
                         day: '2-digit', 
@@ -133,17 +138,17 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                     <div className="flex items-center gap-1">
                       <User className="w-4 h-4" />
                       <span>{post.author}</span>
-                    </div>
+                    </div>*/}
                   </div>
 
                   {/* Featured Image */}
-                  <div className="relative w-full h-[400px] mb-8 rounded-lg overflow-hidden portrait:h-[250px]">
+                  {/*<div className="relative w-full h-[400px] mb-8 rounded-lg overflow-hidden portrait:h-[250px]">
                     <img
                       src={post.featuredImage}
                       alt={post.featuredImageAlt}
                       className="w-full h-full object-cover"
                     />
-                  </div>
+                  </div>*/}
 
                   {/* Content */}
                   <div 

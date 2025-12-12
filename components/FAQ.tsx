@@ -13,19 +13,19 @@ const FAQ = () => {
   const faqs = [
     {
       question: "Meu notebook não liga. O que pode ser?",
-      answer: "Pode ser bateria, carregador, entrada de energia ou placa-mãe. Precisamos avaliar para identificar a falha."
+      answer: "Pode ser bateria, carregador, entrada de energia ou placa-mãe. É necessário uma análise técnica para identificar a falha."
     },
     {
       question: "Tem imagem, mas a tela fica preta. E agora?",
-      answer: "Geralmente é problema na memória, vídeo ou placa-mãe. Diagnóstico rápido no laboratório."
+      answer: "O problema pode ser em diversos componentes como: memória, vídeo, placa-mãe, cabo flat, tela, chip de vídeo ou placa mãe. Diagnóstico rápido no laboratório."
     },
     {
-      question: "Está esquentando e fazendo barulho. Normal?",
-      answer: "Não. Precisa de limpeza interna e pasta térmica. Recomendado a cada 6–12 meses."
+      question: "Está esquentando e fazendo barulho, é normal?",
+      answer: "Não. É preciso fazer a limpeza interna e a troca da pasta térmica. Recomendado a cada 6–12 meses."
     },
     {
       question: "Está muito lento. Dá para melhorar?",
-      answer: "Sim! Upgrade para SSD e RAM costuma deixar até 10x mais rápido."
+      answer: "Sim! Fazendo o upgrade de SSD e RAM a velocidade do notebook aumenta em até 10x."
     },
     {
       question: "Não carrega a bateria. O que pode ser?",
@@ -33,7 +33,7 @@ const FAQ = () => {
     },
     {
       question: "Derramei líquido. O que fazer?",
-      answer: "Desligue na hora e não tente ligar. Traga urgente para evitar dano na placa."
+      answer: "Desligue na hora e não tente ligar. Traga urgente para evitar dano na placa. Leve o notebook o mais rápido possível para o processo de banho químico."
     },
     {
       question: "Tela quebrou. Conserta?",
@@ -41,15 +41,15 @@ const FAQ = () => {
     },
     {
       question: "Quanto tempo leva para consertar?",
-      answer: "Diagnóstico em até 24h. Prazo do reparo varia conforme a peça."
+      answer: "O prazo do reparo varia com a disponibilidade de componentes e peças em estoque."
+    },    
+    {
+      question: "Fazem orçamento?",
+      answer: "Sim, é feito o diagnóstico e orçamento antes da execução do serviço."
     },
     {
       question: "Tem garantia?",
       answer: "Sim! Garantia conforme o tipo de serviço de 6 meses a 1 ano."
-    },
-    {
-      question: "Fazem orçamento?",
-      answer: "Sim, orçamento com diagnóstico técnico antes do serviço."
     }
   ];
 

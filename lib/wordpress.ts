@@ -8,6 +8,9 @@ export interface WordPressPost {
   title: {
     rendered: string;
   };
+  acf: {
+    chamada: string;
+  };
   content: {
     rendered: string;
   };
@@ -142,6 +145,7 @@ export function extractPostData(post: WordPressPost) {
     id: post.id,
     slug: post.slug,
     title: post.title.rendered,
+    chamada: post.acf.chamada,
     content: post.content.rendered,
     excerpt: post.excerpt.rendered.replace(/<[^>]*>/g, '').trim(), // Remove HTML tags
     date: post.date,
