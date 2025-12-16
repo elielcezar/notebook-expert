@@ -46,7 +46,7 @@ const Header = () => {
   return (
     <header className="fixed top-0 left-0 right-0 z-[100] bg-background/95 backdrop-blur-sm border-b border-border">
       <nav className="container mx-auto px-4 py-4">
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-between portrait:flex-col portrait:items-center portrait:gap-4">
           {/* Logo */}          
           <div className="flex items-center gap-2">      
             <Link href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/`}>      
@@ -62,26 +62,7 @@ const Header = () => {
 
           {/* Desktop Navigation Menu */}
           <NavigationMenu className="hidden lg:flex">
-            <NavigationMenuList>
-              
-              {/*<NavigationMenuItem>
-                <NavigationMenuTrigger>Serviços</NavigationMenuTrigger>
-                  <NavigationMenuContent className="right-0 left-auto">
-                    <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2">
-                      {services.map((service, index) => {
-                        const Icon = service.icon;
-                        return (
-                          <li key={index}>
-                            <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`} className="group flex items-center gap-2 select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground">
-                              <Icon className="w-8 h-8 flex-shrink-0 text-[var(--blue)] group-hover:text-white" />
-                              <div className="text-sm font-medium leading-none">{service.text}</div>
-                            </NavigationMenuLink>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </NavigationMenuContent>
-                </NavigationMenuItem>*/}
+            <NavigationMenuList>           
 
                 <NavigationMenuItem>
                   <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
@@ -96,8 +77,8 @@ const Header = () => {
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href="#" className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
-                    Antes & Depois
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/franquia`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                    Franquia
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
@@ -123,14 +104,20 @@ const Header = () => {
           </NavigationMenu>
 
           {/* Client Area Button */}
-          <a href="#contact" className="btn-primary text-sm px-4 portrait:hidden hidden lg:flex">
+          {/*<a href="#contact" className="btn-primary text-sm px-4 portrait:hidden hidden lg:flex">
               <i className="fa-regular fa-circle-user text-xl"></i>
               <span className="ml-2 ">Área do Cliente</span>
-          </a>
+          </a>*/}
+
+          <div className="flex items-center gap-1">
+            <i className="fab fa-whatsapp text-xl"></i>
+            <strong className="text-md">Ligue Agora:</strong>
+            <span>(41) 99887-0606</span>
+          </div>
 
           {/* Mobile Menu Button */}
           <button
-            className="lg:hidden"
+            className="lg:hidden absolute right-4 top-6"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
           >
             {isMenuOpen ? (
@@ -153,8 +140,8 @@ const Header = () => {
                 <a href="#" className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
                   Atendimento Empresarial
                 </a>
-                <a href="#" className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
-                  Antes & Depois
+                <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/franquia`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
+                  Franquia
                 </a>
                 <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/compra-venda`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
                   Compra & Venda
@@ -163,28 +150,6 @@ const Header = () => {
                   Dicas
                 </a>
                 
-                {/* Serviços Submenu */}
-                <div className="border-t border-border pt-2 mt-2">
-                  <a 
-                    href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`}
-                    className="text-sm font-semibold text-[var(--blue)] px-4 mb-2 block hover:text-[var(--darkblue)]"
-                  >
-                    Ver Todos os Serviços →
-                  </a>
-                  {services.map((service, index) => {
-                    const Icon = service.icon;
-                    return (
-                      <a 
-                        key={index}
-                        href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`}
-                        className="text-sm text-foreground hover:text-accent py-2 px-6 flex items-center gap-2 hover:bg-accent/10 rounded-md transition-colors"
-                      >
-                        <Icon className="w-4 h-4 flex-shrink-0" />
-                        {service.text}
-                      </a>
-                    );
-                  })}
-                </div>
               </div>
 
               <a href="#contact" className="btn-primary text-[17px] px-4 text-center">
