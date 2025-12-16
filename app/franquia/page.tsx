@@ -117,11 +117,7 @@ export default function ServicosPage() {
               <div className="flex items-start justify-center gap-12 portrait:flex-col-reverse">
                 
               <div 
-                className="flex-1"
-                initial={{ opacity: 0, x: -60 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.6, delay: 0.3 }}
+                className="flex-1"              
               > 
 
                 <div className="space-y-4">
@@ -144,11 +140,7 @@ export default function ServicosPage() {
                 </div>
 
                 <div 
-                  className="flex-1 max-w-md flex items-center justify-center relative min-h-[520px] md:min-h-[620px] rounded-2xl overflow-hidden"
-                  initial={{ opacity: 0, x: 60 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.6, delay: 0.3 }}
+                  className="flex-1 max-w-md flex items-center justify-center relative min-h-[520px] md:min-h-[620px] rounded-2xl overflow-hidden"                
                 >            
                   <img 
                     src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/franquia.png`}
