@@ -9,60 +9,75 @@ import {
   AccordionTrigger,
 } from "@/components/ui/accordion";
 
-const FAQ = () => {
-  const faqs = [
+interface FAQItem {
+  pergunta: string;
+  resposta: string;
+}
+
+interface FAQProps {
+  title?: string;
+  description?: string;
+  items?: FAQItem[];
+}
+
+const FAQ = ({ title, description, items }: FAQProps) => {
+  const defaultFaqs: FAQItem[] = [
     {
-      question: "Meu notebook não liga. O que pode ser?",
-      answer: "Pode ser bateria, carregador, entrada de energia ou placa-mãe. É necessário uma análise técnica para identificar a falha."
+      pergunta: "Meu notebook não liga. O que pode ser?",
+      resposta: "Pode ser bateria, carregador, entrada de energia ou placa-mãe. É necessário uma análise técnica para identificar a falha."
     },
     {
-      question: "Tem imagem, mas a tela fica preta. E agora?",
-      answer: "O problema pode ser em diversos componentes como: memória, vídeo, placa-mãe, cabo flat, tela, chip de vídeo ou placa mãe. Diagnóstico rápido no laboratório."
+      pergunta: "Tem imagem, mas a tela fica preta. E agora?",
+      resposta: "O problema pode ser em diversos componentes como: memória, vídeo, placa-mãe, cabo flat, tela, chip de vídeo ou placa mãe. Diagnóstico rápido no laboratório."
     },
     {
-      question: "Está esquentando e fazendo barulho, é normal?",
-      answer: "Não. É preciso fazer a limpeza interna e a troca da pasta térmica. Recomendado a cada 6–12 meses."
+      pergunta: "Está esquentando e fazendo barulho, é normal?",
+      resposta: "Não. É preciso fazer a limpeza interna e a troca da pasta térmica. Recomendado a cada 6–12 meses."
     },
     {
-      question: "Está muito lento. Dá para melhorar?",
-      answer: "Sim! Fazendo o upgrade de SSD e RAM a velocidade do notebook aumenta em até 10x."
+      pergunta: "Está muito lento. Dá para melhorar?",
+      resposta: "Sim! Fazendo o upgrade de SSD e RAM a velocidade do notebook aumenta em até 10x."
     },
     {
-      question: "Não carrega a bateria. O que pode ser?",
-      answer: "Pode ser carregador, bateria ou entrada de energia. Testamos tudo para confirmar."
+      pergunta: "Não carrega a bateria. O que pode ser?",
+      resposta: "Pode ser carregador, bateria ou entrada de energia. Testamos tudo para confirmar."
     },
     {
-      question: "Derramei líquido. O que fazer?",
-      answer: "Desligue na hora e não tente ligar. Traga urgente para evitar dano na placa. Leve o notebook o mais rápido possível para o processo de banho químico."
+      pergunta: "Derramei líquido. O que fazer?",
+      resposta: "Desligue na hora e não tente ligar. Traga urgente para evitar dano na placa. Leve o notebook o mais rápido possível para o processo de banho químico."
     },
     {
-      question: "Tela quebrou. Conserta?",
-      answer: "Sim, fazemos troca de tela para diversas marcas."
+      pergunta: "Tela quebrou. Conserta?",
+      resposta: "Sim, fazemos troca de tela para diversas marcas."
     },
     {
-      question: "Quanto tempo leva para consertar?",
-      answer: "O prazo do reparo varia com a disponibilidade de componentes e peças em estoque."
+      pergunta: "Quanto tempo leva para consertar?",
+      resposta: "O prazo do reparo varia com a disponibilidade de componentes e peças em estoque."
     },    
     {
-      question: "Fazem orçamento?",
-      answer: "Sim, é feito o diagnóstico e orçamento antes da execução do serviço."
+      pergunta: "Fazem orçamento?",
+      resposta: "Sim, é feito o diagnóstico e orçamento antes da execução do serviço."
     },
     {
-      question: "Tem garantia?",
-      answer: "Sim! Garantia conforme o tipo de serviço de 6 meses a 1 ano."
+      pergunta: "Tem garantia?",
+      resposta: "Sim! Garantia conforme o tipo de serviço de 6 meses a 1 ano."
     }
   ];
+
+  const displayTitle = title || "Perguntas Frequentes";
+  const displayDescription = description || "Tire suas dúvidas sobre nossos serviços de assistência técnica";
+  const displayItems = items && items.length > 0 ? items : defaultFaqs;
 
   return (
     <section className="pt-20 pb-12 bg-primary text-primary-foreground" style={{ backgroundImage: 'url(/bg-faq.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-4xl md:text-5xl font-bold text-primary-foreground mb-4">
-            Perguntas Frequentes
+            {displayTitle}
           </h2>
           <div className="h-1 w-24 bg-accent mx-auto mb-6 rounded" />
           <p className="text-lg text-primary-foreground max-w-3xl mx-auto">
-            Tire suas dúvidas sobre nossos serviços de assistência técnica
+            {displayDescription}
           </p>
         </div>
 
@@ -75,7 +90,7 @@ const FAQ = () => {
 
         <div className="max-w-4xl mx-auto">
           <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
+            {displayItems.map((faq, index) => (
               <AccordionItem 
                 key={index} 
                 value={`item-${index}`}
@@ -83,11 +98,11 @@ const FAQ = () => {
               >
                 <AccordionTrigger className="group px-6 py-4 text-left hover:no-underline bg-accent hover:bg-[var(--darkblue)] text-white">
                   <span className="text-lg font-semibold text-foreground pr-4 group-hover:text-white text-white">
-                    {faq.question}
+                    {faq.pergunta}
                   </span>
                 </AccordionTrigger>
                 <AccordionContent className="px-6 py-8 text-primary">
-                  {faq.answer}
+                  {faq.resposta}
                 </AccordionContent>
               </AccordionItem>
             ))}
@@ -122,4 +137,3 @@ const FAQ = () => {
 };
 
 export default FAQ;
-

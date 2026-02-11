@@ -1,36 +1,45 @@
 'use client';
 
-import { Calendar, Settings, Shield, Zap, TrendingUp, Star } from "lucide-react";
+import { Calendar, Settings, Shield, Zap, TrendingUp, Star, type LucideIcon } from "lucide-react";
 import H2 from "./ui/H2";
 import { motion } from "framer-motion";
 
-const WhyChooseUs = () => {
-  const features = [
-    {
-      icon: Calendar,
-      text: "Mais de 16 anos de experiência"
-    },
-    {
-      icon: Settings,
-      text: "Laboratório técnico especializado"
-    },
-    {
-      icon: Shield,
-      text: "Peças de qualidade e garantia"
-    },
-    {
-      icon: Zap,
-      text: "Atendimento transparente e rápido"
-    },
-    {
-      icon: TrendingUp,
-      text: "Alta taxa de sucesso em reparo avançado"
-    },
-    {
-      icon: Star,
-      text: "Melhor avaliação no Google"
-    }
-  ];
+// Ícones padrão mapeados por índice (fallback)
+const defaultIcons: LucideIcon[] = [Calendar, Settings, Shield, Zap, TrendingUp, Star];
+
+// Dados hardcoded como fallback
+const fallbackTitle = "Por Que Escolher Nossa Assistência?";
+const fallbackContent = `
+  <p class="text-lg text-muted-foreground leading-relaxed mb-6">
+    Somos a melhor assistência técnica especializada em notebooks de Curitiba, reconhecida pela excelência no atendimento, alta taxa de sucesso em reparos e pelo compromisso absoluto com a qualidade.
+  </p>
+  <p class="text-xl font-semibold text-primary">
+    <strong>Com equipe técnica qualificada, laboratório equipado e um padrão elevado de atendimento, somos hoje a assistência mais bem avaliada da Google em Curitiba, conquistando a confiança de clientes individuais e empresas que buscam um serviço seguro, rápido e profissional. Mais de 90% dos defeitos tem reparo.</strong>
+  </p>
+`;
+const fallbackItems = [
+  "Mais de 16 anos de experiência",
+  "Laboratório técnico especializado",
+  "Peças de qualidade e garantia",
+  "Atendimento transparente e rápido",
+  "Alta taxa de sucesso em reparo avançado",
+  "Melhor avaliação no Google",
+];
+
+export interface WhyChooseUsProps {
+  title?: string;
+  content?: string;
+  items?: Array<{ icone: string | null; item: string }>;
+  featuredImage?: string;
+}
+
+const WhyChooseUs = ({ title, content, items, featuredImage }: WhyChooseUsProps) => {
+  const displayTitle = title || fallbackTitle;
+  const displayContent = content || fallbackContent;
+  const displayItems = items && items.length > 0
+    ? items.map(i => i.item)
+    : fallbackItems;
+  const displayImage = featuredImage || `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/about3.jpg`;
 
   return (
     <section id="sobre" className="py-20 portrait:py-0">
@@ -44,20 +53,14 @@ const WhyChooseUs = () => {
           transition={{ duration: 0.6, delay: 0.6 }}
         >         
 
-            <H2 title="Por Que Escolher Nossa Assistência?" marginBorder="mx-left" color="text-foreground" />
+            <H2 title={displayTitle} marginBorder="mx-left" color="text-foreground" />
             
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              Somos a melhor assistência técnica especializada em notebooks de Curitiba, reconhecida pela excelência no atendimento, alta taxa de sucesso em reparos e pelo compromisso absoluto com a qualidade.
-            </p>
-            
-            <p className="text-xl font-semibold text-primary">
-              Com equipe técnica qualificada, laboratório equipado e um padrão elevado de atendimento, somos hoje a assistência mais bem avaliada da Google em Curitiba, conquistando a confiança de clientes individuais e empresas que buscam um serviço seguro, rápido e profissional. Mais de 90% dos defeitos tem reparo.
-            </p>
+            <div dangerouslySetInnerHTML={{ __html: displayContent }} />
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-12">
-              {features.map((feature, index) => {
-                const Icon = feature.icon;
+              {displayItems.map((text, index) => {
+                const Icon = defaultIcons[index % defaultIcons.length];
                 return (
                   <div 
                     key={index} 
@@ -66,7 +69,7 @@ const WhyChooseUs = () => {
                     <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
                       <Icon className="w-7 h-7 text-accent" />
                     </div>              
-                    <p className="text-muted-foreground">{feature.text}</p>
+                    <p className="text-muted-foreground">{text}</p>
                   </div>
                 );
               })}
@@ -81,8 +84,8 @@ const WhyChooseUs = () => {
           transition={{ duration: 0.6 }}
         >        
           <img 
-            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/about3.jpg`}
-            alt="About" 
+            src={displayImage}
+            alt={displayTitle} 
             className="absolute inset-0 w-full h-full object-cover"
           />
         </motion.div>
@@ -93,4 +96,3 @@ const WhyChooseUs = () => {
 };
 
 export default WhyChooseUs;
-

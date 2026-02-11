@@ -3,56 +3,57 @@ import { ShieldCheck, TrendingUp, DollarSign, Database, AlertCircle } from "luci
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
 
-const Prevention = () => {
-  const benefits = [
+interface PreventionItem {
+  titulo: string;
+  descricao: string;
+}
+
+interface PreventionProps {
+  title?: string;
+  description?: string;
+  items?: PreventionItem[];
+  featuredImage?: string;
+}
+
+const Prevention = ({ title, description, items, featuredImage }: PreventionProps) => {
+  const defaultBenefits = [
     {
-      icon: AlertCircle,
-      title: "Evita superaquecimento",
-      description: "A poeira acumulada impede a ventilação, causando lentidão e danos à placa-mãe."
+      titulo: "Evita superaquecimento",
+      descricao: "A poeira acumulada impede a ventilação, causando lentidão e danos à placa-mãe."
     },
     {
-      icon: TrendingUp,
-      title: "Aumenta a vida útil",
-      description: "Limpezas periódicas e troca da pasta térmica reduzem o desgaste interno."
+      titulo: "Aumenta a vida útil",
+      descricao: "Limpezas periódicas e troca da pasta térmica reduzem o desgaste interno."
     },
     {
-      icon: ShieldCheck,
-      title: "Melhora o desempenho",
-      description: "Um sistema limpo e otimizado roda mais rápido e com menos travamentos."
+      titulo: "Melhora o desempenho",
+      descricao: "Um sistema limpo e otimizado roda mais rápido e com menos travamentos."
     },
     {
-      icon: Database,
-      title: "Reduz riscos de perda de dados",
-      description: "A prevenção ajuda a identificar problemas em HDs e SSDs antes que falhem."
+      titulo: "Reduz riscos de perda de dados",
+      descricao: "A prevenção ajuda a identificar problemas em HDs e SSDs antes que falhem."
     },
     {
-      icon: DollarSign,
-      title: "Economiza dinheiro",
-      description: "Corrigir um defeito no início é muito mais barato do que trocar peças danificadas."
+      titulo: "Economiza dinheiro",
+      descricao: "Corrigir um defeito no início é muito mais barato do que trocar peças danificadas."
     }
   ];
 
-  const dailyCare = [
-    "Evite usar o notebook sobre superfícies macias (como cama ou sofá). Elas bloqueiam a ventilação e causam superaquecimento.",
-    "Não mantenha o notebook sempre ligado na tomada. Isso reduz a vida útil da bateria.",
-    "Mantenha o teclado limpo e protegido. Poeira e migalhas podem danificar as teclas.",
-    "Use mochilas ou capas acolchoadas para transporte.",
-    "Faça backup regularmente para proteger seus dados."
-  ];
+  const displayTitle = title || "Por Que Fazer Manutenção Preventiva?";
+  const displayDescription = description || "A manutenção preventiva consiste em revisar e limpar o notebook antes que ocorram falhas, evitando danos mais sérios e gastos desnecessários.";
+  const displayItems = items && items.length > 0 ? items : defaultBenefits;
+  const displayFeaturedImage = featuredImage || `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/maintenance2.jpg`;
 
   return (
     <section className="py-20 bg-background">
       <div className="container mx-auto px-4">
-        {/* Preventive Maintenance */}
-        <div className="mb-20">
           <div className="text-center mb-12">
             <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-              Por Que Fazer Manutenção Preventiva?
+              {displayTitle}
             </h2>
             <div className="h-1 w-24 bg-accent mx-auto mb-6 rounded" />
             <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-              A manutenção preventiva consiste em revisar e limpar o notebook antes que ocorram falhas, 
-              evitando danos mais sérios e gastos desnecessários.
+              {displayDescription}
             </p>
           </div>
 
@@ -67,7 +68,7 @@ const Prevention = () => {
           > 
 
             <div className="space-y-4">
-              {benefits.map((benefit, index) => (
+              {displayItems.map((benefit, index) => (
                 <div 
                   key={index}
                   className="w-full flex items-center gap-4 bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:text-center"
@@ -76,8 +77,8 @@ const Prevention = () => {
                     {index + 1}
                   </span>
                   <div>
-                    <h3 className="text-lg font-semibold text-foreground mb-2 pt-1">{benefit.title}</h3>
-                    <p className="text-muted-foreground text-sm">{benefit.description}</p>
+                    <h3 className="text-lg font-semibold text-foreground mb-2 pt-1">{benefit.titulo}</h3>
+                    <p className="text-muted-foreground text-sm">{benefit.descricao}</p>
                   </div>
                 </div>
               ))}
@@ -93,8 +94,8 @@ const Prevention = () => {
               transition={{ duration: 0.6, delay: 0.3 }}
             >            
               <img 
-                src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/maintenance2.jpg`}
-                alt="Business" 
+                src={displayFeaturedImage}
+                alt={displayTitle} 
                 className="absolute inset-0 w-full h-full object-cover"
               />
             </motion.div>
@@ -112,37 +113,6 @@ const Prevention = () => {
             </button>     
           </div>
 
-        </div>
-
-        {/* Daily Care */}
-        <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-2xl p-8 md:p-12 border border-primary/10 max-w-5xl mx-auto">
-          <h2 className="text-3xl font-bold text-primary mb-6 text-center">
-            Cuidados Diários Que Fazem Diferença
-          </h2>
-          <p className="text-muted-foreground text-center mb-8 max-w-3xl mx-auto">
-            Além da manutenção técnica, algumas práticas simples ajudam a conservar o notebook no dia a dia:
-          </p>
-          
-          <motion.div             
-            initial={{ opacity: 0, y: 120 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.6 }}            
-          >  
-          <div className="space-y-4">
-            {dailyCare.map((tip, index) => (
-              <div 
-              key={index}
-              className="flex items-center gap-4 bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:text-center">
-                <span className="text-accent font-bold text-lg flex-shrink-0 w-8 h-8 bg-accent/10 rounded-full flex items-center justify-center portrait:mx-auto">
-                  {index + 1}
-                </span>
-                <p className="text-foreground pt-1">{tip}</p>
-              </div>
-            ))}
-          </div>
-          </motion.div>
-        </div>
       </div>
     </section>
   );

@@ -135,6 +135,102 @@ export async function getCategories(): Promise<WordPressCategory[]> {
   }
 }
 
+// Interface para páginas do WordPress (com campos ACF)
+export interface WordPressPage {
+  id: number;
+  slug: string;
+  title: {
+    rendered: string;
+  };
+  content: {
+    rendered: string;
+  };
+  excerpt: {
+    rendered: string;
+  };
+  featured_media: number;
+  acf: Record<string, unknown>;
+  _embedded?: {
+    'wp:featuredmedia'?: Array<{
+      source_url: string;
+      alt_text?: string;
+    }>;
+  };
+}
+
+// Buscar página individual por ID
+export async function getPageById(id: number): Promise<WordPressPage | null> {
+  try {
+    const res = await fetch(`${WP_API_URL}/pages/${id}?_embed`);
+
+    if (!res.ok) {
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error(`[WordPress] getPageById(${id}) error:`, error);
+    return null;
+  }
+}
+
+// Interface para Custom Post Type "Dica do Especialista"
+export interface WordPressExpertTip {
+  id: number;
+  slug: string;
+  title: {
+    rendered: string;
+  };
+  content: {
+    rendered: string;
+  };
+}
+
+// Buscar a dica do especialista mais recente
+export async function getLatestExpertTip(): Promise<WordPressExpertTip | null> {
+  try {
+    const res = await fetch(`${WP_API_URL}/dica_do_especialista?per_page=1&orderby=date&order=desc`);
+
+    if (!res.ok) {
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
+    }
+
+    const tips: WordPressExpertTip[] = await res.json();
+    return tips[0] || null;
+  } catch (error) {
+    console.error('[WordPress] getLatestExpertTip error:', error);
+    return null;
+  }
+}
+
+// Interface para Custom Post Type "Depoimento"
+export interface WordPressTestimonial {
+  id: number;
+  slug: string;
+  title: {
+    rendered: string;
+  };
+  content: {
+    rendered: string;
+  };
+}
+
+// Buscar depoimentos (últimos N)
+export async function getTestimonials(perPage: number = 12): Promise<WordPressTestimonial[]> {
+  try {
+    const res = await fetch(`${WP_API_URL}/depoimento?per_page=${perPage}&orderby=date&order=desc`);
+
+    if (!res.ok) {
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error('[WordPress] getTestimonials error:', error);
+    return [];
+  }
+}
+
 // Extrair dados úteis de um post
 export function extractPostData(post: WordPressPost) {
   // Extrair primeira categoria do post
@@ -145,7 +241,7 @@ export function extractPostData(post: WordPressPost) {
     id: post.id,
     slug: post.slug,
     title: post.title.rendered,
-    chamada: post.acf.chamada,
+    chamada: post.acf?.chamada || '',
     content: post.content.rendered,
     excerpt: post.excerpt.rendered.replace(/<[^>]*>/g, '').trim(), // Remove HTML tags
     date: post.date,

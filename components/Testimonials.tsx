@@ -3,37 +3,34 @@
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 
-const Testimonials = () => {
-  const testimonials = [
-    {
-      name: "Yulli Meireles",
-      role: "Empresária",
-      content: "Levei meu notebook para arrumar as dobradiças e o serviço ficou impecável. Super indico, atendimento e concerto rápido, super solicitos para explicar sobre o concerto!",
-      rating: 5,
-      location: "São Paulo, SP"
-    },
-    {
-      name: "Leonardo Della Costa",
-      role: "Professora",
-      content: "Atendimento excepcional e muita qualidade de seriedade na prestação de serviço. Recomendo!",
-      rating: 5,
-      location: "Belo Horizonte, MG"
-    },
-    {
-      name: "Álex Dias",
-      role: "Designer",
-      content: "Arrumaram 2 notebooks da minha família, ambos de reparo em placa.",
-      rating: 5,
-      location: "Rio de Janeiro, RJ"
-    },    
-    {
-      name: "Carlos Oliveira",
-      role: "Gestor de TI",
-      content: "Atendimento corporativo impecável. Cuidam de toda frota de notebooks da empresa com rapidez e qualidade.",
-      rating: 5,
-      location: "Brasília, DF"
-    }
-  ];
+// Dados hardcoded como fallback
+const fallbackTestimonials = [
+  {
+    name: "Yulli Meireles",
+    content: "Levei meu notebook para arrumar as dobradiças e o serviço ficou impecável. Super indico, atendimento e concerto rápido, super solicitos para explicar sobre o concerto!",
+  },
+  {
+    name: "Leonardo Della Costa",
+    content: "Atendimento excepcional e muita qualidade de seriedade na prestação de serviço. Recomendo!",
+  },
+  {
+    name: "Álex Dias",
+    content: "Arrumaram 2 notebooks da minha família, ambos de reparo em placa.",
+  },
+  {
+    name: "Carlos Oliveira",
+    content: "Atendimento corporativo impecável. Cuidam de toda frota de notebooks da empresa com rapidez e qualidade.",
+  },
+];
+
+export interface TestimonialsProps {
+  testimonials?: Array<{ name: string; content: string }>;
+}
+
+const Testimonials = ({ testimonials }: TestimonialsProps) => {
+  const displayTestimonials = testimonials && testimonials.length > 0
+    ? testimonials
+    : fallbackTestimonials;
 
   return (
     <section className="py-20 bg-muted/30">
@@ -49,7 +46,7 @@ const Testimonials = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-6xl mx-auto">
-          {testimonials.map((testimonial, index) => (
+          {displayTestimonials.map((testimonial, index) => (
             <motion.div             
               initial={{ opacity: 0, y: 120 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -69,7 +66,7 @@ const Testimonials = () => {
                     <div>
                         <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
                         <div className="flex text-yellow-500 text-sm">
-                        {[...Array(testimonial.rating)].map((_, i) => (
+                        {[...Array(5)].map((_, i) => (
                           <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
                         ))}
                         </div>

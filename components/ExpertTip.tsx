@@ -2,7 +2,19 @@
 import { Lightbulb } from "lucide-react";
 import { motion } from "framer-motion";
 
-const ExpertTip = () => {
+// Fallback
+const fallbackTitle = "Dica do Especialista";
+const fallbackContent = "A limpeza preventiva e a troca da pasta térmica a cada 12 meses aumentam significativamente a vida útil do seu notebook.";
+
+export interface ExpertTipProps {
+  title?: string;
+  content?: string;
+}
+
+const ExpertTip = ({ title, content }: ExpertTipProps) => {
+  const displayTitle = title || fallbackTitle;
+  const displayContent = content || fallbackContent;
+
   return (
     <section className="py-16 bg-accent/5">
       <div className="container mx-auto px-4">
@@ -26,8 +38,7 @@ const ExpertTip = () => {
                   <h3 className="text-2xl font-bold text-primary mb-4 flex items-center gap-2">
                     Dica do Especialista
                   </h3>
-                  <p>"A limpeza preventiva e a troca da pasta térmica a cada 12 meses aumentam 
-                  significativamente a vida útil do seu notebook."</p>
+                  <p>"{displayContent}"</p>
                 </blockquote>
               </div>
             </div>
