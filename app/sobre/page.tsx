@@ -1,8 +1,9 @@
 import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Award, Users, Target, Shield, Heart, Zap } from "lucide-react";
+import { Award, Users, Target, Shield, Heart, Zap, type LucideIcon } from "lucide-react";
 import Map from "@/components/Map";
+import { getPageById } from "@/lib/wordpress";
 
 export const metadata: Metadata = {
   title: "Sobre Nós | Notebook Expert - 16 Anos de Experiência",
@@ -24,24 +25,46 @@ export const metadata: Metadata = {
   },
 };
 
-export default function SobrePage() {
-  const values = [
-    {
-      icon: Shield,
-      title: "Confiança",
-      description: "Transparência total em cada serviço prestado, do diagnóstico à entrega."
-    },
-    {
-      icon: Heart,
-      title: "Compromisso",
-      description: "Cuidamos do seu notebook como se fosse nosso, com dedicação e responsabilidade."
-    },
-    {
-      icon: Zap,
-      title: "Agilidade",
-      description: "Atendimento rápido sem comprometer a qualidade dos serviços."
-    }
-  ];
+const defaultContent = `<h2 class="text-4xl md:text-5xl font-bold text-foreground mb-6">Quem Somos?</h2>
+<div class="h-1 w-24 bg-accent mx-left mb-8 rounded"></div>
+<p class="text-lg text-muted-foreground leading-relaxed mb-6">Somos uma assistência técnica especializada em notebooks e MacBooks, com mais de<span class="text-accent font-semibold"> 16 anos de experiência </span>no mercado. Atendemos pessoas físicas e empresas com agilidade, transparência e qualidade garantida, oferecendo soluções completas para todos os tipos de problemas em seu equipamento.</p>
+<p class="text-xl font-semibold text-primary">Nossa missão é cuidar do seu notebook como se fosse nosso, zelando pela qualidade e garantindo desempenho, segurança e principalmente durabilidade.</p>`;
+
+const valuesIcons: LucideIcon[] = [Shield, Heart, Zap];
+
+const defaultValues = [
+  {
+    title: "Confiança",
+    description: "Transparência total em cada serviço prestado, do diagnóstico à entrega."
+  },
+  {
+    title: "Compromisso",
+    description: "Cuidamos do seu notebook como se fosse nosso, com dedicação e responsabilidade."
+  },
+  {
+    title: "Agilidade",
+    description: "Atendimento rápido sem comprometer a qualidade dos serviços."
+  }
+];
+
+export default async function SobrePage() {
+  const sobrePage = await getPageById(137);
+
+  const pageTitle = sobrePage?.title.rendered || "Sobre Nós";
+  const mainContent = sobrePage?.content.rendered || defaultContent;
+
+  // Valores: se houver ACF valores, usar; senão fallback
+  const wpValues = sobrePage?.acf?.valores as Array<{ titulo: string; descricao: string }> | undefined;
+  const displayValues = wpValues && wpValues.length > 0
+    ? wpValues.map((v, i) => ({
+        title: v.titulo,
+        description: v.descricao,
+        icon: valuesIcons[i] || Shield,
+      }))
+    : defaultValues.map((v, i) => ({
+        ...v,
+        icon: valuesIcons[i] || Shield,
+      }));
 
   return (
     <div className="min-h-screen bg-background">
@@ -72,7 +95,7 @@ export default function SobrePage() {
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
-                Sobre Nós
+                {pageTitle}
               </h1>
               
               <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
@@ -90,22 +113,7 @@ export default function SobrePage() {
         <div className="container mx-auto px-4 flex portrait:flex-col gap-12">       
 
           <div className="flex-1 max-w-4xl mx-auto text-left">
-            <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-              Quem Somos?
-            </h2>
-            <div className="h-1 w-24 bg-accent mx-left mb-8 rounded" />
-            
-            <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-              Somos uma assistência técnica especializada em notebooks e MacBooks, com mais de 
-              <span className="text-accent font-semibold"> 16 anos de experiência </span>
-              no mercado. Atendemos pessoas físicas e empresas com agilidade, transparência e qualidade garantida, 
-              oferecendo soluções completas para todos os tipos de problemas em seu equipamento.
-            </p>
-            
-            <p className="text-xl font-semibold text-primary">
-              Nossa missão é cuidar do seu notebook como se fosse nosso, zelando pela qualidade e 
-              garantindo desempenho, segurança e principalmente durabilidade.
-            </p>
+            <div dangerouslySetInnerHTML={{ __html: mainContent }} />
 
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-5xl mx-auto mt-12">
@@ -138,7 +146,7 @@ export default function SobrePage() {
           <div className="flex-1 max-w-lg flex items-center justify-center relative min-h-[500px] md:min-h-[600px] rounded-2xl overflow-hidden">
             <img 
               src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/about3.jpg`}
-              alt="About" 
+              alt={pageTitle} 
               className="absolute inset-0 w-full h-full object-cover"
             />
           </div>
@@ -158,7 +166,7 @@ export default function SobrePage() {
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-3 gap-8 portrait:gap-6">
-                {values.map((value, index) => {
+                {displayValues.map((value, index) => {
                   const Icon = value.icon;
                   return (
                     <div
@@ -262,4 +270,3 @@ export default function SobrePage() {
     </div>
   );
 }
-

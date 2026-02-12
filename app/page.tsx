@@ -16,7 +16,7 @@ import { getPageById, getLatestExpertTip, getTestimonials } from "@/lib/wordpres
 
 export default async function Home() {
   // Buscar dados do WordPress em paralelo
-  const [whyChooseUsPage, servicesPage, businessPage, expertTip, wpTestimonials, preventionPage, dailyCarePage, faqPage] = await Promise.all([
+  const [whyChooseUsPage, servicesPage, businessPage, expertTip, wpTestimonials, preventionPage, dailyCarePage, faqPage, brandsPage] = await Promise.all([
     getPageById(42), // "Por Que Escolher Nossa Assistência?"
     getPageById(57), // "Serviços Oferecidos"
     getPageById(69), // "Atendimento para Empresas"
@@ -25,6 +25,7 @@ export default async function Home() {
     getPageById(81), // "Por Que Fazer Manutenção Preventiva?"
     getPageById(88), // "Cuidados Diários Que Fazem Diferença"
     getPageById(94), // "Perguntas Frequentes"
+    getPageById(102), // "Atendemos Todas as Marcas"
   ]);
 
   const whyChooseUsProps = whyChooseUsPage
@@ -58,7 +59,15 @@ export default async function Home() {
       <Header />
       <main className="landscape:pt-16">
         <Hero />
-        <BrandsCarousel />
+        <BrandsCarousel
+          {...(brandsPage
+            ? {
+                title: brandsPage.title.rendered,
+                brands: (brandsPage.acf?.marcas as Array<{ logo: string }>) || [],
+              }
+            : {}
+          )}
+        />
         <WhyChooseUs {...whyChooseUsProps} />        
         <Services {...servicesProps} />
         <Business {...businessProps} />

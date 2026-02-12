@@ -2,33 +2,26 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Map from "@/components/Map";
-import { Building2, Star, Clock } from "lucide-react";
-import { AlertCircle, ShieldCheck, Database, DollarSign } from "lucide-react";
+import { getPageById } from "@/lib/wordpress";
 
-
-const benefits = [
+const defaultItems = [
   {
-    icon: AlertCircle,
     title: "Mercado em expansão",
     description: "O uso de notebooks cresce a cada ano – no trabalho, nos estudos e no dia a dia. Isso significa um fluxo contínuo de clientes precisando de manutenção, upgrades e suporte especializado."
   },
   {
-    icon: ShieldCheck,
     title: "Marca consolidada e bem avaliada",
     description: "Somos reconhecidos pela qualidade do serviço, transparência e atendimento humano. Como franqueado, você assume uma unidade já respaldada por credibilidade e reputação no mercado."
   },
   {
-    icon: Clock,
     title: "Treinamento completo e suporte contínuo",
     description: "Você não precisa ter experiência técnica. Oferecemos capacitação inicial, treinamentos periódicos, suporte operacional e acompanhamento próximo para garantir o crescimento da sua unidade."
   },
   {
-    icon: Database,
     title: "Processos padronizados e eficientes",
     description: "Nossa metodologia de diagnóstico, reparo e atendimento ao cliente foi desenvolvida ao longo dos anos para garantir agilidade, precisão e alta taxa de satisfação."
   },
   {
-    icon: DollarSign,
     title: "Baixo investimento inicial",
     description: "Com infraestrutura enxuta, equipamentos acessíveis e custos operacionais reduzidos, o modelo de franquia foi criado para gerar retorno rápido e previsível."
   }
@@ -55,8 +48,27 @@ export const metadata: Metadata = {
 };
 
 
+export default async function FranquiaPage() {
+  const franquiaPage = await getPageById(129);
 
-export default function ServicosPage() {
+  const pageTitle = franquiaPage?.title.rendered || "Seja um Franqueado";
+  const featuredImage = franquiaPage?._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+
+  // Extrair o h2 e a descrição do content.rendered
+  const contentRendered = franquiaPage?.content.rendered || '';
+  const h2Match = contentRendered.match(/<h2[^>]*>(.*?)<\/h2>/);
+  const sectionTitle = h2Match ? h2Match[1].replace(/<[^>]*>/g, '').trim() : "Por que investir em uma franquia Notebook Expert?";
+  // Remover o h2 e pegar o restante como descrição
+  const descriptionHtml = contentRendered.replace(/<h2[^>]*>.*?<\/h2>/, '');
+  const sectionDescription = descriptionHtml.replace(/<[^>]*>/g, '').trim() || "A Notebook Expert nasceu com o propósito de oferecer assistência técnica especializada e de alta qualidade para notebooks, garantindo segurança, confiança e excelência em cada atendimento. Com o crescimento constante do setor de tecnologia e a demanda por serviços qualificados, criamos um modelo de franquia acessível, lucrativo e pensado para quem deseja empreender com suporte total e estrutura sólida.";
+
+  const wpItems = franquiaPage?.acf?.item as Array<{ titulo: string; descricao: string }> | undefined;
+  const displayItems = wpItems && wpItems.length > 0
+    ? wpItems.map(item => ({ title: item.titulo, description: item.descricao }))
+    : defaultItems;
+
+  const displayImage = featuredImage || `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/franquia.png`;
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -86,7 +98,7 @@ export default function ServicosPage() {
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
-                Seja um Franqueado
+                {pageTitle}
               </h1>
               
               <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
@@ -103,7 +115,7 @@ export default function ServicosPage() {
             <div className="mb-20">
               <div className="text-center mb-12 max-w-4xl mx-auto">
                 
-                <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">Por que investir em uma franquia Notebook Expert?</h2>
+                <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">{sectionTitle}</h2>
 
                 <div className="h-1 w-24 bg-accent mx-auto mb-6 rounded" />
                 
@@ -111,7 +123,7 @@ export default function ServicosPage() {
               </div>
 
               <p className="text-lg text-muted-foreground mx-auto text-center mb-12">
-                  A Notebook Expert nasceu com o propósito de oferecer assistência técnica especializada e de alta qualidade para notebooks, garantindo segurança, confiança e excelência em cada atendimento. Com o crescimento constante do setor de tecnologia e a demanda por serviços qualificados, criamos um modelo de franquia acessível, lucrativo e pensado para quem deseja empreender com suporte total e estrutura sólida.
+                  {sectionDescription}
                 </p>
 
               <div className="flex items-start justify-center gap-12 portrait:flex-col-reverse">
@@ -121,7 +133,7 @@ export default function ServicosPage() {
               > 
 
                 <div className="space-y-4">
-                  {benefits.map((benefit, index) => (
+                  {displayItems.map((item, index) => (
                     <div 
                       key={index}
                       className="w-full flex items-center gap-4 bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all portrait:text-center"
@@ -130,8 +142,8 @@ export default function ServicosPage() {
                         {index + 1}
                       </span>
                       <div>
-                        <h3 className="text-lg font-semibold text-foreground mb-2 pt-1">{benefit.title}</h3>
-                        <p className="text-muted-foreground text-sm">{benefit.description}</p>
+                        <h3 className="text-lg font-semibold text-foreground mb-2 pt-1">{item.title}</h3>
+                        <p className="text-muted-foreground text-sm">{item.description}</p>
                       </div>
                     </div>
                   ))}
@@ -143,8 +155,8 @@ export default function ServicosPage() {
                   className="flex-1 max-w-md flex items-center justify-center relative min-h-[520px] md:min-h-[620px] rounded-2xl overflow-hidden"                
                 >            
                   <img 
-                    src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/franquia.png`}
-                    alt="Business" 
+                    src={displayImage}
+                    alt={pageTitle} 
                     className="absolute inset-0 w-full h-full object-cover"
                   />
                 </div>
@@ -162,4 +174,3 @@ export default function ServicosPage() {
     </div>
   );
 }
-

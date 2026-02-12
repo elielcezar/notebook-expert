@@ -1,38 +1,53 @@
 'use client';
 
-import Image from 'next/image';
+interface BrandItem {
+  logo: string;
+}
 
-const BrandsCarousel = () => {
+interface BrandsCarouselProps {
+  title?: string;
+  brands?: BrandItem[];
+}
+
+const BrandsCarousel = ({ title, brands }: BrandsCarouselProps) => {
   
-  const brands = [    
-    { name: 'Lenovo', image: 'brands/lenovo.png' },    
-    { name: 'Dell', image: 'brands/dell.png' },
-    { name: 'Apple', image: 'brands/apple.png' },
-    { name: 'Compaq', image: 'brands/compaq.png' },
-    { name: 'HP', image: 'brands/hp.png' },
-    { name: 'Asus', image: 'brands/asus.png' },
-    { name: 'Acer', image: 'brands/acer.png' },
-    { name: 'Avell', image: 'brands/avell.png' },
-    { name: 'Gateway', image: 'brands/gateway.png' },
-    { name: 'LG', image: 'brands/lg.png' },
-    { name: 'Positivo', image: 'brands/positivo.png' },
-    { name: 'Razer', image: 'brands/razer.png' },
-    { name: 'Samsung', image: 'brands/samsung.png' },
-    { name: 'Toshiba', image: 'brands/toshiba.png' },    
-    { name: 'Sony', image: 'brands/sony.png' },
-    { name: 'Epson', image: 'brands/epson.png' },
-    { name: 'Xiaomi', image: 'brands/xiaomi.png' },
-    { name: 'Phillips', image: 'brands/philips.png' },    
+  const defaultBrands: BrandItem[] = [    
+    { logo: 'brands/lenovo.png' },    
+    { logo: 'brands/dell.png' },
+    { logo: 'brands/apple.png' },
+    { logo: 'brands/compaq.png' },
+    { logo: 'brands/hp.png' },
+    { logo: 'brands/asus.png' },
+    { logo: 'brands/acer.png' },
+    { logo: 'brands/avell.png' },
+    { logo: 'brands/gateway.png' },
+    { logo: 'brands/lg.png' },
+    { logo: 'brands/positivo.png' },
+    { logo: 'brands/razer.png' },
+    { logo: 'brands/samsung.png' },
+    { logo: 'brands/toshiba.png' },    
+    { logo: 'brands/sony.png' },
+    { logo: 'brands/epson.png' },
+    { logo: 'brands/xiaomi.png' },
+    { logo: 'brands/philips.png' },    
   ];
 
+  const displayTitle = title || "Atendemos Todas as Marcas";
+  const displayBrands = brands && brands.length > 0 ? brands : defaultBrands;
 
+  // Para imagens locais (fallback), adicionar basePath
+  const getImageSrc = (logo: string | number) => {
+    const src = String(logo);
+    if (src.startsWith('http')) return src;
+    return `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/${src}`;
+  };
 
   return (
     <section id="brands" className="py-12 bg-background">
       <div className="mx-auto px-4">
         <div className="text-center mb-8">
           <h3 className="text-2xl font-bold text-foreground mb-2">
-            Atendemos Todas as Marcas
+            {displayTitle}
           </h3>        
         </div>
 
@@ -44,7 +59,7 @@ const BrandsCarousel = () => {
               width: 'max-content',
             }}
           >            
-            {brands.map((brand, index) => (
+            {displayBrands.map((brand, index) => (
               <div
                 key={`first-${index}`}
                 className="flex-[0_0_auto] w-[150px] md:w-[180px] mr-8"
@@ -52,8 +67,8 @@ const BrandsCarousel = () => {
                 <div className="bg-card hover:border-accent hover:shadow-md transition-all duration-300 flex items-center justify-center h-24">
                   <div className="relative w-full h-full flex items-center justify-center">                                        
                     <img 
-                      src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/${brand.image}`}
-                      alt={`Logo ${brand.name}`} 
+                      src={getImageSrc(brand.logo)}
+                      alt="Logo marca"
                       width={150}
                       height={77}
                       className="object-contain filter hover:grayscale-0 transition-all duration-300"
@@ -64,16 +79,16 @@ const BrandsCarousel = () => {
             ))}
             
             {/* Segundo conjunto duplicado para loop infinito */}
-            {brands.map((brand, index) => (
+            {displayBrands.map((brand, index) => (
               <div
-                key={`first-${index}`}
+                key={`second-${index}`}
                 className="flex-[0_0_auto] w-[150px] md:w-[180px] mr-8"
               >
                 <div className="bg-card hover:border-accent hover:shadow-md transition-all duration-300 flex items-center justify-center h-24">
                   <div className="relative w-full h-full flex items-center justify-center">                    
-                    <Image
-                      src={brand.image}
-                      alt={`Logo ${brand.name}`}
+                    <img
+                      src={getImageSrc(brand.logo)}
+                      alt="Logo marca"
                       width={150}
                       height={77}
                       className="object-contain filter hover:grayscale-0 transition-all duration-300"
@@ -90,4 +105,3 @@ const BrandsCarousel = () => {
 };
 
 export default BrandsCarousel;
-

@@ -161,7 +161,7 @@ export interface WordPressPage {
 // Buscar página individual por ID
 export async function getPageById(id: number): Promise<WordPressPage | null> {
   try {
-    const res = await fetch(`${WP_API_URL}/pages/${id}?_embed`);
+    const res = await fetch(`${WP_API_URL}/pages/${id}?_embed&acf_format=standard`);
 
     if (!res.ok) {
       throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);

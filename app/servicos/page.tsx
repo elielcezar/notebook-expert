@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Map from "@/components/Map";
+import { getPageById } from "@/lib/wordpress";
 import { 
   Cpu, 
   Monitor, 
@@ -12,7 +13,9 @@ import {
   Thermometer, 
   Droplet, 
   Settings,
-  MemoryStick
+  MemoryStick,
+  Plug,
+  type LucideIcon
 } from "lucide-react";
 
 export const metadata: Metadata = {
@@ -35,64 +38,78 @@ export const metadata: Metadata = {
   },
 };
 
-const services = [
+// Ícones hardcoded mapeados por índice
+const iconsList: LucideIcon[] = [
+  Monitor,      // Troca de Tela
+  Keyboard,     // Teclado e Carcaça
+  Thermometer,  // Resfriamento
+  Cpu,          // Placa-Mãe
+  Battery,      // Energia
+  HardDrive,    // SSD Installation
+  MemoryStick,  // Memória RAM
+  Droplet,      // Limpeza Profunda
+  Settings,     // Sistema Operacional
+  Wrench,       // Reparo de BIOS
+  Plug,         // Troca de conectores
+];
+
+const defaultServices = [
   {
-    icon: Cpu,
     title: "Reparo de Placa-Mãe",
     description: "Diagnóstico e conserto de falhas eletrônicas, curtos e defeitos na placa-mãe. Recuperamos o funcionamento do notebook sem precisar trocar toda a peça.",
-    color: "text-blue-600"
   },
   {
-    icon: Monitor,
     title: "Troca de Tela / Display",
     description: "Substituímos telas quebradas, com manchas ou sem imagem. Peças novas e instalação segura, devolvendo a qualidade original da imagem.",
-    color: "text-purple-600"
   },
   {
-    icon: Keyboard,
     title: "Troca de Teclado",
     description: "Realizamos a troca de teclados danificados, com teclas falhando ou sem resposta. Serviço rápido e compatível com todas as marcas.",
-    color: "text-green-600"
   },
   {
-    icon: Battery,
     title: "Troca de Bateria",
     description: "Bateria durando pouco ou não carregando? Fazemos a substituição por modelos originais ou compatíveis de alta durabilidade.",
-    color: "text-yellow-600"
   },
   {
-    icon: Wrench,
     title: "Troca de Carcaça / Dobradiça",
     description: "Reparo e substituição de carcaças trincadas e dobradiças quebradas. Restauramos a estrutura e aparência do seu notebook.",
-    color: "text-orange-600"
   },
   {
-    icon: HardDrive,
     title: "Upgrade de SSD e Memória",
     description: "Aumente a velocidade e o desempenho do seu notebook com upgrades de SSD e memória RAM. Instalação e configuração completa.",
-    color: "text-indigo-600"
   },
   {
-    icon: Thermometer,
     title: "Limpeza e Pasta Térmica",
     description: "Limpeza interna completa e troca da pasta térmica para evitar superaquecimento e aumentar a vida útil do equipamento.",
-    color: "text-red-600"
   },
   {
-    icon: Droplet,
     title: "Reparo Após Líquido Derramado",
     description: "Tratamento especializado para notebooks que sofreram contato com líquidos. Limpeza, recuperação e substituição de componentes afetados.",
-    color: "text-cyan-600"
   },
   {
-    icon: Settings,
     title: "Formatação e Otimização",
     description: "Instalação limpa do sistema, remoção de vírus e otimização para melhor desempenho. Notebook rápido e pronto para uso.",
-    color: "text-gray-600"
   },
 ];
 
-export default function ServicosPage() {
+export default async function ServicosPage() {
+  const servicesPage = await getPageById(57);
+
+  const pageTitle = servicesPage?.title.rendered || "Serviços Oferecidos";
+  const pageDescription = servicesPage?.content.rendered.replace(/<[^>]*>/g, '').trim() || "Oferecemos uma ampla gama de serviços para todas as marcas e modelos de notebooks";
+
+  const wpServices = servicesPage?.acf?.servicos as Array<{ titulo: string; descricao: string }> | undefined;
+  const displayServices = wpServices && wpServices.length > 0
+    ? wpServices.map((s, i) => ({
+        title: s.titulo,
+        description: s.descricao,
+        icon: iconsList[i] || Settings,
+      }))
+    : defaultServices.map((s, i) => ({
+        ...s,
+        icon: iconsList[i] || Settings,
+      }));
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -122,12 +139,11 @@ export default function ServicosPage() {
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
-                Nossos Serviços
+                {pageTitle}
               </h1>
               
               <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
-                Soluções completas para todas as necessidades do seu notebook. 
-                Atendemos todas as marcas com qualidade e garantia.
+                {pageDescription}
               </p>
             </div>
           </div>
@@ -140,7 +156,7 @@ export default function ServicosPage() {
         <section className="py-16 portrait:py-12">
           <div className="container mx-auto px-4">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 portrait:gap-6">
-              {services.map((service, index) => {
+              {displayServices.map((service, index) => {
                 const Icon = service.icon;
                 return (
                   <div
@@ -204,4 +220,3 @@ export default function ServicosPage() {
     </div>
   );
 }
-

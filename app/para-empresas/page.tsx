@@ -2,27 +2,30 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Map from "@/components/Map";
-import { Building2, Star, Clock } from "lucide-react";
+import { getPageById } from "@/lib/wordpress";
+import { Building2, Star, Clock, type LucideIcon } from "lucide-react";
 
+// Ícones hardcoded mapeados por índice
+const iconsList: LucideIcon[] = [
+  Clock,
+  Star,
+  Building2,
+];
 
-const businessItems = [
+const defaultItems = [
   {
-    icon: <Clock className="w-6 h-6 text-accent" />,
     title: "Atendimento Prioritário",
     description: "Sua empresa sempre em primeiro lugar, com prazos diferenciados e suporte dedicado"
   },  
   {
-    icon: <Star className="w-6 h-6 text-accent" />,
     title: "Descontos Exclusivos",
     description: "Condições especiais e descontos em volume para empresas parceiras"
   },  
   {
-    icon: <Building2 className="w-8 h-8 text-accent" />,
     title: "Nossos Clientes Corporativos",
     description: "Entre nossos clientes estão instituições de ensino, coworkings, escritórios e empresas de tecnologia que confiam na qualidade dos nossos serviços."
   }
-]
-
+];
 
 export const metadata: Metadata = {
   title: "Serviços de Assistência Técnica | Notebook Expert",
@@ -45,7 +48,27 @@ export const metadata: Metadata = {
 };
 
 
-export default function ServicosPage() {
+export default async function EmpresasPage() {
+  const businessPage = await getPageById(69);
+
+  const pageTitle = businessPage?.title.rendered || "Atendimento para Empresas";
+  const pageDescription = businessPage?.content.rendered.replace(/<[^>]*>/g, '').trim() || "Oferecemos planos corporativos e parcerias B2B, ideais para empresas que utilizam grande volume de notebooks.";
+  const featuredImage = businessPage?._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+
+  const wpItems = businessPage?.acf?.aendimento as Array<{ titulo: string; descricao: string }> | undefined;
+  const displayItems = wpItems && wpItems.length > 0
+    ? wpItems.map((item, i) => ({
+        title: item.titulo,
+        description: item.descricao,
+        icon: iconsList[i] || Building2,
+      }))
+    : defaultItems.map((item, i) => ({
+        ...item,
+        icon: iconsList[i] || Building2,
+      }));
+
+  const displayImage = featuredImage || `${process.env.NEXT_PUBLIC_BASE_PATH || ''}/business.jpg`;
+
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -75,12 +98,11 @@ export default function ServicosPage() {
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
-              Atendimento para Empresas
+                {pageTitle}
               </h1>
               
               <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
-              Oferecemos planos corporativos e parcerias B2B, ideais para empresas 
-              que utilizam grande volume de notebooks.
+                {pageDescription}
               </p>
             </div>
           </div>
@@ -98,25 +120,28 @@ export default function ServicosPage() {
 
               <div className="relative w-full max-w-md min-h-[420px] md:min-h-[420px]">      
                   <img 
-                    src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/business.jpg`}
-                    alt="Business" 
+                    src={displayImage}
+                    alt={pageTitle} 
                     className="absolute inset-0 w-full h-full rounded-md object-cover"
                   />
               </div>
 
               <div>                   
 
-                  {businessItems.map((item, index) => (
-                    <div key={index} className="flex items-start gap-4 bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all duration-300 mb-8">
-                      <div className="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
-                        {item.icon}
+                  {displayItems.map((item, index) => {
+                    const Icon = item.icon;
+                    return (
+                      <div key={index} className="flex items-start gap-4 bg-card rounded-xl p-6 border border-border hover:border-accent hover:shadow-lg transition-all duration-300 mb-8">
+                        <div className="w-12 h-12 bg-accent/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                          <Icon className="w-6 h-6 text-accent" />
+                        </div>
+                        <div>
+                          <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
+                          <p className="text-primary/80">{item.description}</p>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className="text-xl font-semibold mb-2">{item.title}</h3>
-                        <p className="text-primary/80">{item.description}</p>
-                      </div>
-                    </div>
-                  ))}                
+                    );
+                  })}                
 
                 </div>
               </div>
@@ -162,4 +187,3 @@ export default function ServicosPage() {
     </div>
   );
 }
-
