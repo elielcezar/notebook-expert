@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Map from "@/components/Map";
@@ -14,6 +15,7 @@ import {
   DollarSign,
   Package
 } from "lucide-react";
+import { getSeminovos } from "@/lib/wordpress";
 
 export const metadata: Metadata = {
   title: "Compra e Venda de Notebooks Seminovos | Notebook Expert",
@@ -35,7 +37,8 @@ export const metadata: Metadata = {
   },
 };
 
-export default function CompraVendaPage() {
+export default async function CompraVendaPage() {
+  const seminovos = await getSeminovos();
   const benefits = [
     {
       icon: CheckCircle,
@@ -190,6 +193,68 @@ export default function CompraVendaPage() {
             </div>
           </div>
         </section>
+
+        {/* Seminovos Disponíveis */}
+        {seminovos.length > 0 && (
+          <section className="py-16 portrait:py-12 bg-muted/20">
+            <div className="container mx-auto px-4">
+              <div className="text-center mb-12 portrait:mb-8">
+                <h2 className="text-4xl font-bold text-foreground mb-4 portrait:text-3xl">
+                  Notebooks Seminovos Disponíveis
+                </h2>
+                <div className="h-1 w-24 bg-accent mx-auto mb-6 rounded" />
+                <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+                  Confira nossos equipamentos revisados, testados e com garantia de 1 ano
+                </p>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 portrait:gap-4">
+                {seminovos.map((item) => {
+                  const featuredImage = item._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+                  const description = item.content.rendered.replace(/<[^>]*>/g, '').trim();
+                  const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
+
+                  return (
+                    <Link
+                      key={item.id}
+                      href={`${basePath}/compra-venda/${item.slug}`}
+                      className="group bg-card border border-border rounded-xl overflow-hidden hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1"
+                    >
+                      {/* Imagem do Produto */}
+                      <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted">
+                        {featuredImage ? (
+                          <img
+                            src={featuredImage}
+                            alt={item.title.rendered}
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 flex items-center justify-center">
+                            <Laptop className="w-16 h-16 text-muted-foreground/30" />
+                          </div>
+                        )}
+                      </div>
+
+                      {/* Info do Produto */}
+                      <div className="p-5">
+                        <h3 className="text-lg font-bold text-foreground mb-2 group-hover:text-[var(--blue)] transition-colors">
+                          {item.title.rendered}
+                        </h3>
+                        <p className="text-sm text-muted-foreground leading-relaxed mb-4">
+                          {description}
+                        </p>
+                        <span className="inline-flex items-center text-sm font-semibold text-accent group-hover:text-[var(--blue)] transition-colors">
+                          Ver detalhes
+                          <i className="fas fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                        </span>
+                      </div>
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+        )}
 
         {/* Why Buy Section */}
         <section className="py-16 bg-muted/30 portrait:py-12" style={{ backgroundImage: 'url(/bg-faq.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>

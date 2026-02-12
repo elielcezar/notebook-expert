@@ -231,6 +231,78 @@ export async function getTestimonials(perPage: number = 12): Promise<WordPressTe
   }
 }
 
+// Interface para Custom Post Type "Seminovo"
+export interface WordPressSeminovo {
+  id: number;
+  slug: string;
+  title: {
+    rendered: string;
+  };
+  content: {
+    rendered: string;
+  };
+  featured_media: number;
+  acf: {
+    imagens: string[];
+  };
+  _embedded?: {
+    'wp:featuredmedia'?: Array<{
+      source_url: string;
+      alt_text?: string;
+    }>;
+  };
+}
+
+// Buscar seminovos (todos ou limitado)
+export async function getSeminovos(perPage: number = 100): Promise<WordPressSeminovo[]> {
+  try {
+    const res = await fetch(`${WP_API_URL}/seminovo?per_page=${perPage}&_embed&acf_format=standard&orderby=date&order=desc`);
+
+    if (!res.ok) {
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
+    }
+
+    return res.json();
+  } catch (error) {
+    console.error('[WordPress] getSeminovos error:', error);
+    return [];
+  }
+}
+
+// Buscar seminovo individual por slug
+export async function getSeminovoBySlug(slug: string): Promise<WordPressSeminovo | null> {
+  try {
+    const res = await fetch(`${WP_API_URL}/seminovo?slug=${encodeURIComponent(slug)}&_embed&acf_format=standard`);
+
+    if (!res.ok) {
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
+    }
+
+    const items: WordPressSeminovo[] = await res.json();
+    return items[0] || null;
+  } catch (error) {
+    console.error(`[WordPress] getSeminovoBySlug(${slug}) error:`, error);
+    return null;
+  }
+}
+
+// Buscar todos os slugs dos seminovos (para generateStaticParams)
+export async function getAllSeminovoSlugs(): Promise<string[]> {
+  try {
+    const res = await fetch(`${WP_API_URL}/seminovo?per_page=100&_fields=slug`);
+
+    if (!res.ok) {
+      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
+    }
+
+    const items: { slug: string }[] = await res.json();
+    return items.map(item => item.slug);
+  } catch (error) {
+    console.error('[WordPress] getAllSeminovoSlugs error:', error);
+    return [];
+  }
+}
+
 // Extrair dados úteis de um post
 export function extractPostData(post: WordPressPost) {
   // Extrair primeira categoria do post
