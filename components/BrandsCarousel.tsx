@@ -10,30 +10,10 @@ interface BrandsCarouselProps {
 }
 
 const BrandsCarousel = ({ title, brands }: BrandsCarouselProps) => {
-  
-  const defaultBrands: BrandItem[] = [    
-    { logo: 'brands/lenovo.png' },    
-    { logo: 'brands/dell.png' },
-    { logo: 'brands/apple.png' },
-    { logo: 'brands/compaq.png' },
-    { logo: 'brands/hp.png' },
-    { logo: 'brands/asus.png' },
-    { logo: 'brands/acer.png' },
-    { logo: 'brands/avell.png' },
-    { logo: 'brands/gateway.png' },
-    { logo: 'brands/lg.png' },
-    { logo: 'brands/positivo.png' },
-    { logo: 'brands/razer.png' },
-    { logo: 'brands/samsung.png' },
-    { logo: 'brands/toshiba.png' },    
-    { logo: 'brands/sony.png' },
-    { logo: 'brands/epson.png' },
-    { logo: 'brands/xiaomi.png' },
-    { logo: 'brands/philips.png' },    
-  ];
+
 
   const displayTitle = title || "Atendemos Todas as Marcas";
-  const displayBrands = brands && brands.length > 0 ? brands : defaultBrands;
+  const displayBrands = brands;
 
   // Para imagens locais (fallback), adicionar basePath
   const getImageSrc = (logo: string | number) => {
@@ -46,7 +26,7 @@ const BrandsCarousel = ({ title, brands }: BrandsCarouselProps) => {
     <section id="brands" className="py-12 bg-background">
       <div className="mx-auto px-4">
         <div className="text-center mb-8">
-          <h3 className="text-2xl font-bold text-foreground mb-2">
+          <h3 className="text-[xl] xl:text-2xl font-bold text-foreground mb-2">
             {displayTitle}
           </h3>        
         </div>

@@ -140,63 +140,13 @@ export default async function CompraVendaPage() {
                 </p>
               </div>
 
-              {/* Two Column Layout */}
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16 portrait:gap-8 portrait:mb-12">
-                {/* Buy Section */}
-                <div className="bg-gradient-to-br from-[var(--blue)]/5 to-[var(--lightblue)]/5 rounded-2xl p-8 border-2 border-[var(--blue)]/20 portrait:p-6">
-                  <div className="w-16 h-16 bg-[var(--blue)] rounded-full flex items-center justify-center mb-6 portrait:w-12 portrait:h-12 portrait:mb-4">
-                    <ShoppingCart className="w-8 h-8 text-white portrait:w-6 portrait:h-6" />
-                  </div>
-                  <h2 className="text-3xl font-bold text-foreground mb-4 portrait:text-2xl">
-                    Compre um<br/>Seminovo
-                  </h2>
-                  <p className="text-muted-foreground mb-6 leading-relaxed portrait:text-sm">
-                    <strong>Equipamentos revisados, com garantia real de 12 meses.</strong> 
-                    <br/>
-                    Notebooks prontos para uso, formatados e otimizados, com opções de SSD e upgrades disponíveis.
-                  </p>
-                  <a 
-                    href="https://wa.me/5541998870606?text=Olá! Gostaria de saber mais sobre os notebooks seminovos disponíveis."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-primary w-full text-center inline-block"
-                  >
-                    Ver Disponíveis
-                    <i className="fas fa-arrow-right ml-2"></i>
-                  </a>
-                </div>
-
-                {/* Sell Section */}
-                <div className="bg-gradient-to-br from-green-500/5 to-green-600/5 rounded-2xl p-8 border-2 border-green-500/20 portrait:p-6">
-                  <div className="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-6 portrait:w-12 portrait:h-12 portrait:mb-4">
-                    <RefreshCw className="w-8 h-8 text-white portrait:w-6 portrait:h-6" />
-                  </div>
-                  <h2 className="text-3xl font-bold text-foreground mb-4 portrait:text-2xl">
-                    Quer trocar de notebook?
-                  </h2>
-                  <p className="text-muted-foreground mb-6 leading-relaxed portrait:text-sm">
-                    <strong>Nós aceitamos o seu usado como parte do pagamento!</strong> 
-                    <br/>
-                    Fazemos uma avaliação justa e transparente, para que você possa sair com um modelo mais novo e potente sem pesar no bolso.
-                  </p>
-                  <a 
-                    href="https://wa.me/5541998870606?text=Olá! Gostaria de vender ou trocar meu notebook usado."
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="btn-wpp w-full text-center inline-block mx-0"
-                  >
-                    <i className="fab fa-whatsapp text-2xl"></i>
-                    <span className="ml-2">Avaliar Meu Notebook</span>
-                  </a>
-                </div>
-              </div>
             </div>
           </div>
         </section>
 
         {/* Seminovos Disponíveis */}
         {seminovos.length > 0 && (
-          <section className="py-16 portrait:py-12 bg-muted/20">
+          <section className="pb-16 portrait:py-12 bg-muted/20">
             <div className="container mx-auto px-4">
               <div className="text-center mb-12 portrait:mb-8">
                 <h2 className="text-4xl font-bold text-foreground mb-4 portrait:text-3xl">
@@ -259,7 +209,7 @@ export default async function CompraVendaPage() {
         {/* Why Buy Section */}
         <section className="py-16 bg-muted/30 portrait:py-12" style={{ backgroundImage: 'url(/bg-faq.jpg)', backgroundSize: 'cover', backgroundPosition: 'center' }}>
           <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12 portrait:mb-8">
                 <h2 className="text-4xl font-bold text-white mb-4 portrait:text-3xl">
                   Por que comprar conosco?
@@ -295,7 +245,7 @@ export default async function CompraVendaPage() {
         {/* Sell Your Notebook Section */}
         <section className="py-16 portrait:py-12">
           <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto">
+            <div className="mx-auto">
               <div className="text-center mb-12 portrait:mb-8">
                 <h2 className="text-4xl font-bold text-foreground mb-4 portrait:text-3xl">
                   Venda ou troque seu notebook usado

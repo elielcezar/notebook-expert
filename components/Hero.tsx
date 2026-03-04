@@ -10,28 +10,28 @@ const handleWhatsAppClick = () => {
 
 const Hero = () => {
   return (
-    <section className="relative min-h-[85vh] flex items-end justify-center overflow-hidden portrait:min-h-[65vh] portrait:pt-28 portrait:pb-36">
+    <section className="relative min-h-[85vh] flex items-end justify-center overflow-hidden portrait:min-h-[65vh] portrait:pt-28">
+      
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
         <img 
           src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/img-02.png`}
           alt="Assistência Técnica Profissional" 
-          className="absolute inset-0 w-full h-full object-cover object-top"
+          className="absolute top-[100px] lg:top-0 inset-0 w-full h-full object-cover object-top"
         />
-
       </div>
 
       {/* Content */}
-      <div className="container mx-auto px-4 pb-8 relative z-10">
+      <div className="container mx-auto px-4 pb-8 relative z-10 min-h-[82vh] xl:min-h-[auto] flex flex-col justify-end">
         <div className="max-w-4xl">
-          <div className="flex h-10 items-center gap-2 animate-fade-in portrait:mb-3">
+          <div className="flex h-10 items-center gap-2 animate-fade-in ">
             <div className="h-1 w-12 bg-white rounded" />
             <span className="text-white font-semibold text-sm uppercase tracking-wider">
               16 anos de excelência
             </span>
           </div>
           
-          <h1 className="text-5xl md:text-6xl lg:text-6xl font-extrabold text-primary-foreground mb-6 landscape:leading-[1.15] animate-fade-in-up portrait:leading-[1.1]">
+          <h1 className="text-[40px] md:text-6xl lg:text-6xl font-extrabold text-primary-foreground mb-6 landscape:leading-[1.15] animate-fade-in-up portrait:leading-[1.1]">
             Vale a pena arrumar                   
             <span className="block">meu notebook?</span>
           </h1>

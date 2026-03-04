@@ -224,3 +224,6 @@ All colors MUST be HSL.
   animation: infinite-scroll 60s linear infinite;
 }
 
+section{
+  overflow-x: hidden;
+}
