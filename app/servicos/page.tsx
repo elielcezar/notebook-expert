@@ -116,7 +116,7 @@ export default async function ServicosPage() {
       
       <main className="landscape:pt-16">
         {/* Hero Section */}
-        <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-28">
+        <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-40">
           
 
         <div className="absolute inset-0 z-0">

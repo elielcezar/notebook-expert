@@ -134,11 +134,11 @@ const Header = () => {
             <div className="flex flex-col gap-4">
               {/* Menu Links */}
               <div className="flex flex-col gap-2 mb-4">
-                <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/sobre`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
-                  Sobre
+                <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
+                  Serviços
                 </a>
-                <a href="#" className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
-                  Atendimento Empresarial
+                <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/para-empresas`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
+                  Para Empresas
                 </a>
                 <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/franquia`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
                   Franquia
@@ -148,6 +148,9 @@ const Header = () => {
                 </a>
                 <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/dicas`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
                   Dicas
+                </a>
+                <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/sobre`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
+                  Sobre
                 </a>
                 
               </div>

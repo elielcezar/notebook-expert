@@ -77,7 +77,7 @@ const Services = ({ title, description, services }: ServicesProps) => {
       </div>
 
       {/* Carousel Container */}
-        <div className="relative mx-auto px-20">
+        <div className="relative mx-auto xl:px-20">
           {/* Navigation Buttons */}
           <button
             onClick={scrollPrev}
