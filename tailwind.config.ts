@@ -22,6 +22,7 @@ export default {
         darkblue: "hsl(var(--darkblue))",
         blue: "hsl(var(--blue))",
         lightblue: "hsl(var(--lightblue))",
+        yellow: "hsl(var(--yellow))",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

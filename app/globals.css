@@ -11,7 +11,9 @@ All colors MUST be HSL.
     --darkblue: #001d4c;
     --deepblue: #193061;  
     --blue: #0053b1;
-    --lightblue: #4f9ad2;    
+    --lightblue: #4f9ad2;
+    
+    --yellow: 53 91% 60%;
     
     --background: 0 0% 100%;
     --foreground: 215 25% 15%;

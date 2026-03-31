@@ -87,11 +87,11 @@ export default async function SobrePage() {
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
               <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
-                <div className="h-1 w-12 bg-accent rounded" />
-                <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+                <div className="h-1 w-12 bg-yellow rounded" />
+                <span className="text-yellow font-semibold text-sm uppercase tracking-wider">
                   Conheça Nossa História
                 </span>
-                <div className="h-1 w-12 bg-accent rounded" />
+                <div className="h-1 w-12 bg-yellow rounded" />
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
@@ -129,7 +129,7 @@ export default async function SobrePage() {
                 <div className="w-14 h-14 bg-accent/10 rounded-full flex items-center justify-center mx-auto mb-4">
                   <Users className="w-7 h-7 text-accent" />
                 </div>
-                <h3 className="text-5xl font-bold text-primary mb-2">1000+</h3>
+                <h3 className="text-5xl font-bold text-primary mb-2">20000+</h3>
                 <p className="text-muted-foreground">Clientes<br/>Satisfeitos</p>
               </div>
 

@@ -82,11 +82,11 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto text-center">
                 <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
-                  <div className="h-1 w-12 bg-accent rounded" />
-                  <span className="text-accent font-semibold text-sm uppercase tracking-wider">
+                  <div className="h-1 w-12 bg-yellow rounded" />
+                  <span className="text-yellow font-semibold text-sm uppercase tracking-wider">
                     Conhecimento Especializado
                   </span>
-                  <div className="h-1 w-12 bg-accent rounded" />
+                  <div className="h-1 w-12 bg-yellow rounded" />
                 </div>
                 
                 <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">

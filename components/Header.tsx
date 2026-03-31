@@ -55,7 +55,7 @@ const Header = () => {
               alt="Logo" 
               width="192" 
               height="60" 
-              className="w-48"
+              className="w-60"
             />
             </Link>
           </div>
