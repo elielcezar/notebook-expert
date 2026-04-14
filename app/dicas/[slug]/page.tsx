@@ -94,7 +94,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
                 </h1>
                 
                 <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
-                  Aprenda com quem tem 16 anos de experiência em manutenção e reparo de notebooks.
+                  Aprenda com quem tem 20 anos de experiência em manutenção e reparo de notebooks.
                 </p>
               </div>
             </div>

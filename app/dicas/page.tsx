@@ -49,12 +49,10 @@ export default async function DicasPage() {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
-                <div className="h-1 w-12 bg-yellow rounded" />
+              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">                
                 <span className="text-yellow font-semibold text-sm uppercase tracking-wider">
                   Conhecimento Especializado
-                </span>
-                <div className="h-1 w-12 bg-yellow rounded" />
+                </span>                
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
@@ -62,7 +60,7 @@ export default async function DicasPage() {
               </h1>
               
               <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
-                Aprenda com quem tem 16 anos de experiência em manutenção e reparo de notebooks.
+                Aprenda com quem tem 20 anos de experiência em manutenção e reparo de notebooks.
               </p>
             </div>
           </div>

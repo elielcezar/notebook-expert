@@ -131,12 +131,10 @@ export default async function ServicosPage() {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
-                <div className="h-1 w-12 bg-yellow rounded" />
+              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">                
                 <span className="text-yellow font-semibold text-sm uppercase tracking-wider">
                   Assistência Especializada
-                </span>
-                <div className="h-1 w-12 bg-yellow rounded" />
+                </span>                
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">

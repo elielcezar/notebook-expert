@@ -86,12 +86,10 @@ export default async function SobrePage() {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
-                <div className="h-1 w-12 bg-yellow rounded" />
+              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">                
                 <span className="text-yellow font-semibold text-sm uppercase tracking-wider">
                   Conheça Nossa História
-                </span>
-                <div className="h-1 w-12 bg-yellow rounded" />
+                </span>                
               </div>
               
               <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
@@ -196,7 +194,7 @@ export default async function SobrePage() {
             <div className="max-w-4xl mx-auto">
               <div className="text-center mb-12 portrait:mb-8">
                 <h2 className="text-4xl font-bold mb-4 portrait:text-3xl">
-                  Por Que Escolher a Notebook Expert?
+                  Por que Escolher a Notebook Expert?
                 </h2>
                 <p className="text-xl text-white/90 portrait:text-base">
                   Somos a melhor assistência técnica especializada em notebooks de Curitiba

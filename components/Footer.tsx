@@ -33,7 +33,7 @@ const Footer = () => {
                             <Clock className="w-5 h-5" />
                             Atendimento
                         </h4>
-                        <p><strong>Segunda a sexta feira</strong> das 9h às 18h </p>
+                        <p><strong>Segunda a Sexta-feira</strong> das 9h às 18h </p>
                         <p><strong>Sábados</strong> das 9h às 13h</p>
                         <p>Rua 24 de Maio, 280 - Centro</p>
                         <p>Curitiba/PR</p>

@@ -8,7 +8,7 @@ import { motion } from "framer-motion";
 const defaultIcons: LucideIcon[] = [Calendar, Settings, Shield, Zap, TrendingUp, Star];
 
 // Dados hardcoded como fallback
-const fallbackTitle = "Por Que Escolher Nossa Assistência?";
+const fallbackTitle = "Por que Escolher Nossa Assistência?";
 const fallbackContent = `
   <p class="text-lg text-muted-foreground leading-relaxed mb-6">
     Somos a melhor assistência técnica especializada em notebooks de Curitiba, reconhecida pela excelência no atendimento, alta taxa de sucesso em reparos e pelo compromisso absoluto com a qualidade.
