@@ -1,0 +1,49 @@
+# Next.js static export - Apache/LiteSpeed config
+
+Options -MultiViews -Indexes
+DirectoryIndex index.html
+
+ErrorDocument 404 /404.html
+
+# Roteamento: serve /foo como /foo.html quando o arquivo existe
+# Cobre /dicas, /dicas/post-x, /seminovos/produto-y, etc.
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+
+  # Não reescrever requests que batem com arquivos reais (CSS, JS, imagens, _next/...)
+  RewriteCond %{REQUEST_FILENAME} -f
+  RewriteRule ^ - [L]
+
+  # Se existe /caminho.html, serve em vez de tentar entrar na pasta /caminho/
+  RewriteCond %{REQUEST_FILENAME}.html -f
+  RewriteRule ^(.+?)/?$ /$1.html [L]
+</IfModule>
+
+# Compactação gzip
+<IfModule mod_deflate.c>
+  AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript application/json image/svg+xml font/woff font/woff2
+</IfModule>
+
+# Cache de assets imutáveis (Next.js usa hash no nome dos arquivos em _next/static)
+<IfModule mod_expires.c>
+  ExpiresActive On
+  ExpiresByType text/css "access plus 1 year"
+  ExpiresByType application/javascript "access plus 1 year"
+  ExpiresByType image/jpeg "access plus 1 year"
+  ExpiresByType image/png "access plus 1 year"
+  ExpiresByType image/webp "access plus 1 year"
+  ExpiresByType image/svg+xml "access plus 1 year"
+  ExpiresByType font/woff "access plus 1 year"
+  ExpiresByType font/woff2 "access plus 1 year"
+  ExpiresByType image/x-icon "access plus 1 year"
+
+  # HTML não cacheia agressivamente para garantir que conteúdo novo apareça
+  ExpiresByType text/html "access plus 1 hour"
+</IfModule>
+
+# Forçar revalidação de HTML
+<IfModule mod_headers.c>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=3600, must-revalidate"
+  </FilesMatch>
+</IfModule>
