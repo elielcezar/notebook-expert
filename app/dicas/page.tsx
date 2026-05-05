@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "Dicas e Artigos sobre Notebooks | Notebook Expert",
     description: "Dicas especializadas sobre manutenção, upgrade e cuidados com notebooks.",
-    url: "https://novo.notebookexpert.com.br/dicas",
+    url: "https://notebookexpert.com.br/dicas",
     type: "website",
     images: [
       {

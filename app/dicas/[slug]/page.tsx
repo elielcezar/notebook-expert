@@ -36,7 +36,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      url: `https://novo.notebookexpert.com.br/dicas/${slug}`,
+      url: `https://notebookexpert.com.br/dicas/${slug}`,
       type: "article",
       images: [
         {

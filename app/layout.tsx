@@ -6,6 +6,7 @@ import { Providers } from "./providers";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://notebookexpert.com.br"),
   title: "Notebook Expert | Assistência Técnica para Notebooks em Curitiba",
   description: "A melhor de Curitiba em conserto de notebooks, com atendimento personalizado e garantia total. 16 anos de experiência em assistência técnica especializada.",
   keywords: "assistência técnica notebooks, conserto notebook Curitiba, reparo notebook, manutenção notebook, assistência técnica Curitiba",
@@ -58,11 +59,6 @@ export const metadata: Metadata = {
     },
   },
 
-  // Verification
-  verification: {
-    google: "seu-codigo-de-verificacao-google",
-  },
-
   // Outros metadados
   category: "technology",
 };
@@ -92,7 +88,7 @@ export default function RootLayout({
               "@type": "LocalBusiness",
               "name": "Notebook Expert",
               "description": "A melhor de Curitiba em conserto de notebooks, com atendimento personalizado e garantia total. 16 anos de experiência.",
-              "image": "/clients/notebookexpert/logo.webp",
+              "image": "https://notebookexpert.com.br/logo.webp",
               "address": {
                 "@type": "PostalAddress",
                 "addressLocality": "Curitiba",
