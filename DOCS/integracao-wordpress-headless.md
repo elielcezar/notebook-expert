@@ -21,7 +21,7 @@ GitHub Actions (Build & Deploy)
     |
     | [FTP]
     v
-Hostinger (novo.notebookexpert.com.br)
+Hostinger (notebookexpert.com.br)
 ```
 
 ---
@@ -108,9 +108,9 @@ Configurar em `Settings > Secrets and variables > Actions`:
 | `FTP_SERVER` | `82.25.67.229` | IP do servidor FTP (sem `ftp://`) |
 | `FTP_USERNAME` | `u265754230.eliel` | Usuário FTP |
 | `FTP_PASSWORD` | `*******` | Senha FTP |
-| `FTP_SERVER_DIR` | `/novo/` | Diretório no servidor (caminho relativo do FTP) |
+| `FTP_SERVER_DIR` | `/` | Diretório no servidor (raiz do FTP, equivalente ao `public_html`) |
 
-**Nota:** `BASE_PATH` foi removido porque o subdomínio já aponta para `/novo/`.
+**Nota:** `BASE_PATH` não é usado em produção — o domínio principal aponta direto para a raiz do FTP, então URLs são geradas sem prefixo (ex: `/dicas`, não `/novo/dicas`).
 
 ---
 
@@ -146,13 +146,13 @@ const res = await fetch(url);
 
 ---
 
-### Problema 2: BASE_PATH duplicado
+### Problema 2: BASE_PATH duplicado (histórico — pré-migração para domínio principal)
 
-**Sintoma:** Site buscava arquivos em `/novo/novo/_next/...`
+**Sintoma:** Quando o site rodava em subdomínio (`novo.notebookexpert.com.br`), em alguns deploys ele buscava arquivos em `/novo/novo/_next/...`
 
-**Causa:** Subdomínio já aponta para `/novo/` + `BASE_PATH` configurado como `/novo`.
+**Causa:** Subdomínio apontava para `/novo/` + `BASE_PATH` configurado como `/novo`.
 
-**Solução:** Remover secret `BASE_PATH` do GitHub. O `next.config.js` já tem fallback para string vazia.
+**Solução:** `BASE_PATH` ficou desabilitado e nunca mais voltou. Após a migração para o domínio principal, esse cenário não se aplica mais.
 
 ---
 
@@ -264,7 +264,7 @@ npm run build
 
 5. **Site atualizado**
    - Em ~3-5 minutos, post aparece no site
-   - Acessível em `novo.notebookexpert.com.br/dicas/[slug]`
+   - Acessível em `notebookexpert.com.br/dicas/[slug]`
 
 ### Cenário 2: Edição de Post Publicado
 
@@ -348,6 +348,41 @@ npm run build
 
 ---
 
+## 🔍 SEO em Produção
+
+### Sitemap
+
+O sitemap é gerado automaticamente em cada build a partir de [`app/sitemap.ts`](../app/sitemap.ts), incluindo:
+- Páginas estáticas (`/`, `/sobre`, `/servicos`, `/franquia`, `/para-empresas`, `/compra-venda`, `/dicas`)
+- Posts do blog (busca slugs em `getAllPostSlugs()`)
+- Seminovos (busca slugs em `getAllSeminovoSlugs()`)
+
+URL pública: `https://notebookexpert.com.br/sitemap.xml`
+
+O [`public/robots.txt`](../public/robots.txt) já referencia o sitemap. Não é necessária ação manual além de aguardar o build.
+
+### Google Search Console — passo a passo
+
+1. **Acessar** [search.google.com/search-console](https://search.google.com/search-console)
+2. **Adicionar propriedade** → escolher tipo "Prefixo do URL" → `https://notebookexpert.com.br`
+3. **Verificar propriedade**. Opções:
+   - **Recomendada — DNS TXT (cobre todos os subdomínios):** copiar o registro TXT que o Google fornecer, adicionar em hPanel → DNS Zone Editor → "Add new record" → tipo TXT, host `@`, valor o token. Aguardar propagação (~5min a 24h) e clicar "Verificar".
+   - **Alternativa — meta tag HTML:** o Google fornece um código `<meta name="google-site-verification" content="..." />`. Para incluir, readicionar em [`app/layout.tsx`](../app/layout.tsx) o bloco de verification (que foi removido no commit de migração porque era placeholder):
+     ```ts
+     verification: {
+       google: "COLE-AQUI-O-CODIGO-DO-SEARCH-CONSOLE",
+     },
+     ```
+4. **Enviar sitemap:** Search Console → Sitemaps → adicionar `sitemap.xml` (caminho relativo, sem o domínio).
+5. **Aguardar 1–7 dias** para o Google começar a indexar.
+6. **Verificar cobertura** em "Indexação > Páginas" depois de alguns dias.
+
+### Bing Webmaster Tools (opcional)
+
+Procedimento análogo em [bing.com/webmasters](https://www.bing.com/webmasters). O Bing aceita importar a propriedade já verificada do Google (botão "Importar do Google Search Console") — mais rápido que verificar de novo.
+
+---
+
 ## 📞 Suporte
 
 Para problemas ou dúvidas:
@@ -358,6 +393,6 @@ Para problemas ou dúvidas:
 
 ---
 
-**Última atualização:** 09/12/2025
-**Versão:** 1.0.0
+**Última atualização:** 06/05/2026
+**Versão:** 2.0.0 (pós-migração para domínio principal)
 

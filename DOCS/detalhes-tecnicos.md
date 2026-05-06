@@ -97,26 +97,59 @@ Isso significa:
 
 ---
 
-### Configuração do Subdomínio
+### Configuração do Domínio Principal
 
-**Estrutura no servidor:**
+**Estrutura no servidor (pós-migração):**
 ```
 /home/u265754230/
   └── domains/
       └── notebookexpert.com.br/
-          └── public_html/
-              └── novo/          ← Subdomínio aponta aqui
-                  ├── dicas/
-                  ├── _next/
-                  └── index.html
+          └── public_html/        ← Raiz do site em produção
+              ├── _OLD/           ← Backup do site antigo (preservado)
+              ├── admin/          ← WordPress headless (preservado)
+              ├── dicas/
+              ├── seminovos/
+              ├── _next/
+              ├── .htaccess
+              └── index.html
 ```
 
-**Configuração do subdomínio:**
-- `novo.notebookexpert.com.br` → `/public_html/novo/`
+**Configuração:**
+- `notebookexpert.com.br` → `/public_html/`
+- `novo.notebookexpert.com.br` → 301 permanente para o domínio principal (preserva path)
 
 **Por isso:**
-- `BASE_PATH` deve ser vazio (ou `/`)
-- URLs geradas: `novo.notebookexpert.com.br/dicas` (não `/novo/dicas`)
+- `BASE_PATH` é vazio
+- URLs geradas: `notebookexpert.com.br/dicas` (sem prefixo)
+- O secret `FTP_SERVER_DIR` no GitHub Actions é `/` (raiz do FTP, que entra direto em `public_html`)
+
+### Proteção de pastas externas no deploy
+
+O FTP-Deploy-Action **deleta** arquivos do servidor que não estão em `out/` (mesmo com `dangerous-clean-slate: false`). Como `_OLD/` e `admin/` convivem na mesma raiz, o workflow usa `exclude` para preservá-las:
+
+```yaml
+exclude: |
+  **/.git*
+  **/.git*/**
+  **/node_modules/**
+  _OLD/**
+  admin/**
+  .ftp-deploy-sync-state.json
+```
+
+**Sempre que adicionar nova pasta na raiz que não pertença ao Next, lembrar de adicionar ao `exclude`.**
+
+### .htaccess para roteamento
+
+O Next.js com `output: 'export'` gera `dicas.html` lado a lado com a pasta `dicas/` (que contém os posts). Sem `.htaccess`, o Apache não sabe qual servir e devolve 403.
+
+O arquivo [`public/.htaccess`](../public/.htaccess) contém regras que:
+- Reescrevem `/foo` para `/foo.html` quando o arquivo existe
+- Mapeiam 404 para `/404.html` (página customizada do Next)
+- Aplicam gzip e cache de assets
+- Mantêm HTML revalidando a cada hora (necessário por causa do cache agressivo do LiteSpeed)
+
+Tudo em `public/` é copiado para `out/` no build, então o `.htaccess` entra automaticamente no fluxo de deploy.
 
 ---
 
@@ -300,7 +333,7 @@ Header set Access-Control-Allow-Methods "GET, OPTIONS"
 
 **Alternativa mais segura:**
 ```apache
-Header set Access-Control-Allow-Origin "https://novo.notebookexpert.com.br"
+Header set Access-Control-Allow-Origin "https://notebookexpert.com.br"
 ```
 
 ---
@@ -374,5 +407,5 @@ CSR prejudica SEO. Google pode não indexar conteúdo carregado via JavaScript.
 
 ---
 
-**Última atualização:** 09/12/2025
+**Última atualização:** 06/05/2026
 

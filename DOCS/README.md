@@ -61,8 +61,8 @@ notebook-expert/
 
 ## 🔗 Links Úteis
 
-- **Frontend:** https://novo.notebookexpert.com.br
-- **WordPress Admin:** https://admin.notebookexpert.com.br
+- **Frontend (produção):** https://notebookexpert.com.br
+- **WordPress Admin (CMS headless):** https://admin.notebookexpert.com.br
 - **GitHub Actions:** https://github.com/elielcezar/notebook-expert/actions
 - **Repositório:** https://github.com/elielcezar/notebook-expert
 
@@ -78,5 +78,5 @@ Para dúvidas ou problemas:
 
 ---
 
-**Última atualização:** 09/12/2025
+**Última atualização:** 06/05/2026
 
