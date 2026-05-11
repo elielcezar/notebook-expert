@@ -12,7 +12,7 @@ import DailyCare from "@/components/DailyCare";
 import FAQ from "@/components/FAQ";
 import Footer from "@/components/Footer";
 import Map from "@/components/Map";
-import { getPageById, getLatestExpertTip, getTestimonials } from "@/lib/wordpress";
+import { getPageById, getLatestExpertTip, getTestimonials, stripHtml } from "@/lib/wordpress";
 
 export default async function Home() {
   // Buscar dados do WordPress em paralelo
@@ -78,8 +78,8 @@ export default async function Home() {
         <Testimonials
           testimonials={wpTestimonials.length > 0
             ? wpTestimonials.map(t => ({
-                name: t.title.rendered,
-                content: t.content.rendered.replace(/<[^>]*>/g, '').trim(),
+                name: stripHtml(t.title.rendered),
+                content: stripHtml(t.content.rendered),
               }))
             : undefined
           }

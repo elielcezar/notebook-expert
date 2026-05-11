@@ -2,6 +2,32 @@
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL || 'https://admin.notebookexpert.com.br/wp-json/wp/v2';
 
+// Decodifica entidades HTML numéricas e nomeadas mais comuns
+// (WordPress retorna aspas curvas, traços e similares como &#NNNN;)
+export function decodeHtmlEntities(str: string): string {
+  return str
+    .replace(/&#(\d+);/g, (_, dec) => String.fromCodePoint(Number(dec)))
+    .replace(/&#x([0-9a-fA-F]+);/g, (_, hex) => String.fromCodePoint(parseInt(hex, 16)))
+    .replace(/&ldquo;/g, '“')
+    .replace(/&rdquo;/g, '”')
+    .replace(/&lsquo;/g, '‘')
+    .replace(/&rsquo;/g, '’')
+    .replace(/&ndash;/g, '–')
+    .replace(/&mdash;/g, '—')
+    .replace(/&hellip;/g, '…')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&quot;/g, '"')
+    .replace(/&apos;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&');
+}
+
+// Remove tags HTML e decodifica entidades — para texto puro vindo do WP
+export function stripHtml(html: string): string {
+  return decodeHtmlEntities(html.replace(/<[^>]*>/g, '')).trim();
+}
+
 export interface WordPressPost {
   id: number;
   slug: string;
