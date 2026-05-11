@@ -55,7 +55,7 @@ const Footer = () => {
                     </div>
                 </div>
                 <div className="border-t border-gray-400 mt-12 py-4 text-center text-sm text-gray-400">
-                    <p>&copy; 2024 NotebookExpert. Todos os direitos reservados.</p>
+                    <p>&copy; 2026 NotebookExpert. Todos os direitos reservados.</p>
                 </div>
             </div>
 
