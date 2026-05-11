@@ -3,6 +3,9 @@ import { getAllPostSlugs, getAllSeminovoSlugs } from "@/lib/wordpress";
 
 const BASE_URL = "https://notebookexpert.com.br";
 
+export const dynamic = "force-static";
+export const revalidate = false;
+
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const now = new Date();
 
