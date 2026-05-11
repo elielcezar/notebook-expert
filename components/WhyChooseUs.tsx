@@ -18,7 +18,7 @@ const fallbackContent = `
   </p>
 `;
 const fallbackItems = [
-  "Mais de 16 anos de experiência",
+  "Mais de 20 anos de experiência",
   "Laboratório técnico especializado",
   "Peças de qualidade e garantia",
   "Atendimento transparente e rápido",
