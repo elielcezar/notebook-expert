@@ -19,7 +19,11 @@ on:
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
-    
+
+    # Necessário para o keepalive conseguir commitar (ver último step)
+    permissions:
+      contents: write
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -58,6 +62,27 @@ jobs:
         # Retry em caso de falha de conexão
         continue-on-error: false
       
+      # O GitHub desativa workflows agendados após 60 dias sem atividade no
+      # repositório — foi o que aconteceu em 10/07/2026 e congelou o site.
+      # Este step cria um commit vazio quando o último commit passa de 45 dias,
+      # zerando o contador. Commits feitos com o GITHUB_TOKEN não disparam
+      # novos workflows, então não há loop de build.
+      - name: Keepalive (evita auto-desativação do cron)
+        if: github.event_name == 'schedule'
+        run: |
+          set -euo pipefail
+          dias=$(( ( $(date +%s) - $(git log -1 --format=%ct) ) / 86400 ))
+          echo "Último commit há ${dias} dia(s)."
+          if [ "$dias" -lt 45 ]; then
+            echo "Ainda longe do limite de 60 dias. Nada a fazer."
+            exit 0
+          fi
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "chore: keepalive do workflow agendado"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+          echo "Commit de keepalive enviado."
+
       - name: Notify on failure
         if: failure()
         run: echo "Deploy failed! Check the logs above for details."

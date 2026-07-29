@@ -2,8 +2,8 @@
 /**
  * Plugin Name: GitHub Deploy Trigger
  * Plugin URI: https://notebookexpert.com.br
- * Description: Dispara rebuild automático do site Next.js via GitHub Actions quando posts são publicados.
- * Version: 1.0.0
+ * Description: Dispara rebuild automático do site Next.js via GitHub Actions quando posts, páginas, seminovos, depoimentos ou dicas do especialista são alterados.
+ * Version: 1.1.0
  * Author: NotebookExpert
  * Author URI: https://notebookexpert.com.br
  * License: GPL v2 or later
@@ -18,33 +18,79 @@ if (!defined('ABSPATH')) {
 class GitHub_Deploy_Trigger {
     
     private $option_name = 'github_deploy_options';
-    
+
+    /**
+     * Tipos de conteúdo que o frontend Next.js consome via REST API.
+     * Qualquer alteração neles precisa gerar um novo build estático.
+     */
+    private function get_watched_post_types() {
+        return apply_filters('github_deploy_watched_post_types', [
+            'post',
+            'page',
+            'seminovo',
+            'depoimento',
+            'dica_do_especialista',
+        ]);
+    }
+
+    /**
+     * Decide se um tipo de conteúdo deve disparar deploy.
+     * Posts e páginas respeitam as opções do admin; os CPTs sempre disparam,
+     * já que existem exclusivamente para alimentar o frontend.
+     */
+    private function should_trigger_for($post_type) {
+        if (!in_array($post_type, $this->get_watched_post_types(), true)) {
+            return false;
+        }
+
+        if ($post_type === 'post') {
+            return (bool) $this->get_option('trigger_posts', 1);
+        }
+
+        if ($post_type === 'page') {
+            return (bool) $this->get_option('trigger_pages', 0);
+        }
+
+        return true;
+    }
+
     public function __construct() {
         // Admin
         add_action('admin_menu', [$this, 'add_admin_menu']);
         add_action('admin_init', [$this, 'register_settings']);
         add_action('admin_enqueue_scripts', [$this, 'admin_styles']);
         
-        // Hooks para publicação
-        add_action('publish_post', [$this, 'trigger_deploy'], 10, 2);
-        add_action('publish_page', [$this, 'trigger_deploy'], 10, 2);
-        
+        // Hooks para publicação (registrados no init, depois dos CPTs existirem)
+        add_action('init', [$this, 'register_publish_hooks'], 20);
+
         // Hooks para edição (quando post já publicado é atualizado)
         add_action('post_updated', [$this, 'trigger_deploy_on_update'], 10, 3);
-        
+
         // Hooks para exclusão/movimento para lixeira
         // before_delete_post captura status antes da exclusão permanente
         add_action('before_delete_post', [$this, 'trigger_deploy_on_delete'], 10, 1);
         // trashed_post captura quando move para lixeira (não exclusão permanente)
         add_action('trashed_post', [$this, 'trigger_deploy_on_trash'], 10, 1);
+        // untrashed_post já cobre todos os post types
         add_action('untrashed_post', [$this, 'trigger_deploy_on_restore'], 10, 1);
-        add_action('untrashed_page', [$this, 'trigger_deploy_on_restore'], 10, 1);
-        
+
         // AJAX para teste manual
         add_action('wp_ajax_github_deploy_test', [$this, 'ajax_test_deploy']);
         add_action('wp_ajax_github_deploy_clear_log', [$this, 'ajax_clear_log']);
     }
     
+    /**
+     * Registrar os hooks de publicação de cada tipo observado.
+     * O hook do WordPress é publish_{post_type} — publish_post só cobre o tipo
+     * "post", então sem isto publicar um seminovo/depoimento/dica do
+     * especialista nunca republicava o site.
+     */
+    public function register_publish_hooks() {
+        foreach ($this->get_watched_post_types() as $post_type) {
+            add_action("publish_{$post_type}", [$this, 'trigger_deploy'], 10, 2);
+        }
+    }
+
     /**
      * Adicionar menu no admin
      */
@@ -329,12 +375,21 @@ class GitHub_Deploy_Trigger {
             <div class="github-deploy-card">
                 <h3>ℹ️ Como Funciona</h3>
                 <ol>
-                    <li>Quando você publica um post, este plugin envia uma requisição para o GitHub</li>
+                    <li>Quando você publica, edita ou exclui um conteúdo, este plugin envia uma requisição para o GitHub</li>
                     <li>O GitHub Actions recebe e inicia o workflow de build</li>
                     <li>O site é reconstruído com o novo conteúdo</li>
                     <li>Os arquivos são enviados automaticamente para o servidor</li>
                 </ol>
                 <p><strong>Tempo médio:</strong> 3-5 minutos após a publicação</p>
+                <p>
+                    <strong>Seminovos, Depoimentos e Dicas do Especialista</strong> disparam deploy
+                    sempre — as opções acima valem apenas para posts do blog e páginas.
+                </p>
+                <p style="border-left:4px solid #dba617;padding-left:10px;">
+                    <strong>Atenção:</strong> se o log abaixo mostrar sucesso mas o site não atualizar,
+                    verifique se o workflow <em>Build and Deploy</em> não foi desativado no GitHub
+                    (aba Actions). O GitHub retorna sucesso mesmo com o workflow desativado.
+                </p>
             </div>
         </div>
         
@@ -406,16 +461,10 @@ class GitHub_Deploy_Trigger {
         }
         
         // Verificar tipo de post
-        $post_type = get_post_type($post_id);
-        
-        if ($post_type === 'post' && !$this->get_option('trigger_posts', 1)) {
+        if (!$this->should_trigger_for(get_post_type($post_id))) {
             return;
         }
-        
-        if ($post_type === 'page' && !$this->get_option('trigger_pages', 0)) {
-            return;
-        }
-        
+
         // Evitar múltiplos disparos
         if (get_transient('github_deploy_triggered_' . $post_id)) {
             return;
@@ -429,11 +478,11 @@ class GitHub_Deploy_Trigger {
      * Disparar deploy quando post publicado é editado
      */
     public function trigger_deploy_on_update($post_id, $post_after, $post_before) {
-        // Ignorar se não for post ou página
-        if (!in_array($post_after->post_type, ['post', 'page'])) {
+        // Ignorar tipos que o frontend não consome
+        if (!$this->should_trigger_for($post_after->post_type)) {
             return;
         }
-        
+
         // Ignorar revisões e autosaves
         if (wp_is_post_revision($post_id) || wp_is_post_autosave($post_id)) {
             return;
@@ -444,16 +493,7 @@ class GitHub_Deploy_Trigger {
             // Verificar se houve mudança real (não apenas metadata)
             if ($post_before->post_title !== $post_after->post_title || 
                 $post_before->post_content !== $post_after->post_content) {
-                
-                // Verificar configuração
-                $post_type = get_post_type($post_id);
-                if ($post_type === 'post' && !$this->get_option('trigger_posts', 1)) {
-                    return;
-                }
-                if ($post_type === 'page' && !$this->get_option('trigger_pages', 0)) {
-                    return;
-                }
-                
+
                 // Evitar múltiplos disparos
                 $transient_key = 'github_deploy_updated_' . $post_id;
                 if (get_transient($transient_key)) {
@@ -481,16 +521,12 @@ class GitHub_Deploy_Trigger {
         if ($post->post_status !== 'publish' && $post->post_status !== 'trash') {
             return;
         }
-        
+
         // Verificar tipo e configuração
-        $post_type = get_post_type($post_id);
-        if ($post_type === 'post' && !$this->get_option('trigger_posts', 1)) {
+        if (!$this->should_trigger_for(get_post_type($post_id))) {
             return;
         }
-        if ($post_type === 'page' && !$this->get_option('trigger_pages', 0)) {
-            return;
-        }
-        
+
         // Evitar múltiplos disparos
         $transient_key = 'github_deploy_deleted_' . $post_id;
         if (get_transient($transient_key)) {
@@ -513,14 +549,10 @@ class GitHub_Deploy_Trigger {
         }
         
         // Verificar tipo e configuração
-        $post_type = get_post_type($post_id);
-        if ($post_type === 'post' && !$this->get_option('trigger_posts', 1)) {
+        if (!$this->should_trigger_for(get_post_type($post_id))) {
             return;
         }
-        if ($post_type === 'page' && !$this->get_option('trigger_pages', 0)) {
-            return;
-        }
-        
+
         // Evitar múltiplos disparos
         $transient_key = 'github_deploy_trashed_' . $post_id;
         if (get_transient($transient_key)) {
@@ -542,14 +574,10 @@ class GitHub_Deploy_Trigger {
         }
         
         // Verificar tipo e configuração
-        $post_type = get_post_type($post_id);
-        if ($post_type === 'post' && !$this->get_option('trigger_posts', 1)) {
+        if (!$this->should_trigger_for(get_post_type($post_id))) {
             return;
         }
-        if ($post_type === 'page' && !$this->get_option('trigger_pages', 0)) {
-            return;
-        }
-        
+
         // Só disparar se foi restaurado como publicado
         if ($post->post_status === 'publish') {
             // Evitar múltiplos disparos
