@@ -28,7 +28,14 @@ async function wpFetch(path: string): Promise<Response> {
 
     let res: Response;
     try {
-      res = await fetch(`${WP_API_URL}${path}`);
+      // Identifica o cliente: o fetch do Node manda "User-Agent: node" por
+      // padrão, que muitos WAFs tratam como bot e barram.
+      res = await fetch(`${WP_API_URL}${path}`, {
+        headers: {
+          'User-Agent': 'NotebookExpert-Build/1.0 (+https://notebookexpert.com.br)',
+          'Accept': 'application/json',
+        },
+      });
     } catch (error) {
       // Falha de rede/DNS: vale repetir
       lastError = error instanceof Error ? error : new Error(String(error));
