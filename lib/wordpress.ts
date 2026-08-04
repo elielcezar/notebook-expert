@@ -236,28 +236,23 @@ export interface WordPressSeminovo {
   content: {
     rendered: string;
   };
-  featured_media: number;
+  // Galeria do ACF — única fonte de imagem do seminovo. Por isso as buscas
+  // abaixo não pedem _embed: a imagem destacada não é usada em lugar nenhum.
   acf: {
     imagens: string[];
-  };
-  _embedded?: {
-    'wp:featuredmedia'?: Array<{
-      source_url: string;
-      alt_text?: string;
-    }>;
   };
 }
 
 // Buscar seminovos (todos ou limitado)
 export async function getSeminovos(perPage: number = 100): Promise<WordPressSeminovo[]> {
-  const res = await wpFetch(`/seminovo?per_page=${perPage}&_embed&acf_format=standard&orderby=date&order=desc`);
+  const res = await wpFetch(`/seminovo?per_page=${perPage}&acf_format=standard&orderby=date&order=desc`);
   return res.json();
 }
 
 // Buscar seminovo individual por slug
 // null aqui significa "não existe", não "falhou" — falha vira exceção
 export async function getSeminovoBySlug(slug: string): Promise<WordPressSeminovo | null> {
-  const res = await wpFetch(`/seminovo?slug=${encodeURIComponent(slug)}&_embed&acf_format=standard`);
+  const res = await wpFetch(`/seminovo?slug=${encodeURIComponent(slug)}&acf_format=standard`);
   const items: WordPressSeminovo[] = await res.json();
   return items[0] || null;
 }

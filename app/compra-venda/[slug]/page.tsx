@@ -43,15 +43,11 @@ export default async function SeminovoDetailPage({
   }
 
   const title = seminovo.title.rendered;
-  const featuredImage = seminovo._embedded?.['wp:featuredmedia']?.[0]?.source_url;
-  const acfImages = seminovo.acf?.imagens || [];
 
-  // Montar galeria: usa imagens do ACF se disponíveis, senão featured image
-  const galleryImages: string[] = acfImages.length > 0
-    ? acfImages.map(img => String(img))
-    : featuredImage
-      ? [featuredImage]
-      : [];
+  // A galeria do ACF é a única fonte de imagem do seminovo. A imagem destacada
+  // não faz parte do cadastro — usá-la como fallback fazia o mesmo produto
+  // aparecer com imagens diferentes na listagem e aqui.
+  const galleryImages: string[] = seminovo.acf?.imagens ?? [];
 
   const whatsappMessage = encodeURIComponent(`Olá! Tenho interesse no notebook seminovo: ${title}. Ele ainda está disponível?`);
 

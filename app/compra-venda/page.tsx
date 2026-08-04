@@ -158,7 +158,7 @@ export default async function CompraVendaPage() {
 
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 portrait:gap-4">
                 {seminovos.map((item) => {
-                  const featuredImage = item._embedded?.['wp:featuredmedia']?.[0]?.source_url;
+                  const coverImage = item.acf?.imagens?.[0];
                   const description = item.content.rendered.replace(/<[^>]*>/g, '').trim();
                   const basePath = process.env.NEXT_PUBLIC_BASE_PATH || '';
 
@@ -170,9 +170,9 @@ export default async function CompraVendaPage() {
                     >
                       {/* Imagem do Produto */}
                       <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted">
-                        {featuredImage ? (
+                        {coverImage ? (
                           <img
-                            src={featuredImage}
+                            src={coverImage}
                             alt={item.title.rendered}
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                           />
