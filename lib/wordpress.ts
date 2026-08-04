@@ -2,6 +2,53 @@
 
 const WP_API_URL = process.env.NEXT_PUBLIC_WP_API_URL || 'https://admin.notebookexpert.com.br/wp-json/wp/v2';
 
+// Espera entre tentativas. O anti-DDoS da Hostinger bloqueia rajadas vindas de
+// IPs de datacenter (é o que derrubou os builds de 04/08), e esse bloqueio é
+// temporário — esperar costuma resolver.
+const RETRY_DELAYS_MS = [2000, 5000, 15000, 30000];
+
+/**
+ * Busca na API do WordPress com retentativas.
+ *
+ * Lança erro em vez de devolver vazio, de propósito. O site é um export
+ * estático: se uma chamada falhasse silenciosamente e devolvesse [], o build
+ * passaria e publicaria a página sem conteúdo — apagando a seção do ar. Um
+ * build que falha é recuperável; um deploy vazio destrói o que estava
+ * publicado. Sempre prefira quebrar o build.
+ */
+async function wpFetch(path: string): Promise<Response> {
+  let lastError = new Error('erro desconhecido');
+
+  for (let attempt = 0; attempt <= RETRY_DELAYS_MS.length; attempt++) {
+    if (attempt > 0) {
+      const delay = RETRY_DELAYS_MS[attempt - 1];
+      console.warn(`[WordPress] ${path} falhou (${lastError.message}); nova tentativa em ${delay}ms`);
+      await new Promise((resolve) => setTimeout(resolve, delay));
+    }
+
+    let res: Response;
+    try {
+      res = await fetch(`${WP_API_URL}${path}`);
+    } catch (error) {
+      // Falha de rede/DNS: vale repetir
+      lastError = error instanceof Error ? error : new Error(String(error));
+      continue;
+    }
+
+    if (res.ok) return res;
+
+    lastError = new Error(`HTTP ${res.status} ${res.statusText}`);
+
+    // 4xx (exceto 429) é erro da requisição em si: repetir não muda nada
+    if (res.status < 500 && res.status !== 429) break;
+  }
+
+  throw new Error(
+    `[WordPress] ${path} falhou após ${RETRY_DELAYS_MS.length + 1} tentativas: ${lastError.message}. ` +
+    `Build abortado de propósito — publicar com dados vazios apagaria o conteúdo do site.`
+  );
+}
+
 // Decodifica entidades HTML numéricas e nomeadas mais comuns
 // (WordPress retorna aspas curvas, traços e similares como &#NNNN;)
 export function decodeHtmlEntities(str: string): string {
@@ -75,90 +122,35 @@ export interface WordPressCategory {
 
 // Buscar todos os posts
 export async function getPosts(perPage: number = 100): Promise<WordPressPost[]> {
-  const url = `${WP_API_URL}/posts?per_page=${perPage}&_embed&status=publish`;
-  
-  try {
-    const res = await fetch(url);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    return res.json();
-  } catch (error) {
-    console.error('[WordPress] getPosts error:', error);
-    return [];
-  }
+  const res = await wpFetch(`/posts?per_page=${perPage}&_embed&status=publish`);
+  return res.json();
 }
 
 // Buscar todos os slugs dos posts (para generateStaticParams)
 export async function getAllPostSlugs(): Promise<string[]> {
-  const url = `${WP_API_URL}/posts?per_page=100&_fields=slug&status=publish`;
-  
-  try {
-    const res = await fetch(url);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    const posts: { slug: string }[] = await res.json();
-    return posts.map(post => post.slug);
-  } catch (error) {
-    console.error('[WordPress] getAllPostSlugs error:', error);
-    return [];
-  }
+  const res = await wpFetch('/posts?per_page=100&_fields=slug&status=publish');
+  const posts: { slug: string }[] = await res.json();
+  return posts.map(post => post.slug);
 }
 
 // Buscar post individual por slug
+// null aqui significa "não existe", não "falhou" — falha vira exceção
 export async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
-  const url = `${WP_API_URL}/posts?slug=${encodeURIComponent(slug)}&_embed&status=publish`;
-  
-  try {
-    const res = await fetch(url);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    const posts = await res.json();
-    return posts[0] || null;
-  } catch (error) {
-    console.error(`[WordPress] getPostBySlug(${slug}) error:`, error);
-    return null;
-  }
+  const res = await wpFetch(`/posts?slug=${encodeURIComponent(slug)}&_embed&status=publish`);
+  const posts: WordPressPost[] = await res.json();
+  return posts[0] || null;
 }
 
 // Buscar post individual por ID
 export async function getPostById(id: number): Promise<WordPressPost | null> {
-  try {
-    const res = await fetch(`${WP_API_URL}/posts/${id}?_embed`);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    return res.json();
-  } catch (error) {
-    console.error(`[WordPress] getPostById(${id}) error:`, error);
-    return null;
-  }
+  const res = await wpFetch(`/posts/${id}?_embed`);
+  return res.json();
 }
 
 // Buscar todas as categorias
 export async function getCategories(): Promise<WordPressCategory[]> {
-  try {
-    const res = await fetch(`${WP_API_URL}/categories?per_page=100&hide_empty=true`);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    return res.json();
-  } catch (error) {
-    console.error('[WordPress] getCategories error:', error);
-    return [];
-  }
+  const res = await wpFetch('/categories?per_page=100&hide_empty=true');
+  return res.json();
 }
 
 // Interface para páginas do WordPress (com campos ACF)
@@ -186,18 +178,8 @@ export interface WordPressPage {
 
 // Buscar página individual por ID
 export async function getPageById(id: number): Promise<WordPressPage | null> {
-  try {
-    const res = await fetch(`${WP_API_URL}/pages/${id}?_embed&acf_format=standard`);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    return res.json();
-  } catch (error) {
-    console.error(`[WordPress] getPageById(${id}) error:`, error);
-    return null;
-  }
+  const res = await wpFetch(`/pages/${id}?_embed&acf_format=standard`);
+  return res.json();
 }
 
 // Interface para Custom Post Type "Dica do Especialista"
@@ -214,19 +196,9 @@ export interface WordPressExpertTip {
 
 // Buscar a dica do especialista mais recente
 export async function getLatestExpertTip(): Promise<WordPressExpertTip | null> {
-  try {
-    const res = await fetch(`${WP_API_URL}/dica_do_especialista?per_page=1&orderby=date&order=desc`);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    const tips: WordPressExpertTip[] = await res.json();
-    return tips[0] || null;
-  } catch (error) {
-    console.error('[WordPress] getLatestExpertTip error:', error);
-    return null;
-  }
+  const res = await wpFetch('/dica_do_especialista?per_page=1&orderby=date&order=desc');
+  const tips: WordPressExpertTip[] = await res.json();
+  return tips[0] || null;
 }
 
 // Interface para Custom Post Type "Depoimento"
@@ -243,18 +215,8 @@ export interface WordPressTestimonial {
 
 // Buscar depoimentos (últimos N)
 export async function getTestimonials(perPage: number = 12): Promise<WordPressTestimonial[]> {
-  try {
-    const res = await fetch(`${WP_API_URL}/depoimento?per_page=${perPage}&orderby=date&order=desc`);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    return res.json();
-  } catch (error) {
-    console.error('[WordPress] getTestimonials error:', error);
-    return [];
-  }
+  const res = await wpFetch(`/depoimento?per_page=${perPage}&orderby=date&order=desc`);
+  return res.json();
 }
 
 // Interface para Custom Post Type "Seminovo"
@@ -281,52 +243,23 @@ export interface WordPressSeminovo {
 
 // Buscar seminovos (todos ou limitado)
 export async function getSeminovos(perPage: number = 100): Promise<WordPressSeminovo[]> {
-  try {
-    const res = await fetch(`${WP_API_URL}/seminovo?per_page=${perPage}&_embed&acf_format=standard&orderby=date&order=desc`);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    return res.json();
-  } catch (error) {
-    console.error('[WordPress] getSeminovos error:', error);
-    return [];
-  }
+  const res = await wpFetch(`/seminovo?per_page=${perPage}&_embed&acf_format=standard&orderby=date&order=desc`);
+  return res.json();
 }
 
 // Buscar seminovo individual por slug
+// null aqui significa "não existe", não "falhou" — falha vira exceção
 export async function getSeminovoBySlug(slug: string): Promise<WordPressSeminovo | null> {
-  try {
-    const res = await fetch(`${WP_API_URL}/seminovo?slug=${encodeURIComponent(slug)}&_embed&acf_format=standard`);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    const items: WordPressSeminovo[] = await res.json();
-    return items[0] || null;
-  } catch (error) {
-    console.error(`[WordPress] getSeminovoBySlug(${slug}) error:`, error);
-    return null;
-  }
+  const res = await wpFetch(`/seminovo?slug=${encodeURIComponent(slug)}&_embed&acf_format=standard`);
+  const items: WordPressSeminovo[] = await res.json();
+  return items[0] || null;
 }
 
 // Buscar todos os slugs dos seminovos (para generateStaticParams)
 export async function getAllSeminovoSlugs(): Promise<string[]> {
-  try {
-    const res = await fetch(`${WP_API_URL}/seminovo?per_page=100&_fields=slug`);
-
-    if (!res.ok) {
-      throw new Error(`WordPress API error: ${res.status} ${res.statusText}`);
-    }
-
-    const items: { slug: string }[] = await res.json();
-    return items.map(item => item.slug);
-  } catch (error) {
-    console.error('[WordPress] getAllSeminovoSlugs error:', error);
-    return [];
-  }
+  const res = await wpFetch('/seminovo?per_page=100&_fields=slug');
+  const items: { slug: string }[] = await res.json();
+  return items.map(item => item.slug);
 }
 
 // Extrair dados úteis de um post
