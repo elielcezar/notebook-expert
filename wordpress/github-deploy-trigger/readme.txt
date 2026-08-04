@@ -4,7 +4,7 @@ Tags: github, deploy, actions, webhook, headless
 Requires at least: 5.0
 Tested up to: 6.4
 Requires PHP: 7.4
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 
 Dispara rebuild automático do site Next.js via GitHub Actions quando o conteúdo consumido pelo frontend é alterado.
@@ -46,6 +46,16 @@ pelo filtro `github_deploy_watched_post_types`.
 6. Copie o token e cole nas configurações do plugin
 
 == Changelog ==
+
+= 1.2.0 =
+* Corrige: uma unica edicao disparava ate 4 deploys concorrentes, que se
+  derrubavam no FTP com "Timeout (control socket)". Salvar um post publicado
+  aciona publish_{post_type} E post_updated, e cada um usava uma chave de
+  transient diferente, entao um nao bloqueava o outro
+* Substitui as travas por post por um debounce global de 45s em
+  maybe_trigger_deploy(); um deploy reconstroi o site inteiro, entao basta um
+  por rajada de alteracoes
+* O botao de teste manual segue ignorando o debounce
 
 = 1.1.0 =
 * Corrige: publicar ou editar Seminovo, Depoimento e Dica do Especialista não disparava deploy

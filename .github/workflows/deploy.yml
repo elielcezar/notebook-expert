@@ -16,6 +16,16 @@ on:
   schedule:
     - cron: '0 6,18 * * *'
 
+# A Hostinger limita conexões FTP simultâneas: dois deploys ao mesmo tempo
+# derrubam um ao outro com "Timeout (control socket)". Aqui os deploys entram
+# em fila em vez de correrem juntos.
+# cancel-in-progress: false de propósito — cancelar um deploy no meio do FTP
+# deixaria o servidor em estado parcial. O GitHub mantém só a execução
+# pendente mais recente na fila, então nada se acumula.
+concurrency:
+  group: deploy-producao
+  cancel-in-progress: false
+
 jobs:
   build-deploy:
     runs-on: ubuntu-latest
@@ -44,7 +54,7 @@ jobs:
           NEXT_PUBLIC_BASE_PATH: ${{ secrets.BASE_PATH }}
       
       - name: Deploy to Hostinger via FTP
-        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        uses: SamKirkland/FTP-Deploy-Action@v4.4.0
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
@@ -52,6 +62,9 @@ jobs:
           local-dir: ./out/
           server-dir: ${{ secrets.FTP_SERVER_DIR }}
           dangerous-clean-slate: false
+          # O export estático gera centenas de arquivos .txt minúsculos; com o
+          # padrão de 30s o socket de controle da Hostinger estoura no meio.
+          timeout: 120000
           exclude: |
             **/.git*
             **/.git*/**

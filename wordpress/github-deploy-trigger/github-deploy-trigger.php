@@ -3,7 +3,7 @@
  * Plugin Name: GitHub Deploy Trigger
  * Plugin URI: https://notebookexpert.com.br
  * Description: Dispara rebuild automático do site Next.js via GitHub Actions quando posts, páginas, seminovos, depoimentos ou dicas do especialista são alterados.
- * Version: 1.1.0
+ * Version: 1.2.0
  * Author: NotebookExpert
  * Author URI: https://notebookexpert.com.br
  * License: GPL v2 or later
@@ -79,6 +79,28 @@ class GitHub_Deploy_Trigger {
         add_action('wp_ajax_github_deploy_clear_log', [$this, 'ajax_clear_log']);
     }
     
+    /**
+     * Dispara o deploy no máximo uma vez por janela curta.
+     *
+     * Um deploy reconstrói o site inteiro, então basta um por rajada de
+     * alterações — chaves por post eram a granularidade errada. Salvar um post
+     * já publicado aciona publish_{post_type} E post_updated, e o editor de
+     * blocos ainda salva mais de uma vez: sem esta trava, uma única edição
+     * gerava 4 deploys concorrentes que se derrubavam no FTP.
+     *
+     * A janela é curta de propósito. Perder uma alteração é pior que um build
+     * a mais, então uma edição deliberada logo em seguida ainda passa — o
+     * grupo de concorrência do workflow põe o segundo build na fila.
+     */
+    private function maybe_trigger_deploy($reason, $post_id = null) {
+        if (get_transient('github_deploy_pending')) {
+            return;
+        }
+        set_transient('github_deploy_pending', true, 45);
+
+        $this->send_deploy_request($reason, $post_id);
+    }
+
     /**
      * Registrar os hooks de publicação de cada tipo observado.
      * O hook do WordPress é publish_{post_type} — publish_post só cobre o tipo
@@ -465,13 +487,7 @@ class GitHub_Deploy_Trigger {
             return;
         }
 
-        // Evitar múltiplos disparos
-        if (get_transient('github_deploy_triggered_' . $post_id)) {
-            return;
-        }
-        set_transient('github_deploy_triggered_' . $post_id, true, 60);
-        
-        $this->send_deploy_request($post->post_title, $post_id);
+        $this->maybe_trigger_deploy($post->post_title, $post_id);
     }
     
     /**
@@ -494,14 +510,7 @@ class GitHub_Deploy_Trigger {
             if ($post_before->post_title !== $post_after->post_title || 
                 $post_before->post_content !== $post_after->post_content) {
 
-                // Evitar múltiplos disparos
-                $transient_key = 'github_deploy_updated_' . $post_id;
-                if (get_transient($transient_key)) {
-                    return;
-                }
-                set_transient($transient_key, true, 60);
-                
-                $this->send_deploy_request("Edição: {$post_after->post_title}", $post_id);
+                $this->maybe_trigger_deploy("Edição: {$post_after->post_title}", $post_id);
             }
         }
     }
@@ -527,14 +536,7 @@ class GitHub_Deploy_Trigger {
             return;
         }
 
-        // Evitar múltiplos disparos
-        $transient_key = 'github_deploy_deleted_' . $post_id;
-        if (get_transient($transient_key)) {
-            return;
-        }
-        set_transient($transient_key, true, 60);
-        
-        $this->send_deploy_request("Exclusão permanente: {$post->post_title}", $post_id);
+        $this->maybe_trigger_deploy("Exclusão permanente: {$post->post_title}", $post_id);
     }
     
     /**
@@ -553,14 +555,7 @@ class GitHub_Deploy_Trigger {
             return;
         }
 
-        // Evitar múltiplos disparos
-        $transient_key = 'github_deploy_trashed_' . $post_id;
-        if (get_transient($transient_key)) {
-            return;
-        }
-        set_transient($transient_key, true, 60);
-        
-        $this->send_deploy_request("Movido para lixeira: {$post->post_title}", $post_id);
+        $this->maybe_trigger_deploy("Movido para lixeira: {$post->post_title}", $post_id);
     }
     
     /**
@@ -580,14 +575,7 @@ class GitHub_Deploy_Trigger {
 
         // Só disparar se foi restaurado como publicado
         if ($post->post_status === 'publish') {
-            // Evitar múltiplos disparos
-            $transient_key = 'github_deploy_restored_' . $post_id;
-            if (get_transient($transient_key)) {
-                return;
-            }
-            set_transient($transient_key, true, 60);
-            
-            $this->send_deploy_request("Restauração: {$post->post_title}", $post_id);
+            $this->maybe_trigger_deploy("Restauração: {$post->post_title}", $post_id);
         }
     }
     
