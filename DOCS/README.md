@@ -27,6 +27,17 @@ Análise técnica profunda da implementação:
 
 ---
 
+### [Replicar a Integração em Outro Projeto](./replicar-integracao-wordpress.md)
+Passo a passo para montar o mesmo setup num projeto novo de stack idêntica:
+- O que copiar e o que adaptar nos plugins de `wordpress/`
+- Configuração do WordPress (CPTs, ACF, CORS, IDs de páginas)
+- Configuração do Next.js, do `.htaccess` e do workflow de deploy
+- Checklist de validação e armadilhas já resolvidas aqui
+
+**Recomendado para:** Quem vai reaproveitar esta integração em outro cliente.
+
+---
+
 ## 🚀 Início Rápido
 
 Se você está começando a trabalhar no projeto:

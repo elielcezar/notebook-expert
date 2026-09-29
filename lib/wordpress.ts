@@ -127,25 +127,65 @@ export interface WordPressCategory {
   count: number;
 }
 
-// Buscar todos os posts
-export async function getPosts(perPage: number = 100): Promise<WordPressPost[]> {
-  const res = await wpFetch(`/posts?per_page=${perPage}&_embed&status=publish`);
-  return res.json();
+/**
+ * Busca todas as páginas de uma listagem da API.
+ *
+ * O WordPress devolve no máximo 100 itens por requisição, e per_page acima
+ * disso não é aceito. Sem paginar, tudo além do 100º item some do site: fica
+ * fora da listagem, sem página gerada e fora do sitemap.
+ */
+async function wpFetchAll<T>(path: string): Promise<T[]> {
+  const separator = path.includes('?') ? '&' : '?';
+  const items: T[] = [];
+  let page = 1;
+  let totalPages = 1;
+
+  do {
+    const res = await wpFetch(`${path}${separator}per_page=100&page=${page}`);
+    totalPages = Number(res.headers.get('X-WP-TotalPages')) || 1;
+    items.push(...(await res.json()));
+    page++;
+  } while (page <= totalPages);
+
+  return items;
+}
+
+// Uma busca só por processo de build. Listagem, slugs, metadata e páginas
+// individuais leem daqui: buscar post a post dava ~2 requisições por post,
+// e rajadas assim é o que o anti-DDoS da Hostinger bloqueia.
+let allPostsPromise: Promise<WordPressPost[]> | null = null;
+
+// Buscar todos os posts publicados, do mais recente para o mais antigo
+export function getPosts(): Promise<WordPressPost[]> {
+  if (!allPostsPromise) {
+    allPostsPromise = wpFetchAll<WordPressPost>('/posts?_embed&status=publish');
+    // Uma falha não pode ficar em cache: a próxima chamada tenta de novo
+    allPostsPromise.catch(() => { allPostsPromise = null; });
+  }
+  return allPostsPromise;
 }
 
 // Buscar todos os slugs dos posts (para generateStaticParams)
 export async function getAllPostSlugs(): Promise<string[]> {
-  const res = await wpFetch('/posts?per_page=100&_fields=slug&status=publish');
-  const posts: { slug: string }[] = await res.json();
+  const posts = await getPosts();
   return posts.map(post => post.slug);
 }
 
 // Buscar post individual por slug
 // null aqui significa "não existe", não "falhou" — falha vira exceção
 export async function getPostBySlug(slug: string): Promise<WordPressPost | null> {
-  const res = await wpFetch(`/posts?slug=${encodeURIComponent(slug)}&_embed&status=publish`);
-  const posts: WordPressPost[] = await res.json();
-  return posts[0] || null;
+  const posts = await getPosts();
+  return posts.find(post => post.slug === slug) || null;
+}
+
+// Paginação da listagem /dicas
+export const POSTS_PER_PAGE = 25;
+
+export async function getPostsPage(page: number): Promise<{ posts: WordPressPost[]; totalPages: number }> {
+  const posts = await getPosts();
+  const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
+  const start = (page - 1) * POSTS_PER_PAGE;
+  return { posts: posts.slice(start, start + POSTS_PER_PAGE), totalPages };
 }
 
 // Buscar post individual por ID
