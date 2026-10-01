@@ -1,18 +1,15 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import { Calendar, User, ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
-import { getPostsPage, extractPostData } from "@/lib/wordpress";
+import { Calendar, User, ArrowRight, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import { getPostsPage, extractPostData, type WordPressCategory } from "@/lib/wordpress";
+import { SECAO_PATH, SECAO_TITULO, listagemHref, postHref, tituloCategoria } from "@/lib/reparo";
 import Link from "next/link";
 
-// Página 1 vive em /dicas; as demais em /dicas/pagina/N
-export function dicasPageHref(page: number) {
-  return page <= 1 ? "/dicas" : `/dicas/pagina/${page}`;
-}
-
-// Listagem de posts compartilhada por /dicas e /dicas/pagina/[page]
-export default async function DicasListing({ page }: { page: number }) {
-  const { posts: wpPosts, totalPages } = await getPostsPage(page);
+// Listagem de posts da seção: geral (sem categoria) ou de uma marca
+export default async function ReparoListing({ page, categoria }: { page: number; categoria?: WordPressCategory }) {
+  const { posts: wpPosts, totalPages } = await getPostsPage(page, categoria?.id);
   const posts = wpPosts.map(extractPostData);
+  const pageHref = (n: number) => listagemHref(n, categoria?.slug);
 
   return (
     <div className="min-h-screen bg-background">
@@ -33,14 +30,24 @@ export default async function DicasListing({ page }: { page: number }) {
 
           <div className="container mx-auto px-4 relative z-10">
             <div className="max-w-4xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">                
-                <span className="text-yellow font-semibold text-sm uppercase tracking-wider">
-                  Conhecimento Especializado
-                </span>                
+              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
+                {categoria ? (
+                  <Link
+                    href={SECAO_PATH}
+                    className="inline-flex items-center gap-1 text-yellow font-semibold text-sm uppercase tracking-wider hover:text-white transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    {SECAO_TITULO}
+                  </Link>
+                ) : (
+                  <span className="text-yellow font-semibold text-sm uppercase tracking-wider">
+                    Conhecimento Especializado
+                  </span>
+                )}
               </div>
-              
+
               <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
-                Dicas e Artigos
+                {categoria ? tituloCategoria(categoria.name) : SECAO_TITULO}
               </h1>
               
               <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
@@ -96,7 +103,7 @@ export default async function DicasListing({ page }: { page: number }) {
 
                         {/* Title */}
                         <h2 className="text-2xl font-bold text-foreground mb-3 hover:text-[var(--blue)] transition-colors portrait:text-xl portrait:mb-2">
-                          <Link href={`/dicas/${post.slug}`}>
+                          <Link href={postHref(post.slug)}>
                             {post.title}
                           </Link>
                         </h2>
@@ -108,7 +115,7 @@ export default async function DicasListing({ page }: { page: number }) {
 
                         {/* Read More Button */}
                         <Link
-                          href={`/dicas/${post.slug}`}
+                          href={postHref(post.slug)}
                           className="inline-flex items-center gap-2 text-[var(--blue)] hover:text-[var(--darkblue)] font-semibold transition-colors group"
                         >
                           Leia mais
@@ -124,7 +131,7 @@ export default async function DicasListing({ page }: { page: number }) {
               {posts.length === 0 && (
                 <div className="text-center py-16">
                   <p className="text-muted-foreground text-lg">
-                    Em breve, novos artigos e dicas sobre notebooks.
+                    Em breve, novos conteúdos sobre reparo de notebooks.
                   </p>
                 </div>
               )}
@@ -134,7 +141,7 @@ export default async function DicasListing({ page }: { page: number }) {
                 <nav aria-label="Paginação" className="flex items-center justify-center gap-2 mt-12 flex-wrap">
                   {page > 1 && (
                     <Link
-                      href={dicasPageHref(page - 1)}
+                      href={pageHref(page - 1)}
                       className="inline-flex items-center gap-1 h-10 px-3 rounded-md border border-border text-foreground hover:bg-[var(--blue)] hover:text-white transition-colors"
                     >
                       <ChevronLeft className="w-4 h-4" />
@@ -144,7 +151,7 @@ export default async function DicasListing({ page }: { page: number }) {
                   {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
                     <Link
                       key={n}
-                      href={dicasPageHref(n)}
+                      href={pageHref(n)}
                       aria-current={n === page ? "page" : undefined}
                       className={`inline-flex items-center justify-center h-10 min-w-10 px-3 rounded-md border font-semibold transition-colors ${
                         n === page
@@ -157,7 +164,7 @@ export default async function DicasListing({ page }: { page: number }) {
                   ))}
                   {page < totalPages && (
                     <Link
-                      href={dicasPageHref(page + 1)}
+                      href={pageHref(page + 1)}
                       className="inline-flex items-center gap-1 h-10 px-3 rounded-md border border-border text-foreground hover:bg-[var(--blue)] hover:text-white transition-colors"
                     >
                       Próxima

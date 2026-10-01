@@ -26,6 +26,11 @@ const nextConfig = {
 
   experimental: {
     optimizePackageImports: ['lucide-react', '@radix-ui/react-icons'],
+    // Um worker só na geração estática. Os caches de posts/categorias em
+    // lib/wordpress.ts valem por processo: com N workers, cada um baixava a
+    // listagem pesada ao mesmo tempo e o WordPress na Hostinger respondia 500.
+    // A geração leva poucos segundos, então o paralelismo não faz falta.
+    cpus: 1,
   },
 
   // Headers para segurança e performance

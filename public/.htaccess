@@ -6,9 +6,15 @@ DirectoryIndex index.html
 ErrorDocument 404 /404.html
 
 # Roteamento: serve /foo como /foo.html quando o arquivo existe
-# Cobre /dicas, /dicas/post-x, /seminovos/produto-y, etc.
+# Cobre /reparo-de-notebooks, /reparo-de-notebooks/post-x, /compra-venda/produto-y, etc.
 <IfModule mod_rewrite.c>
   RewriteEngine On
+
+  # A seção /dicas virou /reparo-de-notebooks (mesmos slugs). 301 preserva
+  # links antigos e transfere a indexação do Google. Precisa vir antes das
+  # regras abaixo.
+  RewriteRule ^dicas/?$ /reparo-de-notebooks [R=301,L]
+  RewriteRule ^dicas/(.+?)/?$ /reparo-de-notebooks/$1 [R=301,L]
 
   # Não reescrever requests que batem com arquivos reais (CSS, JS, imagens, _next/...)
   RewriteCond %{REQUEST_FILENAME} -f

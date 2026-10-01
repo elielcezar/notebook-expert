@@ -2,26 +2,54 @@ import type { Metadata } from "next";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import Link from "next/link";
-import { Calendar, User, Phone, Clock } from "lucide-react";
-import { getPostBySlug, getAllPostSlugs, extractPostData } from "@/lib/wordpress";
+import { Calendar, User, Phone, Clock, ArrowLeft } from "lucide-react";
+import { getPostBySlug, getAllPostSlugs, getMenuCategories, extractPostData } from "@/lib/wordpress";
+import { SECAO_PATH, SECAO_TITULO, SITE_URL, categoriaHref, postHref, tituloCategoria } from "@/lib/reparo";
+import ReparoListing from "@/components/ReparoListing";
 import { notFound } from "next/navigation";
 
-// Esta função define quais slugs devem ser gerados estaticamente
+// Este segmento atende dois tipos de página:
+//   /reparo-de-notebooks/<marca>  → listagem da categoria (página 1)
+//   /reparo-de-notebooks/<post>   → post individual
+async function getCategoriaBySlug(slug: string) {
+  const categorias = await getMenuCategories();
+  return categorias.find((c) => c.slug === slug) || null;
+}
+
 export async function generateStaticParams() {
-  const slugs = await getAllPostSlugs();
-  return slugs.map((slug) => ({
-    slug: slug,
-  }));
+  const [slugs, categorias] = await Promise.all([getAllPostSlugs(), getMenuCategories()]);
+
+  // Mesmo segmento para os dois: um post com o slug de uma marca ficaria
+  // inacessível. Melhor quebrar o build e renomear um dos dois no WP.
+  const conflitos = categorias.filter((c) => slugs.includes(c.slug)).map((c) => c.slug);
+  if (conflitos.length) {
+    throw new Error(`[reparo-de-notebooks] Slug usado por post e por categoria ao mesmo tempo: ${conflitos.join(', ')}`);
+  }
+
+  return [...slugs, ...categorias.map((c) => c.slug)].map((slug) => ({ slug }));
 }
 
 // Força geração estática - posts novos só aparecem após rebuild
 export const dynamicParams = false;
 
-// Metadata dinâmica para cada post
+// Metadata dinâmica para cada post ou categoria
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const { slug } = await params;
+
+  const categoria = await getCategoriaBySlug(slug);
+  if (categoria) {
+    const titulo = tituloCategoria(categoria.name);
+    const url = `${SITE_URL}${categoriaHref(slug)}`;
+    return {
+      title: `${titulo} em Curitiba | Notebook Expert`,
+      description: `${titulo}: troca de tela, teclado, bateria, conector de carga, placa-mãe e outros serviços, com diagnóstico especializado em Curitiba.`,
+      alternates: { canonical: url },
+      openGraph: { title: `${titulo} | Notebook Expert`, url, type: "website" },
+    };
+  }
+
   const wpPost = await getPostBySlug(slug);
-  
+
   if (!wpPost) {
     return {
       title: "Post não encontrado | Notebook Expert"
@@ -31,12 +59,12 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = extractPostData(wpPost);
 
   return {
-    title: `${post.title} | Dicas Notebook Expert`,
+    title: `${post.title} | Notebook Expert`,
     description: post.excerpt,
     openGraph: {
       title: post.title,
       description: post.excerpt,
-      url: `https://notebookexpert.com.br/dicas/${slug}`,
+      url: `${SITE_URL}${postHref(slug)}`,
       type: "article",
       images: [
         {
@@ -50,8 +78,14 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   };
 }
 
-export default async function PostPage({ params }: { params: Promise<{ slug: string }> }) {
+export default async function ReparoSlugPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
+
+  const categoria = await getCategoriaBySlug(slug);
+  if (categoria) {
+    return <ReparoListing page={1} categoria={categoria} />;
+  }
+
   const wpPost = await getPostBySlug(slug);
 
   // Se o post não existir, mostrar 404
@@ -60,6 +94,8 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
   }
 
   const post = extractPostData(wpPost);
+  // Só marcas com página própria viram link; "Sem categoria" não
+  const categoriaPost = await getCategoriaBySlug(post.categorySlug);
 
   return (
     <div className="min-h-screen bg-background page-content-dicas">
@@ -83,15 +119,19 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
               <div className="max-w-4xl mx-auto text-center">
                 <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
                   <div className="h-1 w-12 bg-yellow rounded" />
-                  <span className="text-yellow font-semibold text-sm uppercase tracking-wider">
-                    Conhecimento Especializado
-                  </span>
+                  <Link
+                    href={categoriaPost ? categoriaHref(categoriaPost.slug) : SECAO_PATH}
+                    className="inline-flex items-center gap-1 text-yellow font-semibold text-sm uppercase tracking-wider hover:text-white transition-colors"
+                  >
+                    <ArrowLeft className="w-4 h-4" />
+                    {categoriaPost ? `Ver todos: ${categoriaPost.name}` : SECAO_TITULO}
+                  </Link>
                   <div className="h-1 w-12 bg-yellow rounded" />
                 </div>
-                
-                <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
-                  Dicas e Artigos
-                </h1>
+
+                <p className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
+                  {categoriaPost ? tituloCategoria(categoriaPost.name) : SECAO_TITULO}
+                </p>
                 
                 <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
                   Aprenda com quem tem 20 anos de experiência em manutenção e reparo de notebooks.

@@ -178,11 +178,15 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
   return posts.find(post => post.slug === slug) || null;
 }
 
-// Paginação da listagem /dicas
+// Paginação das listagens de /reparo-de-notebooks (geral e por categoria)
 export const POSTS_PER_PAGE = 25;
 
-export async function getPostsPage(page: number): Promise<{ posts: WordPressPost[]; totalPages: number }> {
-  const posts = await getPosts();
+export async function getPostsPage(
+  page: number,
+  categoryId?: number,
+): Promise<{ posts: WordPressPost[]; totalPages: number }> {
+  const todos = await getPosts();
+  const posts = categoryId ? todos.filter(p => p.categories?.includes(categoryId)) : todos;
   const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
   const start = (page - 1) * POSTS_PER_PAGE;
   return { posts: posts.slice(start, start + POSTS_PER_PAGE), totalPages };
@@ -194,10 +198,27 @@ export async function getPostById(id: number): Promise<WordPressPost | null> {
   return res.json();
 }
 
-// Buscar todas as categorias
-export async function getCategories(): Promise<WordPressCategory[]> {
-  const res = await wpFetch('/categories?per_page=100&hide_empty=true');
-  return res.json();
+// Mesma lógica de cache dos posts: o menu é renderizado em todas as páginas
+let allCategoriesPromise: Promise<WordPressCategory[]> | null = null;
+
+// Buscar todas as categorias com pelo menos um post
+export function getCategories(): Promise<WordPressCategory[]> {
+  if (!allCategoriesPromise) {
+    allCategoriesPromise = wpFetchAll<WordPressCategory>('/categories?hide_empty=true&_fields=id,name,slug,count');
+    allCategoriesPromise.catch(() => { allCategoriesPromise = null; });
+  }
+  return allCategoriesPromise;
+}
+
+// Categoria padrão do WordPress: agrupa posts sem marca, não vira página nem item de menu
+const CATEGORIA_PADRAO = 'sem-categoria';
+
+// Categorias (marcas) que aparecem no submenu e ganham listagem própria
+export async function getMenuCategories(): Promise<WordPressCategory[]> {
+  const categorias = await getCategories();
+  return categorias
+    .filter(c => c.slug !== CATEGORIA_PADRAO)
+    .sort((a, b) => a.name.localeCompare(b.name, 'pt-BR'));
 }
 
 // Interface para páginas do WordPress (com campos ACF)
@@ -283,24 +304,29 @@ export interface WordPressSeminovo {
   };
 }
 
-// Buscar seminovos (todos ou limitado)
-export async function getSeminovos(perPage: number = 100): Promise<WordPressSeminovo[]> {
-  const res = await wpFetch(`/seminovo?per_page=${perPage}&acf_format=standard&orderby=date&order=desc`);
-  return res.json();
+// Mesmo padrão dos posts: uma busca por build, reaproveitada por listagem,
+// slugs e páginas individuais
+let allSeminovosPromise: Promise<WordPressSeminovo[]> | null = null;
+
+// Buscar todos os seminovos, do mais recente para o mais antigo
+export function getSeminovos(): Promise<WordPressSeminovo[]> {
+  if (!allSeminovosPromise) {
+    allSeminovosPromise = wpFetchAll<WordPressSeminovo>('/seminovo?acf_format=standard&orderby=date&order=desc');
+    allSeminovosPromise.catch(() => { allSeminovosPromise = null; });
+  }
+  return allSeminovosPromise;
 }
 
 // Buscar seminovo individual por slug
 // null aqui significa "não existe", não "falhou" — falha vira exceção
 export async function getSeminovoBySlug(slug: string): Promise<WordPressSeminovo | null> {
-  const res = await wpFetch(`/seminovo?slug=${encodeURIComponent(slug)}&acf_format=standard`);
-  const items: WordPressSeminovo[] = await res.json();
-  return items[0] || null;
+  const items = await getSeminovos();
+  return items.find(item => item.slug === slug) || null;
 }
 
 // Buscar todos os slugs dos seminovos (para generateStaticParams)
 export async function getAllSeminovoSlugs(): Promise<string[]> {
-  const res = await wpFetch('/seminovo?per_page=100&_fields=slug');
-  const items: { slug: string }[] = await res.json();
+  const items = await getSeminovos();
   return items.map(item => item.slug);
 }
 

@@ -51,10 +51,18 @@ Consequência prática: **um post novo só aparece depois de um novo build**
 | `/para-empresas` | [`app/para-empresas/page.tsx`](app/para-empresas/page.tsx) | página WP `69` |
 | `/compra-venda` | [`app/compra-venda/page.tsx`](app/compra-venda/page.tsx) | CPT `seminovo` (listagem) |
 | `/compra-venda/[slug]` | [`app/compra-venda/[slug]/page.tsx`](app/compra-venda/[slug]/page.tsx) | CPT `seminovo` (detalhe + galeria ACF) |
-| `/dicas` | [`app/dicas/page.tsx`](app/dicas/page.tsx) | posts do WP (página 1, 25 por página) |
-| `/dicas/pagina/[page]` | [`app/dicas/pagina/[page]/page.tsx`](app/dicas/pagina/[page]/page.tsx) | demais páginas da listagem |
-| `/dicas/[slug]` | [`app/dicas/[slug]/page.tsx`](app/dicas/[slug]/page.tsx) | post individual, com metadata dinâmica |
+| `/reparo-de-notebooks` | [`app/reparo-de-notebooks/page.tsx`](app/reparo-de-notebooks/page.tsx) | todos os posts (25 por página) |
+| `/reparo-de-notebooks/pagina/[page]` | [`app/reparo-de-notebooks/pagina/[page]/page.tsx`](app/reparo-de-notebooks/pagina/[page]/page.tsx) | demais páginas da listagem geral |
+| `/reparo-de-notebooks/[slug]` | [`app/reparo-de-notebooks/[slug]/page.tsx`](app/reparo-de-notebooks/[slug]/page.tsx) | **marca** (categoria do WP) ou **post** — o mesmo segmento atende os dois |
+| `/reparo-de-notebooks/[slug]/pagina/[page]` | [`app/reparo-de-notebooks/[slug]/pagina/[page]/page.tsx`](app/reparo-de-notebooks/[slug]/pagina/[page]/page.tsx) | demais páginas da listagem de uma marca |
 | `/sitemap.xml` | [`app/sitemap.ts`](app/sitemap.ts) | rotas fixas + slugs de posts e seminovos |
+
+A antiga seção `/dicas` virou `/reparo-de-notebooks`; o
+[`public/.htaccess`](public/.htaccess) redireciona (301) qualquer URL `/dicas/...`
+para o equivalente novo. As marcas do submenu "Reparo de Notebooks" vêm das
+categorias do WordPress (exceto "Sem categoria") — criar uma categoria nova no WP
+cria o item de menu e a página no próximo build. Um post com o mesmo slug de uma
+categoria quebra o build de propósito, já que os dois disputariam a mesma URL.
 
 As páginas do WordPress são buscadas **por ID**, não por slug. Os IDs estão
 comentados em [`app/page.tsx`](app/page.tsx#L19-L29). Renomear uma página no WP
@@ -83,9 +91,12 @@ Quatro decisões importantes já tomadas nesse arquivo:
    devolvesse `[]` silenciosamente, o deploy publicaria páginas vazias e
    *apagaria* o conteúdo que estava no ar. Build quebrado é recuperável;
    deploy vazio, não.
-4. **Posts são buscados uma vez só por build**, paginando de 100 em 100 (o
-   limite da API). Listagem, slugs, metadata e páginas individuais leem dessa
-   mesma busca — buscar post a post gerava rajadas que o anti-DDoS bloqueia.
+4. **Posts, categorias e seminovos são buscados uma vez só por build**,
+   paginando de 100 em 100 (o limite da API). Listagens, slugs, metadata e
+   páginas individuais leem dessa mesma busca. Isso só funciona porque o build
+   roda com **um worker** (`experimental.cpus: 1` no `next.config.js`): o cache
+   é por processo, e com vários workers cada um baixava a listagem pesada ao
+   mesmo tempo e o WordPress respondia 500.
 
 ### Tipos de conteúdo no WordPress
 
@@ -118,6 +129,10 @@ npm run dev     # http://localhost:3000
 npm run build   # gera o site estático em out/
 npm run lint
 ```
+
+Builds locais reaproveitam respostas do WordPress guardadas em
+`.next/cache/fetch-cache`. Se o site gerado mostrar conteúdo desatualizado,
+apague essa pasta (o CI sempre começa sem ela).
 
 `npm start` não se aplica: com `output: 'export'` não existe servidor. Para
 testar o build, sirva a pasta `out/` com qualquer servidor estático.
