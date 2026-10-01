@@ -41,7 +41,7 @@ const Business = ({ title, description, items, featuredImage }: BusinessProps) =
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >      
-              <img 
+              <img loading="lazy" decoding="async"
                 src={displayImage}
                 alt={displayTitle} 
                 className="absolute inset-0 w-full h-full rounded-md object-cover"

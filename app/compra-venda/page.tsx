@@ -172,7 +172,7 @@ export default async function CompraVendaPage() {
                       {/* Imagem do Produto */}
                       <div className="relative w-full aspect-[4/3] overflow-hidden bg-muted">
                         {coverImage ? (
-                          <img
+                          <img loading="lazy" decoding="async"
                             src={coverImage}
                             alt={item.title.rendered}
                             className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"

@@ -97,7 +97,7 @@ const Testimonials = ({ testimonials }: TestimonialsProps) => {
           <div className="flex items-center justify-center mt-4 space-x-4 portrait:flex-col">
               <div className="bg-white px-4 pt-2 pb-1 rounded-lg shadow-md border">
                   <div className="flex items-center">
-                      <img 
+                      <img loading="lazy" decoding="async"
                         src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/google-logo.png`}
                         alt="Google" 
                         width="90" 

@@ -9,7 +9,7 @@ const Footer = () => {
                 <div className="flex justify-between portrait:flex-col portrait:items-center portrait:gap-4">
                     <div>
                         <div className="relative w-full max-w-[210px] mb-4 portrait:mx-auto">
-                            <img
+                            <img loading="lazy" decoding="async"
                                 src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/n.png`}
                                 alt="NotebookExpert"
                                 width="120"

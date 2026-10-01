@@ -83,7 +83,7 @@ const WhyChooseUs = ({ title, content, items, featuredImage }: WhyChooseUsProps)
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
         >        
-          <img 
+          <img loading="lazy" decoding="async"
             src={displayImage}
             alt={displayTitle} 
             className="absolute inset-0 w-full h-full object-cover"

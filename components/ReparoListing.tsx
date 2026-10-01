@@ -73,7 +73,7 @@ export default async function ReparoListing({ page, categoria }: { page: number;
                     <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-0 md:gap-6 portrait:gap-0">
                       {/* Image */}
                       <div className="relative h-32 md:h-auto w-full portrait:h-48">
-                        <img
+                        <img loading="lazy" decoding="async"
                           src={post.featuredImage}
                           alt={post.featuredImageAlt}
                           className="w-full h-full object-cover"

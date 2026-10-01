@@ -94,7 +94,7 @@ const Prevention = ({ title, description, items, featuredImage }: PreventionProp
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: 0.3 }}
             >            
-              <img 
+              <img loading="lazy" decoding="async"
                 src={displayFeaturedImage}
                 alt={displayTitle} 
                 className="absolute inset-0 w-full h-full object-cover"
