@@ -14,7 +14,7 @@ import {
   Droplet, 
   Settings, 
   Database,
-  ChevronDown
+  ChevronDown, CircleUser
 } from "lucide-react";
 import {
   NavigationMenu,
@@ -26,6 +26,7 @@ import {
 } from "@/components/ui/navigation-menu";
 import Link from "next/link";
 import { SECAO_PATH, SECAO_TITULO, categoriaHref } from "@/lib/reparo";
+import { FacebookIcon, InstagramIcon, WhatsAppIcon } from "@/components/icons";
 
 interface HeaderClientProps {
   categorias: { name: string; slug: string }[];
@@ -132,12 +133,12 @@ const HeaderClient = ({ categorias }: HeaderClientProps) => {
 
           {/* Client Area Button */}
           {/*<a href="#contact" className="btn-primary text-sm px-4 portrait:hidden hidden lg:flex">
-              <i className="fa-regular fa-circle-user text-xl"></i>
+              <CircleUser aria-hidden="true" className="inline-block w-[1em] h-[1em] align-[-0.125em] text-xl" />
               <span className="ml-2 ">Área do Cliente</span>
           </a>*/}
 
           <div className="flex items-center gap-1">
-            <i className="fab fa-whatsapp text-xl"></i>
+            <WhatsAppIcon className="text-xl" />
             <strong className="text-md">Ligue Agora:</strong>
             <span>(41) 99887-0606</span>
           </div>
@@ -146,6 +147,8 @@ const HeaderClient = ({ categorias }: HeaderClientProps) => {
           <button
             className="lg:hidden absolute right-4 top-6"
             onClick={() => setIsMenuOpen(!isMenuOpen)}
+            aria-label={isMenuOpen ? "Fechar menu" : "Abrir menu"}
+            aria-expanded={isMenuOpen}
           >
             {isMenuOpen ? (
               <X className="w-6 h-6 text-foreground" />
@@ -207,19 +210,19 @@ const HeaderClient = ({ categorias }: HeaderClientProps) => {
               </div>
 
               <a href="#contact" className="btn-primary text-[17px] px-4 text-center">
-                  <i className="fa-regular fa-circle-user"></i>
+                  <CircleUser aria-hidden="true" className="inline-block w-[1em] h-[1em] align-[-0.125em]" />
                   <span className="ml-2 ">Área do Cliente</span>
               </a>  
 
               <div className="flex space-x-4 portrait:justify-center">
-                  <a href="#" className="text-[var(--blue)] hover:text-white transition-colors text-2xl">
-                      <i className="fab fa-facebook-f"></i>
+                  <a href="https://www.facebook.com/NotebookExpert/" target="_blank" rel="noopener noreferrer" aria-label="Facebook da Notebook Expert" className="text-[var(--blue)] hover:text-white transition-colors text-2xl">
+                      <FacebookIcon />
                   </a>
-                  <a href="#" className="text-[var(--blue)] hover:text-white transition-colors text-2xl mr-9">
-                      <i className="fab fa-instagram"></i>
+                  <a href="https://www.instagram.com/notebookexpert/" target="_blank" rel="noopener noreferrer" aria-label="Instagram da Notebook Expert" className="text-[var(--blue)] hover:text-white transition-colors text-2xl mr-9">
+                      <InstagramIcon />
                   </a>
-                  <a href="#" className="text-[var(--blue)] hover:text-white transition-colors text-2xl">
-                      <i className="fab fa-whatsapp"></i>
+                  <a href="https://wa.me/5541998870606" target="_blank" rel="noopener noreferrer" aria-label="Conversar no WhatsApp" className="text-[var(--blue)] hover:text-white transition-colors text-2xl">
+                      <WhatsAppIcon />
                   </a>
               </div>           
             </div>

@@ -26,9 +26,9 @@ const BrandsCarousel = ({ title, brands }: BrandsCarouselProps) => {
     <section id="brands" className="py-12 bg-background">
       <div className="mx-auto px-4">
         <div className="text-center mb-8">
-          <h3 className="text-[xl] xl:text-2xl font-bold text-foreground mb-2">
+          <h2 className="text-[xl] xl:text-2xl font-bold text-foreground mb-2">
             {displayTitle}
-          </h3>        
+          </h2>        
         </div>
 
         {/* Infinite Scroll Carousel */}

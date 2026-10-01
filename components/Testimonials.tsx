@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from "framer-motion";
-import { Star, Quote } from "lucide-react";
+import { Star, Quote, MoveRight } from "lucide-react";
 
 // Dados hardcoded como fallback
 const fallbackTestimonials = [
@@ -64,7 +64,7 @@ const Testimonials = ({ testimonials }: TestimonialsProps) => {
                       </span>
                     </div>
                     <div>
-                        <h4 className="font-semibold text-gray-800">{testimonial.name}</h4>
+                        <h3 className="font-semibold text-gray-800">{testimonial.name}</h3>
                         <div className="flex text-yellow-500 text-sm">
                         {[...Array(5)].map((_, i) => (
                           <Star key={i} className="w-5 h-5 fill-amber-400 text-amber-400" />
@@ -111,7 +111,7 @@ const Testimonials = ({ testimonials }: TestimonialsProps) => {
               target="_blank" 
               className="btn-primary text-lg font-medium">
                   <span>Deixe sua Avaliação</span>
-                  <i className="fa-solid fa-right-long ml-2"></i>
+                  <MoveRight aria-hidden="true" className="inline-block w-[1em] h-[1em] align-[-0.125em] ml-2" />
               </a>
           </div>
         </div>

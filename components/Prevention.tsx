@@ -2,6 +2,7 @@
 import { ShieldCheck, TrendingUp, DollarSign, Database, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion } from "framer-motion";
+import { WhatsAppIcon } from "@/components/icons";
 
 interface PreventionItem {
   titulo: string;
@@ -105,7 +106,7 @@ const Prevention = ({ title, description, items, featuredImage }: PreventionProp
           {/* CTA */}
           <div className="text-center mt-12">
             <button className="btn-wpp">              
-                <i className="fab fa-whatsapp mr-2 text-5xl"></i> 
+                <WhatsAppIcon className="mr-2 text-5xl" /> 
                 <span className="flex flex-col items-start justify-start items-center">                
                   Orçamento Gratuito
                   <strong>(41) 99887-0606</strong>

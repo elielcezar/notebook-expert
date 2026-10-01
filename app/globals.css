@@ -31,7 +31,7 @@ All colors MUST be HSL.
     --secondary-foreground: 0 0% 100%;
 
     --muted: 210 40% 96.1%;
-    --muted-foreground: 215 16% 47%;
+    --muted-foreground: 215 16% 45%; /* 47% ficava em 4,49:1 sobre o fundo claro, abaixo do mínimo de 4,5 */
 
     --accent: 217 91% 60%;
     --accent-foreground: 0 0% 100%;

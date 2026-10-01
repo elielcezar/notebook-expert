@@ -5,6 +5,7 @@ import Link from "next/link";
 import SeminovoGallery from "@/components/SeminovoGallery";
 import { getSeminovoBySlug, getAllSeminovoSlugs } from "@/lib/wordpress";
 import { ArrowLeft } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons";
 
 // Gera todas as rotas estáticas no build
 export async function generateStaticParams() {
@@ -129,7 +130,7 @@ export default async function SeminovoDetailPage({
                   rel="noopener noreferrer"
                   className="btn-wpp w-full text-center mx-0"
                 >
-                  <i className="fab fa-whatsapp text-3xl"></i>
+                  <WhatsAppIcon className="text-3xl" />
                   <span className="flex flex-col items-start">
                     <span className="text-sm">Tenho interesse!</span>
                     <strong>(41) 99887-0606</strong>

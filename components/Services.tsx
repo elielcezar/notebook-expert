@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import useEmblaCarousel from 'embla-carousel-react';
 import { useCallback } from 'react';
 import AutoPlay from 'embla-carousel-autoplay';
+import { WhatsAppIcon } from "@/components/icons";
 
 // Ícones padrão mapeados por índice
 const defaultIcons: LucideIcon[] = [Monitor, Wrench, Thermometer, Cpu, Zap, HardDrive, Cpu, Thermometer, Monitor, Cpu, Cpu];
@@ -109,7 +110,7 @@ const Services = ({ title, description, services }: ServicesProps) => {
                       <div className="w-12 h-12 bg-accent/10 rounded-lg flex items-center justify-center mb-4 group-hover:bg-accent/20 transition-colors">
                         <Icon className="w-6 h-6 text-accent" />
                       </div>
-                      <h4 className="text-lg font-semibold text-foreground mb-2">{service.titulo}</h4>
+                      <h3 className="text-lg font-semibold text-foreground mb-2">{service.titulo}</h3>
                       <p className="text-muted-foreground text-sm">{service.descricao}</p>
                     </div>
                   </div>
@@ -149,7 +150,7 @@ const Services = ({ title, description, services }: ServicesProps) => {
               rel="noopener noreferrer"
               className="btn-wpp"
             >
-              <i className="fab fa-whatsapp mr-2 text-5xl"></i> 
+              <WhatsAppIcon className="mr-2 text-5xl" /> 
               <span className="flex flex-col items-start justify-start items-center">                
                 Orçamento Gratuito
                 <strong>(41) 99887-0606</strong>

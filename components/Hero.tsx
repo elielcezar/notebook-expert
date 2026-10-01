@@ -14,11 +14,19 @@ const Hero = () => {
       
       {/* Background Image with Overlay */}
       <div className="absolute inset-0 z-0">
-        <img 
-          src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/img-02.png`}
-          alt="Assistência Técnica Profissional" 
-          className="absolute top-[100px] lg:top-0 inset-0 w-full h-full object-cover object-top"
-        />
+        {/* Imagem do LCP da home: AVIF com fallback WebP (o PNG original tinha
+            1,8 MB) e prioridade alta para o navegador baixá-la primeiro */}
+        <picture>
+          <source srcSet={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/hero-home.avif`} type="image/avif" />
+          <img
+            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/hero-home.webp`}
+            alt="Assistência Técnica Profissional"
+            width={1680}
+            height={854}
+            fetchPriority="high"
+            className="absolute top-[100px] lg:top-0 inset-0 w-full h-full object-cover object-top"
+          />
+        </picture>
       </div>
 
       {/* Content */}

@@ -13,9 +13,10 @@ import {
   Zap,
   TrendingUp,
   DollarSign,
-  Package
+  Package, ArrowRight
 } from "lucide-react";
 import { getSeminovos } from "@/lib/wordpress";
+import { WhatsAppIcon } from "@/components/icons";
 
 export const metadata: Metadata = {
   title: "Compra e Venda de Notebooks Seminovos | Notebook Expert",
@@ -193,7 +194,7 @@ export default async function CompraVendaPage() {
                         </p>
                         <span className="inline-flex items-center text-sm font-semibold text-accent group-hover:text-[var(--blue)] transition-colors">
                           Ver detalhes
-                          <i className="fas fa-arrow-right ml-2 text-xs group-hover:translate-x-1 transition-transform"></i>
+                          <ArrowRight aria-hidden="true" className="inline-block w-[1em] h-[1em] align-[-0.125em] ml-2 text-xs group-hover:translate-x-1 transition-transform" />
                         </span>
                       </div>
                     </Link>
@@ -329,7 +330,7 @@ export default async function CompraVendaPage() {
                   rel="noopener noreferrer"
                   className="btn-wpp mx-0"
                 >
-                  <i className="fab fa-whatsapp text-2xl"></i>
+                  <WhatsAppIcon className="text-2xl" />
                   <span className="ml-2">(41) 99887-0606</span>
                 </a>
               

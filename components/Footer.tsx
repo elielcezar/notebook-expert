@@ -1,4 +1,5 @@
 import { Phone, Clock } from "lucide-react";
+import { FacebookIcon, InstagramIcon, WhatsAppIcon } from "@/components/icons";
 
 const Footer = () => {
     return (
@@ -18,10 +19,10 @@ const Footer = () => {
                         </div>
                     </div>
                     <div>
-                        <h4 className="font-semibold mb-4 text-xl pb-4 border-b border-white flex items-center gap-2 portrait:mb-2 portrait:pb-2 portrait:justify-center">
+                        <h2 className="font-semibold mb-4 text-xl pb-4 border-b border-white flex items-center gap-2 portrait:mb-2 portrait:pb-2 portrait:justify-center">
                             <Phone className="w-5 h-5" />
                             Contato
-                        </h4>
+                        </h2>
                         <ul className="space-y-2 text-sm text-white">
                             <li>(41) 3029.8746</li>
                             <li>(41) 99887.0606</li>
@@ -29,10 +30,10 @@ const Footer = () => {
                         </ul>
                     </div>
                     <div>
-                        <h4 className="font-semibold mb-4 text-xl pb-4 border-b border-white flex items-center gap-2 portrait:mb-2 portrait:pb-2 portrait:justify-center">
+                        <h2 className="font-semibold mb-4 text-xl pb-4 border-b border-white flex items-center gap-2 portrait:mb-2 portrait:pb-2 portrait:justify-center">
                             <Clock className="w-5 h-5" />
                             Atendimento
-                        </h4>
+                        </h2>
                         <p><strong>Segunda a Sexta-feira</strong> das 9h às 18h </p>
                         <p><strong>Sábados</strong> das 9h às 13h</p>
                         <p>Rua 24 de Maio, 280 - Centro</p>
@@ -42,14 +43,14 @@ const Footer = () => {
 
                     <div>
                         <div className="flex space-x-4 portrait:justify-center">
-                            <a href="https://www.facebook.com/NotebookExpert/" className="text-white hover:text-white transition-colors text-2xl">
-                                <i className="fab fa-facebook-f"></i>
+                            <a href="https://www.facebook.com/NotebookExpert/" aria-label="Facebook da Notebook Expert" className="text-white hover:text-white transition-colors text-2xl">
+                                <FacebookIcon />
                             </a>
-                            <a href="https://www.instagram.com/notebookexpert/" className="text-white hover:text-white transition-colors text-2xl mr-9">
-                                <i className="fab fa-instagram"></i>
+                            <a href="https://www.instagram.com/notebookexpert/" aria-label="Instagram da Notebook Expert" className="text-white hover:text-white transition-colors text-2xl mr-9">
+                                <InstagramIcon />
                             </a>
-                            <a href="https://wa.me/5541998870606" className="text-white hover:text-white transition-colors text-2xl">
-                                <i className="fab fa-whatsapp"></i>
+                            <a href="https://wa.me/5541998870606" aria-label="Conversar no WhatsApp" className="text-white hover:text-white transition-colors text-2xl">
+                                <WhatsAppIcon />
                             </a>
                         </div>
                     </div>
@@ -60,8 +61,8 @@ const Footer = () => {
             </div>
 
             <div className="btn-circle">
-                <a href="https://wa.me/5541998870606" target="_blank" rel="noopener noreferrer">
-                    <i className="fab fa-whatsapp text-3xl"></i>
+                <a href="https://wa.me/5541998870606" target="_blank" rel="noopener noreferrer" aria-label="Conversar no WhatsApp">
+                    <WhatsAppIcon className="text-3xl" />
                 </a>
             </div>
         </footer>

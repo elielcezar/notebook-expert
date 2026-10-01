@@ -4,6 +4,7 @@ import Footer from "@/components/Footer";
 import Map from "@/components/Map";
 import { getPageById } from "@/lib/wordpress";
 import { Building2, Star, Clock, type LucideIcon } from "lucide-react";
+import { WhatsAppIcon } from "@/components/icons";
 
 // Ícones hardcoded mapeados por índice
 const iconsList: LucideIcon[] = [
@@ -170,7 +171,7 @@ export default async function EmpresasPage() {
                   rel="noopener noreferrer"
                   className="btn-wpp mx-0"
                 >
-                  <i className="fab fa-whatsapp text-2xl"></i>
+                  <WhatsAppIcon className="text-2xl" />
                   <span className="ml-2">WhatsApp: (41) 99887-0606</span>
                 </a>                
               

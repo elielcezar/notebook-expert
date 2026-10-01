@@ -8,6 +8,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { WhatsAppIcon } from "@/components/icons";
 
 interface FAQItem {
   pergunta: string;
@@ -116,7 +117,7 @@ const FAQ = ({ title, description, items }: FAQProps) => {
             Não encontrou a resposta que procurava?
           </p>
           <button className="btn-wpp">              
-              <i className="fab fa-whatsapp mr-2 text-5xl"></i> 
+              <WhatsAppIcon className="mr-2 text-5xl" /> 
               <span className="flex flex-col items-start justify-start items-center">                
                 Fale conosco agora
                 <strong>(41) 99887-0606</strong>

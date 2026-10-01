@@ -7,6 +7,7 @@ import { getPostBySlug, getAllPostSlugs, getMenuCategories, extractPostData } fr
 import { SECAO_PATH, SECAO_TITULO, SITE_URL, categoriaHref, postHref, tituloCategoria } from "@/lib/reparo";
 import ReparoListing from "@/components/ReparoListing";
 import { notFound } from "next/navigation";
+import { WhatsAppIcon } from "@/components/icons";
 
 // Este segmento atende dois tipos de página:
 //   /reparo-de-notebooks/<marca>  → listagem da categoria (página 1)
@@ -212,7 +213,7 @@ export default async function ReparoSlugPage({ params }: { params: Promise<{ slu
                         rel="noopener noreferrer"
                         className="flex items-center gap-2 text-white hover:text-accent transition-colors"
                       >
-                        <i className="fab fa-whatsapp text-xl"></i>
+                        <WhatsAppIcon className="text-xl" />
                         <span className="text-sm">(41) 99887-0606</span>
                       </a>
                       <a 
@@ -236,7 +237,7 @@ export default async function ReparoSlugPage({ params }: { params: Promise<{ slu
                       rel="noopener noreferrer"
                       className="btn-wpp mt-4 w-full text-center mx-0 bg-green-600 hover:bg-green-700"
                     >
-                      <i className="fab fa-whatsapp text-xl"></i>
+                      <WhatsAppIcon className="text-xl" />
                       <span className="ml-2 text-sm">Chamar no WhatsApp</span>
                     </a>
                   </div>
@@ -271,7 +272,7 @@ export default async function ReparoSlugPage({ params }: { params: Promise<{ slu
                   rel="noopener noreferrer"
                   className="btn-wpp mx-0"
                 >
-                  <i className="fab fa-whatsapp text-2xl"></i>
+                  <WhatsAppIcon className="text-2xl" />
                   <span className="ml-2">WhatsApp: (41) 99887-0606</span>
                 </a>                
               </div>
