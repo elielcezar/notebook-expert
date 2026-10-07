@@ -1,184 +1,21 @@
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import { Calendar, User, ArrowRight, ArrowLeft, ChevronLeft, ChevronRight } from "lucide-react";
+import PostListing from "@/components/PostListing";
 import { getPostsPage, extractPostData, type WordPressCategory } from "@/lib/wordpress";
 import { SECAO_PATH, SECAO_TITULO, listagemHref, postHref, tituloCategoria } from "@/lib/reparo";
-import Link from "next/link";
 
 // Listagem de posts da seção: geral (sem categoria) ou de uma marca
 export default async function ReparoListing({ page, categoria }: { page: number; categoria?: WordPressCategory }) {
-  const { posts: wpPosts, totalPages } = await getPostsPage(page, categoria?.id);
-  const posts = wpPosts.map(extractPostData);
-  const pageHref = (n: number) => listagemHref(n, categoria?.slug);
+  const { posts, totalPages } = await getPostsPage(page, categoria?.id);
 
   return (
-    <div className="min-h-screen bg-background">
-      <Header />
-      
-      <main className="landscape:pt-16 min-h-screen">
-        {/* Hero Section */}
-        <section className="relative bg-gradient-to-r from-[var(--darkblue)] via-[var(--deepblue)] to-[var(--blue)] text-white py-20 portrait:py-16 portrait:pt-40">
-
-        <div className="absolute inset-0 z-0">
-          <img 
-            src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/hero-tech.jpg`}
-            alt="Assistência Técnica Profissional" 
-            className="absolute inset-0 w-full h-full object-cover"
-          />
-          <div className="absolute inset-0 bg-gradient-to-r from-[hsl(var(--tech-blue-dark))]/95 via-[hsl(var(--tech-blue-dark))]/85 to-[hsl(var(--tech-blue-dark))]/70" />
-        </div>
-
-          <div className="container mx-auto px-4 relative z-10">
-            <div className="max-w-4xl mx-auto text-center">
-              <div className="flex items-center justify-center gap-2 mb-6 animate-fade-in portrait:mb-3">
-                {categoria ? (
-                  <Link
-                    href={SECAO_PATH}
-                    className="inline-flex items-center gap-1 text-yellow font-semibold text-sm uppercase tracking-wider hover:text-white transition-colors"
-                  >
-                    <ArrowLeft className="w-4 h-4" />
-                    {SECAO_TITULO}
-                  </Link>
-                ) : (
-                  <span className="text-yellow font-semibold text-sm uppercase tracking-wider">
-                    Conhecimento Especializado
-                  </span>
-                )}
-              </div>
-
-              <h1 className="text-5xl md:text-6xl font-bold mb-6 animate-fade-in-up portrait:text-4xl">
-                {categoria ? tituloCategoria(categoria.name) : SECAO_TITULO}
-              </h1>
-              
-              <p className="text-xl text-white/90 max-w-2xl mx-auto animate-fade-in-up animation-delay-200 portrait:text-base">
-                Aprenda com quem tem 20 anos de experiência em manutenção e reparo de notebooks.
-              </p>
-            </div>
-          </div>
-          
-          {/* Decorative Bottom Gradient */}
-          {/*<div className="absolute bottom-0 left-0 right-0 h-20 bg-gradient-to-t from-background to-transparent" />*/}
-        </section>
-
-        {/* Posts List */}
-        <section className="py-16 portrait:py-12">
-          <div className="container mx-auto px-4">
-            <div className="max-w-5xl mx-auto">
-              <div className="space-y-8 portrait:space-y-6">
-                {posts.map((post) => (
-                  <article
-                    key={post.id}
-                    className="bg-card border border-border rounded-lg overflow-hidden hover:shadow-[var(--shadow-elegant)] transition-all duration-300 hover:-translate-y-1"
-                  >
-                    <div className="grid grid-cols-1 md:grid-cols-[300px_1fr] gap-0 md:gap-6 portrait:gap-0">
-                      {/* Image */}
-                      <div className="relative h-32 md:h-auto w-full portrait:h-48">
-                        <img loading="lazy" decoding="async"
-                          src={post.featuredImage}
-                          alt={post.featuredImageAlt}
-                          className="w-full h-full object-cover"
-                        />
-                        {/*<div className="absolute top-4 left-4 bg-[var(--blue)] text-white px-3 py-1 rounded-full text-xs font-semibold">
-                          {post.category}
-                        </div>*/}
-                      </div>
-
-                      {/* Content */}
-                      <div className="p-6 md:py-6 md:pr-6 portrait:p-4">
-                        {/* Meta */}
-                        <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3 portrait:flex-wrap portrait:gap-2">
-                          <div className="flex items-center gap-1">
-                            <Calendar className="w-4 h-4" />
-                            <span>{new Date(post.date).toLocaleDateString('pt-BR', { 
-                              day: '2-digit', 
-                              month: 'long', 
-                              year: 'numeric' 
-                            })}</span>
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <User className="w-4 h-4" />
-                            <span>{post.author}</span>
-                          </div>
-                        </div>
-
-                        {/* Title */}
-                        <h2 className="text-2xl font-bold text-foreground mb-3 hover:text-[var(--blue)] transition-colors portrait:text-xl portrait:mb-2">
-                          <Link href={postHref(post.slug)}>
-                            {post.title}
-                          </Link>
-                        </h2>
-
-                        {/* Excerpt */}
-                        <p className="text-muted-foreground mb-4 leading-relaxed portrait:text-sm portrait:mb-3">
-                          {post.chamada}
-                        </p>
-
-                        {/* Read More Button */}
-                        <Link
-                          href={postHref(post.slug)}
-                          className="inline-flex items-center gap-2 text-[var(--blue)] hover:text-[var(--darkblue)] font-semibold transition-colors group"
-                        >
-                          Leia mais
-                          <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                        </Link>
-                      </div>
-                    </div>
-                  </article>
-                ))}
-              </div>
-
-              {/* Empty State para quando não houver posts */}
-              {posts.length === 0 && (
-                <div className="text-center py-16">
-                  <p className="text-muted-foreground text-lg">
-                    Em breve, novos conteúdos sobre reparo de notebooks.
-                  </p>
-                </div>
-              )}
-
-              {/* Paginação */}
-              {totalPages > 1 && (
-                <nav aria-label="Paginação" className="flex items-center justify-center gap-2 mt-12 flex-wrap">
-                  {page > 1 && (
-                    <Link
-                      href={pageHref(page - 1)}
-                      className="inline-flex items-center gap-1 h-10 px-3 rounded-md border border-border text-foreground hover:bg-[var(--blue)] hover:text-white transition-colors"
-                    >
-                      <ChevronLeft className="w-4 h-4" />
-                      Anterior
-                    </Link>
-                  )}
-                  {Array.from({ length: totalPages }, (_, i) => i + 1).map((n) => (
-                    <Link
-                      key={n}
-                      href={pageHref(n)}
-                      aria-current={n === page ? "page" : undefined}
-                      className={`inline-flex items-center justify-center h-10 min-w-10 px-3 rounded-md border font-semibold transition-colors ${
-                        n === page
-                          ? "bg-[var(--blue)] border-[var(--blue)] text-white"
-                          : "border-border text-foreground hover:bg-[var(--blue)] hover:text-white"
-                      }`}
-                    >
-                      {n}
-                    </Link>
-                  ))}
-                  {page < totalPages && (
-                    <Link
-                      href={pageHref(page + 1)}
-                      className="inline-flex items-center gap-1 h-10 px-3 rounded-md border border-border text-foreground hover:bg-[var(--blue)] hover:text-white transition-colors"
-                    >
-                      Próxima
-                      <ChevronRight className="w-4 h-4" />
-                    </Link>
-                  )}
-                </nav>
-              )}
-            </div>
-          </div>
-        </section>
-      </main>
-      
-      <Footer />
-    </div>
+    <PostListing
+      posts={posts.map(extractPostData)}
+      page={page}
+      totalPages={totalPages}
+      pageHref={(n) => listagemHref(n, categoria?.slug)}
+      postHref={postHref}
+      title={categoria ? tituloCategoria(categoria.name) : SECAO_TITULO}
+      emptyText="Em breve, novos conteúdos sobre reparo de notebooks."
+      back={categoria ? { href: SECAO_PATH, label: SECAO_TITULO } : undefined}
+    />
   );
 }

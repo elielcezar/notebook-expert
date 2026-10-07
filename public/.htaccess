@@ -10,10 +10,16 @@ ErrorDocument 404 /404.html
 <IfModule mod_rewrite.c>
   RewriteEngine On
 
-  # A seção /dicas virou /reparo-de-notebooks (mesmos slugs). 301 preserva
-  # links antigos e transfere a indexação do Google. Precisa vir antes das
-  # regras abaixo.
-  RewriteRule ^dicas/?$ /reparo-de-notebooks [R=301,L]
+  # Os 2 artigos que saíram dos posts para o CPT "Dicas" (um mudou de slug).
+  # Viveram em /dicas/... e depois em /reparo-de-notebooks/...
+  RewriteRule ^(dicas|reparo-de-notebooks)/novo-upgrade-de-ssd-mais-velocidade-para-o-seu-notebook/?$ /dicas/upgrade-de-ssd-mais-velocidade-para-o-seu-notebook [R=301,L]
+  RewriteRule ^reparo-de-notebooks/antes-e-depois-da-manutencao-preventiva-por-que-ela-faz-tanta-diferenca-no-seu-notebook/?$ /dicas/antes-e-depois-da-manutencao-preventiva-por-que-ela-faz-tanta-diferenca-no-seu-notebook [R=301,L]
+
+  # /dicas é a seção do CPT "Dicas". Antes, os posts de reparo moravam ali;
+  # um /dicas/<slug> antigo só redireciona se não for uma dica e existir o
+  # equivalente em /reparo-de-notebooks. Precisa vir antes das regras abaixo.
+  RewriteCond %{DOCUMENT_ROOT}/dicas/$1.html !-f
+  RewriteCond %{DOCUMENT_ROOT}/reparo-de-notebooks/$1.html -f
   RewriteRule ^dicas/(.+?)/?$ /reparo-de-notebooks/$1 [R=301,L]
 
   # Não reescrever requests que batem com arquivos reais (CSS, JS, imagens, _next/...)

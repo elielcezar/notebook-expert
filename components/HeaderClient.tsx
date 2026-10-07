@@ -54,14 +54,14 @@ const HeaderClient = ({ categorias }: HeaderClientProps) => {
       <nav className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between portrait:flex-col portrait:items-center portrait:gap-4">
           {/* Logo */}          
-          <div className="flex items-center gap-2">      
+          <div className="flex items-center gap-2 shrink-0">
             <Link href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/`}>      
             <img 
               src={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/logo.webp`}
               alt="Logo" 
               width="192" 
               height="60" 
-              className="w-60"
+              className="w-60 lg:w-44 xl:w-60"
             />
             </Link>
           </div>
@@ -71,25 +71,25 @@ const HeaderClient = ({ categorias }: HeaderClientProps) => {
             <NavigationMenuList>           
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/servicos`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 lg:px-2.5 xl:px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Serviços
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/para-empresas`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/para-empresas`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 lg:px-2.5 xl:px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Para Empresas
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/franquia`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/franquia`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 lg:px-2.5 xl:px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Franquia
                   </NavigationMenuLink>
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/compra-venda`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/compra-venda`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 lg:px-2.5 xl:px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Compra & Venda
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -98,7 +98,7 @@ const HeaderClient = ({ categorias }: HeaderClientProps) => {
                     shadcn abre alinhado à esquerda do menu inteiro, e o trigger
                     do Radix não pode ser link para a listagem geral */}
                 <NavigationMenuItem className="relative group/reparo">
-                  <Link href={SECAO_PATH} className="group inline-flex h-10 w-max items-center justify-center gap-1 rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none group-hover/reparo:bg-[var(--blue)] group-hover/reparo:text-accent-foreground">
+                  <Link href={SECAO_PATH} className="group inline-flex h-10 w-max items-center justify-center gap-1 rounded-md bg-background px-4 lg:px-2.5 xl:px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none group-hover/reparo:bg-[var(--blue)] group-hover/reparo:text-accent-foreground">
                     {SECAO_TITULO}
                     <ChevronDown className="h-3 w-3 transition-transform duration-200 group-hover/reparo:rotate-180" />
                   </Link>
@@ -123,7 +123,13 @@ const HeaderClient = ({ categorias }: HeaderClientProps) => {
                 </NavigationMenuItem>
 
                 <NavigationMenuItem>
-                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/sobre`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/dicas`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 lg:px-2.5 xl:px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
+                    Dicas
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+
+                <NavigationMenuItem>
+                  <NavigationMenuLink href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/sobre`} className="group inline-flex h-10 w-max items-center justify-center rounded-md bg-background px-4 lg:px-2.5 xl:px-4 py-2 text-sm font-medium transition-colors hover:bg-[var(--blue)] hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground focus:outline-none">
                     Sobre
                   </NavigationMenuLink>
                 </NavigationMenuItem>
@@ -137,9 +143,11 @@ const HeaderClient = ({ categorias }: HeaderClientProps) => {
               <span className="ml-2 ">Área do Cliente</span>
           </a>*/}
 
-          <div className="flex items-center gap-1">
+          {/* Entre 1024 e 1279 px não cabe junto do menu: o botão flutuante do
+              WhatsApp cobre essa faixa. "Ligue Agora:" só a partir de 1366 px. */}
+          <div className="flex lg:hidden xl:flex items-center gap-1 whitespace-nowrap shrink-0">
             <WhatsAppIcon className="text-xl" />
-            <strong className="text-md">Ligue Agora:</strong>
+            <strong className="text-md lg:hidden min-[1366px]:inline">Ligue Agora:</strong>
             <span>(41) 99887-0606</span>
           </div>
 
@@ -203,6 +211,9 @@ const HeaderClient = ({ categorias }: HeaderClientProps) => {
                     </div>
                   )}
                 </div>
+                <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/dicas`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
+                  Dicas
+                </a>
                 <a href={`${process.env.NEXT_PUBLIC_BASE_PATH || ''}/sobre`} className="text-foreground hover:text-accent font-medium py-2 px-4 rounded-md hover:bg-accent/10 transition-colors">
                   Sobre
                 </a>

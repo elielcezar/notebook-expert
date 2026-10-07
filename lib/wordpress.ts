@@ -94,11 +94,13 @@ export interface WordPressPost {
   content: {
     rendered: string;
   };
-  excerpt: {
+  // Ausente no CPT "dicas", que não tem suporte a resumo
+  excerpt?: {
     rendered: string;
   };
   date: string;
-  author: number;
+  modified?: string;
+  author?: number;
   featured_media: number;
   categories?: number[];
   _embedded?: {
@@ -178,6 +180,24 @@ export async function getPostBySlug(slug: string): Promise<WordPressPost | null>
   return posts.find(post => post.slug === slug) || null;
 }
 
+// CPT "Dicas": artigos de conteúdo, em /dicas. Mesmo formato dos posts
+// (título, conteúdo, ACF chamada), por isso reaproveita WordPressPost e
+// extractPostData. Uma busca por build, como os posts.
+let allDicasPromise: Promise<WordPressPost[]> | null = null;
+
+export function getDicas(): Promise<WordPressPost[]> {
+  if (!allDicasPromise) {
+    allDicasPromise = wpFetchAll<WordPressPost>('/dicas?_embed&status=publish');
+    allDicasPromise.catch(() => { allDicasPromise = null; });
+  }
+  return allDicasPromise;
+}
+
+export async function getDicaBySlug(slug: string): Promise<WordPressPost | null> {
+  const dicas = await getDicas();
+  return dicas.find(d => d.slug === slug) || null;
+}
+
 // Paginação das listagens de /reparo-de-notebooks (geral e por categoria)
 export const POSTS_PER_PAGE = 25;
 
@@ -186,7 +206,14 @@ export async function getPostsPage(
   categoryId?: number,
 ): Promise<{ posts: WordPressPost[]; totalPages: number }> {
   const todos = await getPosts();
-  const posts = categoryId ? todos.filter(p => p.categories?.includes(categoryId)) : todos;
+  return paginate(categoryId ? todos.filter(p => p.categories?.includes(categoryId)) : todos, page);
+}
+
+export async function getDicasPage(page: number): Promise<{ posts: WordPressPost[]; totalPages: number }> {
+  return paginate(await getDicas(), page);
+}
+
+function paginate(posts: WordPressPost[], page: number) {
   const totalPages = Math.max(1, Math.ceil(posts.length / POSTS_PER_PAGE));
   const start = (page - 1) * POSTS_PER_PAGE;
   return { posts: posts.slice(start, start + POSTS_PER_PAGE), totalPages };
@@ -330,6 +357,9 @@ export async function getAllSeminovoSlugs(): Promise<string[]> {
   return items.map(item => item.slug);
 }
 
+// Formato normalizado de um artigo, usado pelas listagens e páginas individuais
+export type PostData = ReturnType<typeof extractPostData>;
+
 // Extrair dados úteis de um post
 export function extractPostData(post: WordPressPost) {
   // Extrair primeira categoria do post
@@ -342,7 +372,8 @@ export function extractPostData(post: WordPressPost) {
     title: post.title.rendered,
     chamada: post.acf?.chamada || '',
     content: post.content.rendered,
-    excerpt: post.excerpt.rendered.replace(/<[^>]*>/g, '').trim(), // Remove HTML tags
+    // Sem resumo (CPT "dicas"), a chamada faz o papel de descrição
+    excerpt: post.excerpt ? stripHtml(post.excerpt.rendered) : (post.acf?.chamada || ''),
     date: post.date,
     author: post._embedded?.author?.[0]?.name || 'Equipe Notebook Expert',
     authorAvatar: post._embedded?.author?.[0]?.avatar_urls?.['96'],
