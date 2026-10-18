@@ -63,12 +63,7 @@ export default async function CompraVendaPage() {
     }
   ];
 
-  const sellBenefits = [
-    {
-      icon: DollarSign,
-      title: "Avaliação justa",
-      description: "Pagamos o valor real do seu equipamento"
-    },
+  const sellBenefits = [   
     {
       icon: RefreshCw,
       title: "Aceitamos como parte do pagamento",
@@ -255,7 +250,7 @@ export default async function CompraVendaPage() {
                 </p>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 portrait:gap-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 portrait:gap-3">
                 {sellBenefits.map((benefit, index) => {
                   const Icon = benefit.icon;
                   return (
